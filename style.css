@@ -572,6 +572,7 @@ button#cancelReasonButton:hover:not(:disabled) {
 #particleCanvasShop, /* For the Emporium/Shop */
 #particleCanvasRome, /* For the main Rome Hub */
 #particleCanvasSmokeTracker /* For the Smoke Tracker */
+#particleCanvasKnowledge /* For Knowledge Forum /*
 /* Add any other specific particle canvas IDs here if you create more */
 {
     position: fixed;      /* CRUCIAL: Takes it out of normal document flow */
