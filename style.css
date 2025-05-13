@@ -566,20 +566,22 @@ button#cancelReasonButton:hover:not(:disabled) {
 
 
 /* 4.9 Particle Canvas */
-#particleCanvas, /* IDKY App */
-#particleCanvasShop, /* Shop App */
-#particleCanvasRome /* Hub App */
-/* #particleCanvasSmokeTracker - Add if smoke tracker gets its own unique canvas ID */
+/* In style.css -> SECTION 4.9 Particle Canvas */
+
+#particleCanvas, /* For the original IDKY app, if its HTML is ever reused */
+#particleCanvasShop, /* For the Emporium/Shop */
+#particleCanvasRome, /* For the main Rome Hub */
+#particleCanvasSmokeTracker /* For the Smoke Tracker */
+/* Add any other specific particle canvas IDs here if you create more */
 {
-    position: fixed;
+    position: fixed;      /* CRUCIAL: Takes it out of normal document flow */
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: -1;
+    width: 100vw;         /* Full viewport width */
+    height: 100vh;        /* Full viewport height */
+    pointer-events: none; /* CRUCIAL: Allows mouse events to pass through to elements underneath */
+    z-index: -1;          /* CRUCIAL: Places it behind all other normally positioned content */
 }
-
 /* 4.10 Toolbars (e.g., Fixed Shop Link Toolbar) */
 .shop-toolbar-fixed {
     position: fixed;
