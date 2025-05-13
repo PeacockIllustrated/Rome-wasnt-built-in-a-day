@@ -1201,19 +1201,12 @@ button#cancelReasonButton:hover:not(:disabled) {
    ========================================================================== */
 
 /* 7.1 Shop Page Body & Navigation */
-body.shop-active {
-    background-color: var(--theme-primary-dark, #1a202c);
-    color: var(--theme-text-on-dark, #EAEAEA);
-    /* display: flex; REMOVED FOR SCROLL FIX */
-    /* flex-direction: column; REMOVED FOR SCROLL FIX */
-    /* align-items: center; REMOVED FOR SCROLL FIX */
-    /* justify-content: flex-start; REMOVED FOR SCROLL FIX */
-    min-height: 100vh;
-    padding: 20px;
-    overflow-y: auto; /* Ensure body itself can scroll if content is too tall */
-}
+/* In style.css, find or add to section 7.1 Shop Page Body & Navigation */
+
 .shop-navigation-area {
     display: flex;
+    flex-wrap: wrap; /* Allow wrapping if absolutely necessary on very small screens */
+    justify-content: center; /* Center the buttons if they wrap */
     gap: 15px;
     margin-bottom: 25px;
     padding: 10px;
@@ -1221,31 +1214,23 @@ body.shop-active {
     border-radius: 5px;
     border: var(--pixel-border-width) solid var(--theme-secondary-accent);
     box-shadow: 2px 2px 0 var(--theme-secondary-accent);
-    z-index: 100; /* Above particle canvas if it's on this page */
-    flex-wrap: wrap; /* Allow nav buttons to wrap */
-    justify-content: center; /* Center nav buttons if they wrap */
-    /* Centering if body is not flex: */
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
+    z-index: 100;
+    /* Remove width: fit-content and margin-left/right auto if you want it to span more width */
+    /* OR keep them if you want a compact centered nav bar */
+    /* For now, let's try to ensure it can take up more space if needed by buttons */
 }
-.shop-nav-button { /* Uses .base-button styling with overrides */
-    composes: base-button;
+
+.shop-nav-button {
+    /* composes: base-button; */ /* Conceptual */
     font-family: 'VT323', monospace; border: var(--pixel-border-width) solid var(--theme-secondary-accent); cursor: pointer; text-align: center; outline: none; transition: all 0.2s ease; box-shadow: 1px 1px 0 var(--theme-secondary-accent); white-space: nowrap;
 
     font-size: 16px;
     color: var(--theme-secondary-accent);
     text-decoration: none;
     padding: 8px 15px;
-    background-color: transparent; /* Override base button background */
+    background-color: transparent;
+    flex-shrink: 0; /* Prevent nav buttons from shrinking */
 }
-.shop-nav-button:hover { /* Override base button hover */
-    background-color: var(--theme-secondary-accent);
-    color: var(--theme-primary-dark);
-    transform: translateY(-1px); /* Keep this part of hover */
-    box-shadow: 2px 2px 0 var(--theme-primary-dark); /* Different shadow on hover */
-}
-.shop-nav-button i { margin-right: 8px; }
 
 /* 7.2 Vending Machine Structure */
 .vending-machine-page-container {
