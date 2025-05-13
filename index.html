@@ -14,6 +14,12 @@
     <canvas id="particleCanvasRome"></canvas> <!-- Hub specific particle canvas -->
 
     <div class="app-container rome-hub-container">
+
+        <!-- Visual representation of Rome will go here - MOVED UP -->
+        <div id="cityMapPlaceholder" style="width:100%; height: 200px; background-color: var(--theme-light-bg); border: 2px dashed var(--theme-primary-accent); display:flex; align-items:center; justify-content:center; margin-bottom:20px;">
+            [ Future Roman City Visuals ]
+        </div>
+
         <header class="header-section">
             <div class="app-title-bar">
                 <div class="app-title-container">
@@ -35,10 +41,7 @@
         <main class="rome-city-view" id="romeCityView">
             <h2>Welcome, Governor!</h2>
             <p>Your burgeoning city awaits your command. Develop districts to grow your Roman empire!</p>
-            <!-- Visual representation of Rome will go here -->
-            <div id="cityMapPlaceholder" style="width:100%; height: 200px; background-color: var(--theme-light-bg); border: 2px dashed var(--theme-primary-accent); display:flex; align-items:center; justify-content:center; margin-top:20px;">
-                [ Future Roman City Visuals ]
-            </div>
+            <!-- cityMapPlaceholder was originally here -->
         </main>
 
         <nav class="district-navigation" id="districtNavigation">
