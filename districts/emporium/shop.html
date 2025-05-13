@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THEME VENDO-MATIC - IDKY Retro</title>
-    <link rel="stylesheet" href="style.css"> <!-- Main shared styles -->
-    <!-- shop-style.css is NO LONGER needed -->
+    <title>THEME VENDO-MATIC - Rome Emporium</title>
+    <!-- Main stylesheet from the root -->
+    <link rel="stylesheet" href="../../style.css">
+    <!-- Optional: District-specific styles -->
+    <link rel="stylesheet" href="shop-specific.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
@@ -14,13 +16,16 @@
 <body class="shop-active"> <!-- Add shop-active class to body -->
     <canvas id="particleCanvasShop"></canvas>
 
-    <!-- Navigation Area - Now part of normal flow -->
+    <!-- Navigation Area - Updated Links -->
     <nav class="shop-navigation-area">
-        <a href="smoke-tracker.html" class="shop-nav-button">
+        <a href="../health_district/smoke-tracker.html" class="shop-nav-button">
             <i class="fas fa-smoking"></i> Smoke Tracker
         </a>
-        <a href="index.html" class="shop-nav-button">
-            <i class="fas fa-microchip"></i> IDKY App
+        <a href="../../index.html" class="shop-nav-button"> <!-- Link back to Rome Hub -->
+            <i class="fas fa-landmark"></i> My Rome
+        </a>
+        <a href="../knowledge_forum/knowledge.html" class="shop-nav-button">
+             <i class="fas fa-book-open"></i> Knowledge Forum
         </a>
     </nav>
 
@@ -48,6 +53,10 @@
         </div>
     </div>
 
-    <script src="shop-script.js"></script>
+    <!-- Scripts: Shared modules loaded first, then district-specific -->
+    <script src="../../js/shared-utils.js"></script>
+    <script src="../../js/data-manager.js"></script>
+    <script src="../../js/theme-manager.js"></script>
+    <script src="shop-script.js"></script> <!-- Local shop script -->
 </body>
 </html>
