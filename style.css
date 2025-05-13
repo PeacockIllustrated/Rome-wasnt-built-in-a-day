@@ -576,7 +576,8 @@ button#cancelReasonButton:hover:not(:disabled) {
 /* Add any other specific particle canvas IDs here if you create more */
 {
     position: fixed;      /* CRUCIAL: Takes it out of normal document flow */
-    top: 0;
+   margin-top: -100vh; 
+   top: 0;
     left: 0;
     width: 100vw;         /* Full viewport width */
     height: 100vh;        /* Full viewport height */
