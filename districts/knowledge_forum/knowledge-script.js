@@ -222,11 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================================
     // SECTION: AI INTEGRATION & LOGIC
     // =================================================================================
-    const AI_MCQ_PROMPT_SYSTEM = `...`; // Copy original
-    const AI_DEEPEN_UNDERSTANDING_PROMPT_SYSTEM = `...`; // Copy original
-    const AI_DEEP_DIVE_MCQ_PROMPT_SYSTEM = `...`; // Copy original
-    const AI_STATEMENT_SYSTEM_PROMPT = `...`; // Copy original
-    const AI_REGENERATE_SYSTEM_PROMPT = `...`; // Copy original
+
     // --- Full AI Prompts ---
     const AI_MCQ_PROMPT_SYSTEM = `You are a quiz question generator. Based on the user's original logged text and an AI explanation, create a single, concise question to test comprehension of this information. Then provide ONE correct answer, ONE plausible but incorrect distractor, AND ONE silly, obviously wrong, or humorous "dumb answer" distractor. Format your entire response *strictly* as:\nQ: [Your Question Here]\nC: [The Correct Answer Here]\nD1: [Plausible Distractor 1 Here]\nDUMB: [The Silly/Dumb Distractor Here]\nDo not add any other text or conversational pleasantries.`;
     const AI_DEEPEN_UNDERSTANDING_PROMPT_SYSTEM = `The user previously logged: "[USER_LOG_TEXT]" and received this explanation: "[ORIGINAL_AI_ANSWER]". They now want to deepen their understanding. Provide a concise explanation that includes 3 new distinct pieces of information, facts, or related concepts that expand on the original topic. Keep the retro interface style and output in plain text.`;
