@@ -566,24 +566,24 @@ button#cancelReasonButton:hover:not(:disabled) {
 
 
 /* 4.9 Particle Canvas */
-/* In style.css -> SECTION 4.9 Particle Canvas */
-
-#particleCanvas, /* For the original IDKY app, if its HTML is ever reused */
-#particleCanvasShop, /* For the Emporium/Shop */
-#particleCanvasRome, /* For the main Rome Hub */
-#particleCanvasSmokeTracker /* For the Smoke Tracker */
-#particleCanvasKnowledge /* For Knowledge Forum /*
+#particleCanvas, /* Legacy ID, good to keep if old HTML might be referenced */
+#particleCanvasShop,
+#particleCanvasRome,
+#particleCanvasSmokeTracker, /* Specifically for Smoke Tracker */
+#particleCanvasKnowledge   /* Specifically for Knowledge Forum */
 /* Add any other specific particle canvas IDs here if you create more */
 {
-    position: fixed;      /* CRUCIAL: Takes it out of normal document flow */
-   margin-top: -100vh; 
-   top: 0;
-    left: 0;
-    width: 100vw;         /* Full viewport width */
-    height: 100vh;        /* Full viewport height */
-    pointer-events: none; /* CRUCIAL: Allows mouse events to pass through to elements underneath */
-    z-index: -1;          /* CRUCIAL: Places it behind all other normally positioned content */
+    position: fixed !important;      /* Takes it out of normal document flow */
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;         /* Full viewport width */
+    height: 100vh !important;        /* Full viewport height */
+    pointer-events: none !important; /* Allows mouse events to pass through */
+    z-index: -1 !important;          /* Places it behind all other content */
+    /* Optional: for debugging, give it a very light, semi-transparent background */
+    /* background-color: rgba(255, 0, 0, 0.1); */
 }
+
 /* 4.10 Toolbars (e.g., Fixed Shop Link Toolbar) */
 .shop-toolbar-fixed {
     position: fixed;
