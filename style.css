@@ -108,6 +108,30 @@ i.fas, i.far, i.fab {
    ========================================================================== */
 
 /* 4.1 Headers & Titles */
+
+/* In style.css, perhaps in section 4.1 Headers & Titles or a new one for district UI */
+
+.app-title-bar {
+    position: relative; /* To position the hub link within it */
+}
+
+.rome-hub-link-from-district {
+    position: absolute;
+    top: 50%;
+    right: 10px; /* Adjust as needed */
+    transform: translateY(-50%);
+    font-size: 20px; /* Adjust size */
+    color: var(--theme-tertiary-accent); /* Example color */
+    padding: 5px;
+}
+.rome-hub-link-from-district:hover {
+    color: var(--theme-secondary-accent);
+    text-decoration: none;
+}
+.rome-hub-link-from-district i {
+    margin-right: 0; /* No margin if it's just an icon */
+}
+
 .header-section {
     background-color: var(--theme-card-bg);
     padding: 10px;
