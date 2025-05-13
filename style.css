@@ -1224,69 +1224,96 @@ button#cancelReasonButton:hover:not(:disabled) {
    7. SHOP APP SPECIFIC (Emporium - Vending Machine)
    ========================================================================== */
 
-/* 7.1 Shop Page Body & Navigation */
-/* In style.css, find or add to section 7.1 Shop Page Body & Navigation */
+/* 7.1 Shop Page Body & General Layout */
+body.shop-active {
+    background-color: var(--theme-primary-dark, #1a202c);
+    color: var(--theme-text-on-dark, #EAEAEA);
+    min-height: 100vh; /* Ensure background covers full height */
+    padding: 20px;     /* Padding around the entire shop page content */
+    overflow-y: auto;  /* Allow the body itself to scroll if content exceeds viewport */
+}
 
 .shop-navigation-area {
     display: flex;
-    flex-wrap: wrap; /* Allow wrapping if absolutely necessary on very small screens */
-    justify-content: center; /* Center the buttons if they wrap */
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+    justify-content: center; /* Center wrapped buttons */
     gap: 15px;
-    margin-bottom: 25px;
+    margin: 0 auto 25px auto; /* Center the nav area, add bottom margin */
     padding: 10px;
     background-color: rgba(from var(--theme-primary-dark, #000) r g b / 0.5);
     border-radius: 5px;
     border: var(--pixel-border-width) solid var(--theme-secondary-accent);
     box-shadow: 2px 2px 0 var(--theme-secondary-accent);
-    z-index: 100;
-    /* Remove width: fit-content and margin-left/right auto if you want it to span more width */
-    /* OR keep them if you want a compact centered nav bar */
-    /* For now, let's try to ensure it can take up more space if needed by buttons */
+    z-index: 100; /* Above particle canvas */
+    width: fit-content; /* Allow it to be as wide as its content */
+    max-width: 100%; /* Ensure it doesn't overflow its parent */
 }
 
 .shop-nav-button {
-    /* composes: base-button; */ /* Conceptual */
-    font-family: 'VT323', monospace; border: var(--pixel-border-width) solid var(--theme-secondary-accent); cursor: pointer; text-align: center; outline: none; transition: all 0.2s ease; box-shadow: 1px 1px 0 var(--theme-secondary-accent); white-space: nowrap;
+    /* composes: base-button; -- conceptual, apply base styles and override */
+    font-family: 'VT323', monospace;
+    border: var(--pixel-border-width) solid var(--theme-secondary-accent);
+    cursor: pointer;
+    text-align: center;
+    outline: none;
+    transition: all 0.2s ease; /* Matched from original example */
+    box-shadow: 1px 1px 0 var(--theme-secondary-accent);
+    white-space: nowrap;
+    flex-shrink: 0; /* Prevent buttons from shrinking and causing premature wrap */
 
     font-size: 16px;
     color: var(--theme-secondary-accent);
     text-decoration: none;
     padding: 8px 15px;
-    background-color: transparent;
-    flex-shrink: 0; /* Prevent nav buttons from shrinking */
+    background-color: transparent; /* Overrides base button if it had one */
+}
+
+.shop-nav-button:hover {
+    background-color: var(--theme-secondary-accent);
+    color: var(--theme-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 2px 2px 0 var(--theme-primary-dark); /* Ensure distinct hover shadow */
+}
+
+.shop-nav-button i {
+    margin-right: 8px;
 }
 
 /* 7.2 Vending Machine Structure */
 .vending-machine-page-container {
     width: 100%;
-    max-width: 700px;
-    margin: 0 auto; /* Center it now that body is not flex for this page */
+    max-width: 700px; /* Max width of the entire vending machine area */
+    margin: 0 auto;   /* Center the container on the page */
 }
+
 .vending-machine {
     width: 100%;
-    background-color: var(--theme-tertiary-accent, #c0c0c0); /* Vending machine color */
+    background-color: var(--theme-tertiary-accent, #c0c0c0); /* Machine body color */
     border: 4px solid var(--theme-primary-dark, #333);
     border-radius: 10px;
     box-shadow:
-        inset 0 0 15px rgba(0,0,0,0.3), /* Inner shadow for depth */
-        5px 5px 0px var(--theme-primary-dark, #111), /* Main shadow */
-        0 0 30px rgba(from var(--theme-secondary-accent, #E9C46A) r g b / 0.3); /* Optional outer glow */
+        inset 0 0 15px rgba(0,0,0,0.3),
+        5px 5px 0px var(--theme-primary-dark, #111),
+        0 0 30px rgba(from var(--theme-secondary-accent, #E9C46A) r g b / 0.3);
     padding: 15px;
     display: flex;
     flex-direction: column;
 }
+
 .vending-machine-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap; /* Allow items to wrap on small screens */
+    gap: 10px; /* Space between items if they wrap */
     padding: 10px 15px;
     margin-bottom: 15px;
-    background-color: var(--theme-primary-dark, #222); /* Header panel color */
-    border: 2px solid var(--theme-border-main, #444); /* Was theme-border-main */
+    background-color: var(--theme-primary-dark, #222);
+    border: 2px solid var(--theme-border-main, #444);
     border-radius: 5px;
     box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
-    flex-wrap: wrap; /* Allow header items to wrap */
 }
+
 .brand-logo h1 {
     font-size: 28px;
     color: var(--theme-secondary-accent, #E9C46A);
@@ -1294,11 +1321,13 @@ button#cancelReasonButton:hover:not(:disabled) {
                  0 0 5px var(--theme-secondary-accent, #E9C46A);
     animation: flickerBrand 3s infinite alternate;
     letter-spacing: 1px;
-    margin-bottom: 0; /* Override base h1 margin */
+    margin-bottom: 0; /* Override default h1 margin */
+    flex-shrink: 0; /* Prevent logo from shrinking excessively */
 }
+
 .coin-slot-display {
-    background-color: #111; /* Digital display background */
-    color: var(--theme-highlight-accent, #00ff00); /* Green digital text */
+    background-color: #111;
+    color: var(--theme-highlight-accent, #00ff00);
     padding: 8px 12px;
     font-size: 20px;
     border: 2px inset #000;
@@ -1306,6 +1335,7 @@ button#cancelReasonButton:hover:not(:disabled) {
     display: flex;
     align-items: center;
     border-radius: 3px;
+    flex-shrink: 0; /* Prevent display from shrinking */
 }
 .coin-icon-area i {
     color: var(--theme-secondary-accent, #E9C46A);
@@ -1316,19 +1346,19 @@ button#cancelReasonButton:hover:not(:disabled) {
 .pts-label { margin-left: 5px; font-size: 16px; }
 
 .vending-machine-display-window {
-    background-color: rgba(from var(--theme-light-bg, #000000) r g b / 0.1); /* Dark, slightly transparent glass */
+    background-color: rgba(from var(--theme-light-bg, #000000) r g b / 0.1);
     border: 3px solid var(--theme-primary-dark, #111);
     box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
     padding: 20px;
-    height: 400px; /* Fixed height for item display */
-    overflow-y: auto; /* Scroll for items */
+    height: 400px; /* Fixed height for the scrollable item display */
+    overflow-y: auto; /* Enable vertical scrolling for themes */
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 15px;
     border-radius: 5px;
-    position: relative; /* For scanlines */
+    position: relative; /* For scanlines pseudo-element */
 }
-.vending-machine-display-window::before { /* Scanlines */
+.vending-machine-display-window::before { /* Scanlines effect */
     content: "";
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -1336,17 +1366,18 @@ button#cancelReasonButton:hover:not(:disabled) {
     background-size: 100% 4px;
     animation: scanlinesVending 15s linear infinite;
     pointer-events: none;
-    z-index: 1;
+    z-index: 1; /* Below items but above window background */
 }
+
 .vending-machine-footer {
     margin-top: 15px;
     padding: 10px;
     background-color: var(--theme-primary-dark, #222);
-    border: 2px solid var(--theme-border-main, #444); /* Was theme-border-main */
+    border: 2px solid var(--theme-border-main, #444);
     border-radius: 5px;
 }
 .dispensing-tray-visual {
-    background-color: #111; /* Dark tray */
+    background-color: #111;
     color: var(--theme-tertiary-accent, #ccc);
     padding: 10px;
     font-size: 16px;
@@ -1367,7 +1398,7 @@ button#cancelReasonButton:hover:not(:disabled) {
 }
 
 /* 7.3 Vending Machine Items */
-.vending-item-slot { /* Product card in vending machine */
+.vending-item-slot {
     background-color: var(--theme-card-bg, #e0e0e0);
     border: 2px solid var(--theme-border-main, #555);
     color: var(--theme-text-main, #333);
@@ -1376,11 +1407,12 @@ button#cancelReasonButton:hover:not(:disabled) {
     box-shadow: 2px 2px 0px rgba(from var(--theme-primary-dark, #000) r g b / 0.5);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-between; /* Distribute space between preview, info, and purchase */
     align-items: center;
     transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-    position: relative; /* For selection highlight */
-    z-index: 2; /* Above scanlines */
+    position: relative;
+    z-index: 2; /* Items above scanlines */
+    min-height: 220px; /* Ensure items have a minimum height */
 }
 .vending-item-slot:hover {
     transform: scale(1.05);
@@ -1390,12 +1422,14 @@ button#cancelReasonButton:hover:not(:disabled) {
     box-shadow: 0 0 15px 5px var(--theme-secondary-accent, #E9C46A), 3px 3px 5px rgba(from var(--theme-primary-dark, #000) r g b / 0.6) !important;
     border-color: var(--theme-secondary-accent, #E9C46A);
 }
+
 .vending-item-preview {
     width: 100%;
     height: 60px;
     display: flex;
     margin-bottom: 10px;
     border: 1px solid var(--theme-border-main, #ccc);
+    background-color: var(--theme-light-bg); /* Add a light bg to preview area */
 }
 .vending-item-preview span { /* Color swatches */
     flex-grow: 1;
@@ -1405,64 +1439,76 @@ button#cancelReasonButton:hover:not(:disabled) {
 .vending-item-slot:hover .vending-item-preview span {
     filter: brightness(1.1);
 }
+
 .vending-item-info {
     margin-bottom: 10px;
     text-align: center;
+    width: 100%; /* Ensure info takes full width for centering */
 }
 .vending-item-name {
     font-size: 18px;
-    /* font-weight: bold; Removed as per style.css */
     color: var(--theme-primary-accent, #2A9D8F);
     margin-bottom: 4px;
 }
 .vending-item-description {
     font-size: 13px;
     color: var(--theme-text-main, #333);
-    min-height: 2.6em; /* For 2 lines of text */
+    min-height: 2.6em; /* Approx 2 lines */
     line-height: 1.3;
-    overflow: hidden; /* Prevent long descriptions from breaking layout */
+    overflow: hidden;
+    margin-bottom: 0; /* Override default p margin */
 }
+
 .vending-item-purchase-area {
     width: 100%;
     text-align: center;
+    margin-top: auto; /* Push purchase area to the bottom of the card */
 }
 .vending-item-status {
     display: block;
     font-size: 13px;
     font-weight: bold;
     margin-bottom: 5px;
-    min-height: 1.2em; /* Space for status */
+    min-height: 1.2em;
 }
 .vending-item-status.owned { color: var(--theme-tertiary-accent, #F4A261); }
 .vending-item-status.active { color: var(--theme-primary-accent, #2A9D8F); }
 .vending-item-status.cost { color: var(--theme-secondary-accent, #E9C46A); }
+.vending-item-status i.fa-coins { margin-left: 3px; }
 
-.vending-item-button { /* Uses .base-button styling with overrides */
-    composes: base-button;
+
+.vending-item-button {
+    /* This inherits from .base-button, then overrides if needed */
+    /* composes: base-button; -- conceptual */
     font-family: 'VT323', monospace; border: var(--pixel-border-width) solid var(--theme-primary-dark); cursor: pointer; text-align: center; outline: none; transition: all 0.1s ease-out; box-shadow: 2px 2px 0px var(--theme-primary-dark); white-space: nowrap;
 
     width: 100%;
     padding: 8px 10px;
     font-size: 16px;
-    border-radius: 3px; /* From original */
+    border-radius: 3px;
 }
-/* Specific vending item button colors */
 .vending-item-button.buy-button { background-color: var(--theme-tertiary-accent); color: var(--theme-card-bg); }
 .vending-item-button.apply-button { background-color: var(--theme-primary-accent); color: var(--theme-card-bg); }
 .vending-item-button.equipped-button { background-color: var(--theme-secondary-accent); color: var(--theme-primary-dark); }
 
 .vending-item-button:hover:not(:disabled) {
-    filter: brightness(1.1); /* Keep this for vending buttons */
-    /* Inherits transform and shadow changes from .base-button */
+    filter: brightness(1.1);
+    transform: translateY(-1px); /* from base-button */
+    box-shadow: 3px 3px 0px var(--theme-primary-dark); /* from base-button */
+}
+.vending-item-button:active:not(:disabled) {
+    transform: translate(2px, 2px); /* from base-button */
+    box-shadow: none; /* from base-button */
+    filter: brightness(0.9); /* Keep this specific active effect */
 }
 .vending-item-button:disabled { /* More specific disabled style from vending machine */
-    background-color: #777 !important;
+    background-color: #777 !important; /* Use important to ensure override */
     color: #bbb !important;
     border-color: #555 !important;
     box-shadow: none !important;
 }
 
-
+/* Ensure responsive overrides for shop are in Section 10 (Media Queries) */
 /* ==========================================================================
    8. UTILITY CLASSES
    ========================================================================== */
