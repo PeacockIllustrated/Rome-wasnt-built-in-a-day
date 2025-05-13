@@ -1,11 +1,7 @@
 // districts/health_district/calendar-logic.js
 
-// Module-like structure to keep variables local
 const CalendarModule = (() => {
-
-    // --- State and References ---
     let calendarCurrentDate = new Date();
-    // References to data/elements from the main script
     let refs = {
         getSmokeLog: () => [],
         getDailyCigaretteLimit: () => 0,
@@ -16,31 +12,34 @@ const CalendarModule = (() => {
             calendarMonthYearDisplay: null,
             toggleCalendarButton: null
         },
-        helpers: { // These will be populated by smoke-tracker-script.js
-            getDateStringFromTimestamp: (ts) => new Date(ts).toISOString().split('T')[0], // Default fallback
-            formatTime: (s) => `${s}s`, // Default fallback
-            getCurrentDateString: () => new Date().toISOString().split('T')[0] // Default fallback
+        helpers: { // Default fallbacks, will be overridden by smoke-tracker-script.js
+            getDateStringFromTimestamp: (ts) => new Date(ts).toISOString().split('T')[0],
+            formatTime: (s) => `${s}s`,
+            getCurrentDateString: () => new Date().toISOString().split('T')[0]
         }
     };
 
-    // --- Private Helper Functions ---
     function aggregateDailyDataForMonthInternal(targetMonth, targetYear) {
         const dailyData = {};
         const firstDayOfMonth = new Date(targetYear, targetMonth, 1).getTime();
+        // Correctly get the first day of the *next* month for upper bound
         const firstDayOfNextMonth = new Date(targetYear, targetMonth + 1, 1).getTime();
         const log = refs.getSmokeLog();
 
         log.forEach(logEntry => {
-            if (logEntry.timestamp >= firstDayOfMonth && logEntry.timestamp < firstDayOfNextMonth) {
-                // USE THE PASSED HELPER FUNCTION
-                const dateStr = refs.helpers.getDateStringFromTimestamp(logEntry.timestamp);
+            // Ensure logEntry.timestamp is a number
+            const entryTimestamp = Number(logEntry.timestamp);
+            if (isNaN(entryTimestamp)) return;
+
+            if (entryTimestamp >= firstDayOfMonth && entryTimestamp < firstDayOfNextMonth) {
+                const dateStr = refs.helpers.getDateStringFromTimestamp(entryTimestamp);
                 if (!dailyData[dateStr]) {
                     dailyData[dateStr] = { cigarettes: 0, vapeTime: 0 };
                 }
                 if (logEntry.type === 'cigarette') {
-                    dailyData[dateStr].cigarettes += (logEntry.count || 1);
+                    dailyData[dateStr].cigarettes += (Number(logEntry.count) || 1);
                 } else if (logEntry.type === 'vape' && logEntry.duration) {
-                    dailyData[dateStr].vapeTime += logEntry.duration;
+                    dailyData[dateStr].vapeTime += Number(logEntry.duration);
                 }
             }
         });
@@ -50,7 +49,6 @@ const CalendarModule = (() => {
     function styleCalendarDayInternal(dayCell, dateString, dailyAggregatedData) {
         dayCell.classList.remove('calendar-day-success', 'calendar-day-overlimit', 'calendar-day-nodata', 'today');
         const data = dailyAggregatedData[dateString];
-        // USE THE PASSED HELPER FUNCTION
         const todayDateString = refs.helpers.getCurrentDateString();
         const cigLimit = refs.getDailyCigaretteLimit();
         const vapeLimit = refs.getDailyTotalVapeTimeLimit();
@@ -59,57 +57,51 @@ const CalendarModule = (() => {
             dayCell.classList.add('today');
         }
 
-        if (data) {
+        if (data && (data.cigarettes > 0 || data.vapeTime > 0)) { // Only style if there's actual data
             const cigsOver = cigLimit > 0 && data.cigarettes > cigLimit;
             const vapeOver = vapeLimit > 0 && data.vapeTime > vapeLimit;
+            const cigDisplay = `${data.cigarettes}/${cigLimit > 0 ? cigLimit : '∞'}`;
+            const vapeDisplay = `${refs.helpers.formatTime(data.vapeTime)}/${vapeLimit > 0 ? refs.helpers.formatTime(vapeLimit) : '∞'}`;
 
             if (cigsOver || vapeOver) {
                 dayCell.classList.add('calendar-day-overlimit');
-                // USE THE PASSED HELPER FUNCTION
-                dayCell.title = `Over Limit! Cigs: ${data.cigarettes}/${cigLimit > 0 ? cigLimit : '∞'}, Vape: ${refs.helpers.formatTime(data.vapeTime)}/${vapeLimit > 0 ? refs.helpers.formatTime(vapeLimit) : '∞'}`;
+                dayCell.title = `Over Limit! Cigs: ${cigDisplay}, Vape: ${vapeDisplay}`;
             } else {
                 dayCell.classList.add('calendar-day-success');
-                // USE THE PASSED HELPER FUNCTION
-                dayCell.title = `Success! Cigs: ${data.cigarettes}/${cigLimit > 0 ? cigLimit : '∞'}, Vape: ${refs.helpers.formatTime(data.vapeTime)}/${vapeLimit > 0 ? refs.helpers.formatTime(vapeLimit) : '∞'}`;
+                dayCell.title = `Success! Cigs: ${cigDisplay}, Vape: ${vapeDisplay}`;
             }
         } else {
             dayCell.classList.add('calendar-day-nodata');
-            dayCell.title = dateString;
+            dayCell.title = dateString; // Default title for no data days
         }
     }
 
-    // --- Public Functions (Exposed) ---
     function initializeCalendarLogic(config) {
         if (config.getSmokeLog) refs.getSmokeLog = config.getSmokeLog;
         if (config.getDailyCigaretteLimit) refs.getDailyCigaretteLimit = config.getDailyCigaretteLimit;
         if (config.getDailyTotalVapeTimeLimit) refs.getDailyTotalVapeTimeLimit = config.getDailyTotalVapeTimeLimit;
         if (config.elements) refs.elements = { ...refs.elements, ...config.elements };
-        
-        // IMPORTANT: Correctly assign helper functions from config
-        if (config.helpers) {
-            if (config.helpers.getDateStringFromTimestamp) refs.helpers.getDateStringFromTimestamp = config.helpers.getDateStringFromTimestamp;
-            if (config.helpers.formatTime) refs.helpers.formatTime = config.helpers.formatTime;
-            if (config.helpers.getCurrentDateString) refs.helpers.getCurrentDateString = config.helpers.getCurrentDateString;
+        if (config.helpers) { // Correctly assign provided helper functions
+            refs.helpers.getDateStringFromTimestamp = config.helpers.getDateStringFromTimestamp || refs.helpers.getDateStringFromTimestamp;
+            refs.helpers.formatTime = config.helpers.formatTime || refs.helpers.formatTime;
+            refs.helpers.getCurrentDateString = config.helpers.getCurrentDateString || refs.helpers.getCurrentDateString;
         }
-        console.log("Calendar logic initialized with refs:", refs);
+        console.log("Calendar logic initialized with refs for helpers.");
     }
 
-    // ... (generateCalendarExternal, handleToggleCalendar, handlePrevMonth, handleNextMonth - keep these as they were)
-    // Ensure generateCalendarExternal uses refs.helpers correctly if it wasn't already.
     function generateCalendarExternal(month, year) {
         const { calendarGridContainer, calendarMonthYearDisplay } = refs.elements;
         if (!calendarGridContainer || !calendarMonthYearDisplay) {
-            console.error("Calendar grid or display element not found in refs!");
+            console.error("Calendar UI elements not found in refs for generateCalendarExternal.");
             return;
         }
 
         calendarGridContainer.innerHTML = '';
         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         const dayNames = ["S", "M", "T", "W", "T", "F", "S"];
-
         calendarMonthYearDisplay.textContent = `${monthNames[month]} ${year}`;
 
-        const firstDayOfMonth = new Date(year, month, 1).getDay();
+        const firstDayOfMonthIndex = new Date(year, month, 1).getDay(); // 0 for Sunday, 1 for Monday, ...
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const aggregatedData = aggregateDailyDataForMonthInternal(month, year);
 
@@ -118,78 +110,77 @@ const CalendarModule = (() => {
         const thead = table.createTHead();
         const headerRow = thead.insertRow();
         dayNames.forEach(dayName => {
-            const th = document.createElement('th');
-            th.textContent = dayName;
-            headerRow.appendChild(th);
+            const th = document.createElement('th'); th.textContent = dayName; headerRow.appendChild(th);
         });
 
         const tbody = table.createTBody();
-        let date = 1;
-        for (let i = 0; i < 6; i++) { // Max 6 rows for a month
+        let dateCounter = 1;
+        for (let i = 0; i < 6; i++) { // Max 6 rows needed for any month
             const row = tbody.insertRow();
-            let rowHasActualDay = false;
-            for (let j = 0; j < 7; j++) {
+            let actualDaysInRow = false;
+            for (let j = 0; j < 7; j++) { // 7 days a week
                 const cell = row.insertCell();
                 cell.classList.add('calendar-day');
-                if (i === 0 && j < firstDayOfMonth) {
-                    cell.classList.add('other-month');
-                } else if (date > daysInMonth) {
-                    cell.classList.add('other-month');
+                if (i === 0 && j < firstDayOfMonthIndex) {
+                    cell.classList.add('other-month'); // Cell for previous month's day
+                } else if (dateCounter > daysInMonth) {
+                    cell.classList.add('other-month'); // Cell for next month's day
                 } else {
-                    rowHasActualDay = true;
+                    actualDaysInRow = true;
                     const daySpan = document.createElement('span');
                     daySpan.className = 'calendar-day-number';
-                    daySpan.textContent = date;
+                    daySpan.textContent = dateCounter;
                     cell.appendChild(daySpan);
-                    // USE THE PASSED HELPER FUNCTION
-                    const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+                    const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(dateCounter).padStart(2, '0')}`;
                     cell.dataset.date = dateString;
                     styleCalendarDayInternal(cell, dateString, aggregatedData);
-                    date++;
+                    dateCounter++;
                 }
             }
-            if (date > daysInMonth && !rowHasActualDay && i > 3) { // Remove completely empty trailing rows
-                 tbody.removeChild(row);
-                 break; 
+            if (dateCounter > daysInMonth && !actualDaysInRow && i >=4) { // If we've passed all days and this row is empty
+                tbody.removeChild(row); // Remove fully empty trailing rows (typically the 5th or 6th)
+                break;
             }
-             if (date > daysInMonth && rowHasActualDay && i === 5) { // if it's the 6th row and we've filled days but are now in other-month
-                // Check if all cells are 'other-month' from this point
-                const cellsInRow = Array.from(row.cells);
-                if (cellsInRow.every(c => c.classList.contains('other-month'))) {
-                    // This check might be redundant if rowHasActualDay is false, but good for safety
-                }
+            if (dateCounter > daysInMonth && i === 5 && !actualDaysInRow) {
+                 // This condition means the 6th row was entirely for 'other-month' days and can be removed
+                 // This is covered by the above, but added for clarity if needed
             }
-             if (date > daysInMonth && !rowHasActualDay) break; // Break if no more actual days can be in this row
         }
         calendarGridContainer.appendChild(table);
     }
+
     function handleToggleCalendar() {
         const { calendarLogContainer, toggleCalendarButton } = refs.elements;
         if (!calendarLogContainer || !toggleCalendarButton) return;
         const isVisible = calendarLogContainer.classList.toggle('show');
         if (isVisible) {
-             generateCalendarExternal(calendarCurrentDate.getMonth(), calendarCurrentDate.getFullYear());
-             toggleCalendarButton.innerHTML = '<i class="fas fa-calendar-times"></i> HIDE CALENDAR';
+            generateCalendarExternal(calendarCurrentDate.getMonth(), calendarCurrentDate.getFullYear());
+            toggleCalendarButton.innerHTML = '<i class="fas fa-calendar-times"></i> HIDE CALENDAR';
         } else {
-             toggleCalendarButton.innerHTML = '<i class="fas fa-calendar-alt"></i> VIEW CALENDAR LOG';
+            toggleCalendarButton.innerHTML = '<i class="fas fa-calendar-alt"></i> VIEW CALENDAR LOG';
         }
     }
+
     function handlePrevMonth() {
         calendarCurrentDate.setMonth(calendarCurrentDate.getMonth() - 1);
         generateCalendarExternal(calendarCurrentDate.getMonth(), calendarCurrentDate.getFullYear());
     }
+
     function handleNextMonth() {
         calendarCurrentDate.setMonth(calendarCurrentDate.getMonth() + 1);
         generateCalendarExternal(calendarCurrentDate.getMonth(), calendarCurrentDate.getFullYear());
     }
-
 
     return {
         initializeCalendarLogic,
         generateCalendarExternal,
         handleToggleCalendar,
         handlePrevMonth,
-        handleNextMonth
+        handleNextMonth,
+        getCalendarCurrentDateForRefresh: () => ({ // For smoke-tracker to refresh current view
+            month: calendarCurrentDate.getMonth(),
+            year: calendarCurrentDate.getFullYear()
+        })
     };
 })();
 
@@ -199,3 +190,4 @@ const generateCalendarExternal = CalendarModule.generateCalendarExternal;
 const handleToggleCalendar = CalendarModule.handleToggleCalendar;
 const handlePrevMonth = CalendarModule.handlePrevMonth;
 const handleNextMonth = CalendarModule.handleNextMonth;
+// CalendarModule.getCalendarCurrentDateForRefresh is accessed via CalendarModule object if needed elsewhere.
