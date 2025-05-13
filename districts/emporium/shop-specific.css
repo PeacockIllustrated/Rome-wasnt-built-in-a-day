@@ -4,6 +4,7 @@ body.shop-active {
     background-color: var(--theme-primary-dark, #1a202c); /* Darker default for shop page */
     color: var(--theme-text-on-dark, #EAEAEA);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
