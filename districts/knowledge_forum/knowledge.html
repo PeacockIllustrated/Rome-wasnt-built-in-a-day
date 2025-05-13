@@ -3,22 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I DON'T KNOW, YET! - Retro IDKY</title>
-    <link rel="stylesheet" href="style.css"> <!-- Main styles -->
+    <title>Knowledge Forum - IDKY District</title> <!-- Updated Title -->
+
+    <!-- Corrected path to main stylesheet -->
+    <link rel="stylesheet" href="../../style.css">
+
+    <!-- Optional: Link to district-specific CSS if you create one -->
+    <!-- <link rel="stylesheet" href="knowledge-specific.css"> -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <canvas id="particleCanvas"></canvas>
+    <canvas id="particleCanvasKnowledge"></canvas> <!-- Unique ID for this district's canvas -->
 
-    <div class="app-container">
+    <div class="app-container knowledge-forum-container"> <!-- Optional specific class -->
         <div class="header-section">
             <div class="app-title-bar">
                 <div class="app-title-container">
-                    <i class="fas fa-microchip title-icon"></i><h1>I Don't Know, Yet!</h1>
+                    <i class="fas fa-brain title-icon"></i> <!-- Changed icon -->
+                    <h1>Knowledge Forum</h1> <!-- Changed title -->
                 </div>
+                <!-- Navigation to Rome Hub -->
+                <a href="../../index.html" class="rome-hub-link-from-district" title="Back to My Rome">
+                     <i class="fas fa-landmark"></i>
+                </a>
             </div>
             <div class="header-stats-bar">
                 <div class="points-display">
@@ -33,7 +44,7 @@
             </div>
             <div class="api-key-area">
                 <input type="text" id="userApiKeyInput" placeholder="YOUR OPENAI API KEY (TESTING ONLY)">
-                <button id="saveApiKeyButton">SAVE KEY</button>
+                <button id="saveApiKeyButton" class="action-button">SAVE KEY</button> <!-- Added class -->
             </div>
             <div class="input-area">
                 <textarea id="idkInput" placeholder="LOG QUESTION OR STATEMENT..." rows="2"></textarea>
@@ -41,42 +52,39 @@
             </div>
         </div>
 
-        <div class="list-controls-bar" style="display: none;"> <!-- JS will show if moments exist -->
+        <div class="list-controls-bar" style="display: none;">
             <div class="select-all-container">
-                <button id="selectAllButton">SEL. ALL</button> <!-- JS updates text -->
+                <button id="selectAllButton" class="action-button">SEL. ALL</button> <!-- Added class -->
                 <span id="selectedCount">0 SEL</span>
                 <span id="reviewedCountDisplay">(0/0 Reviewed)</span>
             </div>
-            <button id="testKnowledgeButton" disabled>Test Knowledge!</button>
+            <button id="testKnowledgeButton" class="action-button" disabled>Test Knowledge!</button> <!-- Added class -->
         </div>
 
         <ul class="moments-list" id="momentsList">
             <!-- Moment cards will be injected here by JS -->
         </ul>
-        <div class="no-moments-placeholder" id="noMomentsPlaceholder" style="display: none;"> <!-- JS manages display -->
+        <div class="no-moments-placeholder" id="noMomentsPlaceholder" style="display: none;">
             <i class="far fa-lightbulb" style="font-size: 1.5em; display: block; margin-bottom: 5px;"></i>
             NO MOMENTS LOGGED.<br>CAPTURE YOUR CURIOSITIES!
         </div>
 
-        <div class="batch-process-button-container" style="display: none;"> <!-- JS will show if moments exist -->
+        <div class="batch-process-button-container" style="display: none;">
             <button class="log-button" id="processSelectedButton" disabled> <i class="fas fa-cog"></i> PROCESS SELECTED </button>
         </div>
         <div class="overall-loading-indicator" id="overallLoadingIndicator" style="display: none;">
             <!-- JS populates text -->
         </div>
 
+        <!-- Accordions for Archived and Deepened Knowledge -->
         <div class="accordion-section archived-knowledge-section">
             <div class="accordion-header" id="archiveHeader">
                 <span><i class="fas fa-archive"></i> ARCHIVED KNOWLEDGE</span>
                 <i class="fas fa-chevron-down accordion-toggle-icon" id="archiveToggleIcon"></i>
             </div>
             <div class="accordion-content-container" id="archivedItemsListContainer">
-                <ul class="moments-list" id="archivedMomentsList">
-                    <!-- Archived moment cards injected here -->
-                </ul>
-                <div class="no-items-placeholder" id="noArchivedPlaceholder" style="display: none;">
-                    NO ITEMS ARCHIVED YET.
-                </div>
+                <ul class="moments-list" id="archivedMomentsList"></ul>
+                <div class="no-items-placeholder" id="noArchivedPlaceholder" style="display: none;">NO ITEMS ARCHIVED YET.</div>
             </div>
         </div>
 
@@ -86,29 +94,32 @@
                 <i class="fas fa-chevron-down accordion-toggle-icon" id="deepenedToggleIcon"></i>
             </div>
             <div class="accordion-content-container" id="deepenedItemsListContainer">
-                <ul class="moments-list" id="deepenedMomentsList">
-                    <!-- Deepened moment cards injected here -->
-                </ul>
-                <div class="no-items-placeholder" id="noDeepenedPlaceholder" style="display: none;">
-                    NO ITEMS FULLY MASTERED YET.
-                </div>
+                <ul class="moments-list" id="deepenedMomentsList"></ul>
+                <div class="no-items-placeholder" id="noDeepenedPlaceholder" style="display: none;">NO ITEMS FULLY MASTERED YET.</div>
             </div>
         </div>
+    </div> <!-- End .app-container -->
+
+    <!-- Fixed Shop Toolbar -->
+    <div class="shop-toolbar-fixed" id="shopToolbarKnowledge"> <!-- Unique ID if needed -->
+        <a href="../emporium/shop.html" class="shop-toolbar-header-link">
+            <span><i class="fas fa-store"></i> THEME SHOP</span>
+            <span class="shop-pts-display">
+                <i class="fas fa-coins points-icon"></i> <span id="shopUserPoints">0</span> PTS
+            </span>
+             <i class="fas fa-arrow-right"></i>
+        </a>
     </div>
 
-    <div class="toast-notification" id="toastNotification">Toast message</div>
-
-    <!-- Quiz Modal -->
+    <!-- Quiz Modal (original content) -->
     <div class="modal-overlay quiz-modal-overlay" id="quizModalOverlay">
-        <div class="modal-content quiz-modal"> <!-- Added .quiz-modal class here for specific styling -->
+        <div class="modal-content quiz-modal">
             <h2 id="quizModalTitle">KNOWLEDGE TEST!</h2>
             <div class="quiz-question-area">
                 <p id="quizQuestionNumber"></p>
                 <p class="quiz-question-text" id="quizQuestionText"></p>
             </div>
-            <div class="quiz-options-container" id="quizOptionsContainer">
-                <!-- Options injected by JS -->
-            </div>
+            <div class="quiz-options-container" id="quizOptionsContainer"></div>
             <div class="quiz-feedback-area" id="quizFeedbackArea">CHOOSE AN OPTION.</div>
             <div class="quiz-modal-actions">
                 <button class="quiz-modal-button" id="submitQuizAnswerButton" disabled>SUBMIT ANSWER</button>
@@ -119,18 +130,14 @@
         </div>
     </div>
 
-        <!-- ========================== SHOP TOOLBAR LINK (Fixed Bottom) ========================== -->
-     <div class="shop-toolbar-fixed" id="shopToolbar"> <!-- ID can remain for consistency if JS targets it -->
-        <a href="shop.html" class="shop-toolbar-header-link" id="shopToolbarHeaderLink"> <!-- Use the direct link style -->
-            <span><i class="fas fa-store"></i> THEME SHOP</span>
-            <span class="shop-pts-display">
-                <i class="fas fa-coins points-icon"></i> <span id="shopUserPoints">0</span> PTS
-            </span>
-             <i class="fas fa-arrow-right"></i> <!-- Or any other icon you prefer for a link -->
-        </a>
-    </div>
-    <!-- END ========================== SHOP TOOLBAR LINK ========================== -->
+    <!-- Toast Notification (will be handled by SharedUtils) -->
+    <!-- <div class="toast-notification" id="idkyToastNotification">Toast message</div> -->
 
-    <script src="script.js"></script>
+
+    <!-- Corrected script paths -->
+    <script src="../../js/shared-utils.js"></script>
+    <script src="../../js/data-manager.js"></script>
+    <script src="../../js/theme-manager.js"></script>
+    <script src="knowledge-script.js"></script> <!-- Local script for this district -->
 </body>
 </html>
