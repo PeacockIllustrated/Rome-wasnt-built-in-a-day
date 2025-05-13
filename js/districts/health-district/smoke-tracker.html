@@ -1,1 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ========================== METADATA & BROWSER CONFIG ========================== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smoke Tracker - IDKY Retro</title>
 
+    <!-- ========================== STYLESHEETS & FONTS ========================== -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Inline styles removed, assuming they are now in style.css -->
+
+</head>
+<body>
+    <!-- ========================== PARTICLE CANVAS ========================== -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- ========================== MAIN APP CONTAINER ========================== -->
+    <div class="app-container" style="padding-bottom: 100px;"> <!-- Padding for fixed toolbar + potential footer space -->
+
+        <!-- SECTION: HEADER -->
+        <div class="header-section">
+             <div class="app-title-bar">
+                 <div class="app-title-container">
+                     <i class="fas fa-smoking title-icon"></i>
+                     <h1>Smoke Tracker</h1>
+                 </div>
+             </div>
+             <div class="header-stats-bar">
+                 <div class="points-display"><i class="fas fa-coins points-icon"></i> <span id="userPoints">0</span> PTS</div>
+                 <div class="points-display"><i class="fas fa-calendar-check points-icon"></i> <span id="smokeFreeStreak">0</span> DAY STREAK</div>
+                 <div class="points-display"><i class="fas fa-star points-icon gold-star-icon"></i> <span id="healthMilestones">0</span> ACHIEVED</div>
+             </div>
+        </div>
+
+        <!-- SECTION: MAIN TRACKER CONTENT -->
+        <div class="smoke-tracker-content">
+
+            <!-- SUB-SECTION: Cigarette Logging -->
+            <div class="log-actions-section moment-card" style="padding: 15px; margin-bottom: 15px; text-align: center;">
+                <button class="log-button" id="logCigaretteButton" style="width: 80%; font-size: 16px; padding: 10px;">
+                    <i class="fas fa-smoking"></i> LOG CIGARETTE
+                </button>
+            </div>
+
+            <!-- SUB-SECTION: Vape Timer -->
+            <div class="vape-timer-section moment-card" style="padding: 15px; margin-bottom: 15px; text-align: center;">
+                 <h2 style="text-align: center; color: var(--theme-primary-accent); font-size: 20px; margin-bottom: 10px;">VAPE TIMER</h2>
+                 <div class="timer-display" id="vapeTimerDisplay">00:00</div>
+                 <div style="display: flex; justify-content: space-around; margin-top: 15px;">
+                     <button class="log-button" id="startVapeTimerButton" style="width: 45%; font-size: 16px; padding: 10px; background-color: var(--theme-primary-accent);">
+                        <i class="fas fa-play"></i> START
+                     </button>
+                     <button class="log-button" id="stopVapeTimerButton" style="width: 45%; font-size: 16px; padding: 10px; background-color: var(--theme-highlight-accent); display: none;">
+                        <i class="fas fa-stop"></i> STOP & LOG
+                     </button>
+                 </div>
+                 <div class="limit-setting" style="margin-top: 15px; padding-top: 10px; border-top: var(--pixel-border-width) dotted #bbb;">
+                     <label for="setVapeSessionLimitInput">Session Limit (0=Off):</label>
+                     <input type="text" id="setVapeSessionLimitInput" placeholder="MM:SS">
+                     <button class="action-button" id="saveVapeSessionLimitButton">SET</button>
+                 </div>
+            </div>
+
+            <!-- SUB-SECTION: Daily Status & Limits -->
+            <div class="status-limit-section moment-card" style="padding: 10px; margin-bottom: 15px;">
+                 <h2 style="text-align: center; color: var(--theme-primary-accent); font-size: 20px; margin-bottom: 10px; border-bottom: var(--pixel-border-width) dashed var(--theme-primary-accent); padding-bottom: 5px;">DAILY STATUS & LIMITS</h2>
+                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 5px 0; border-bottom: 1px dotted #ccc;">
+                     <span style="font-size: 18px;">CIGARETTES: <strong id="todayCigaretteCount">0</strong> / <span id="cigaretteLimitDisplay">?</span></span>
+                     <div class="limit-setting">
+                         <label for="setLimitInput">Limit:</label>
+                         <input type="number" id="setLimitInput" min="0">
+                         <button class="action-button" id="saveLimitButton">SET</button>
+                     </div>
+                 </div>
+                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; padding: 5px 0;">
+                     <span style="font-size: 18px;">TOTAL VAPE TIME: <strong id="todayTotalVapeTimeDisplay">0m 0s</strong> / <span id="dailyVapeTimeLimitDisplay">?m ?s</span></span>
+                     <div class="limit-setting">
+                         <label for="setDailyVapeTimeLimitInput">Limit (min):</label>
+                         <input type="number" id="setDailyVapeTimeLimitInput" min="0">
+                         <button class="action-button" id="saveDailyVapeTimeLimitButton">SET</button>
+                     </div>
+                 </div>
+            </div>
+
+            <!-- SUB-SECTION: Log History -->
+            <div class="log-history-section">
+                 <h2 style="text-align: center; color: var(--theme-secondary-accent); font-size: 20px; margin-bottom: 10px;">RECENT LOG</h2>
+                 <ul class="moments-list" id="smokeLogList">
+                     <li class="moment-card no-logs-placeholder" id="noLogsPlaceholder">
+                         NO LOGS YET TODAY
+                     </li>
+                 </ul>
+            </div>
+
+            <!-- SUB-SECTION: Progress Overview (Chart) -->
+            <div class="progress-section moment-card" style="padding: 10px; margin-top: 20px; text-align: center; background-color: var(--theme-light-bg);">
+                 <h2 style="font-size: 18px; color: var(--theme-primary-dark); margin-bottom: 10px;">WEEKLY CIGARETTE COUNT</h2>
+                 <div id="dailyProgressChartContainer" class="daily-progress-chart-container" style="margin-bottom: 15px;">
+                     <!-- Chart bars injected here -->
+                 </div>
+                 <div style="margin-top: 15px; padding: 8px; border: var(--pixel-border-width) dashed var(--theme-primary-accent);">
+                     <span style="font-size: 18px;">Current 'Under Limit' Streak: <strong style="color: var(--theme-primary-accent);" id="streakDisplay">0 Days</strong></span>
+                     <i class="fas fa-fire" style="color: var(--theme-highlight-accent);"></i>
+                 </div>
+            </div>
+
+            <!-- SECTION: CALENDAR LOG -->
+            <div class="calendar-section moment-card" style="padding: 15px; margin-top: 15px;">
+                <div style="text-align: center; margin-bottom: 15px;">
+                     <button class="log-button" id="toggleCalendarButton" style="width: auto; padding: 8px 15px; background-color: var(--theme-secondary-accent); color: var(--theme-primary-dark);">
+                         <i class="fas fa-calendar-alt"></i> VIEW CALENDAR LOG
+                     </button>
+                </div>
+                <div class="calendar-log-container" id="calendarLogContainer"> <!-- CSS handles display: none initially -->
+                    <div class="calendar-header">
+                        <button id="prevMonthButton" class="calendar-nav-button">< PREV</button>
+                        <span id="calendarMonthYear" class="calendar-month-year">Month Year</span>
+                        <button id="nextMonthButton" class="calendar-nav-button">NEXT ></button>
+                    </div>
+                    <div id="calendarGridContainer">
+                        <!-- Calendar table generated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUB-SECTION: Testing Tools -->
+            <div class="testing-tools-section moment-card" style="padding: 10px; margin-top: 15px; margin-bottom: 20px; text-align: center;">
+                 <h2 style="font-size: 18px; color: var(--theme-tertiary-accent); margin-bottom: 10px;">TESTING TOOLS</h2>
+                 <button class="action-button" id="endOfDayTestButton" style="padding: 8px 12px; background-color: var(--theme-secondary-accent); color: var(--theme-primary-dark);">
+                     <i class="fas fa-calendar-times"></i> SIMULATE END OF DAY
+                 </button>
+            </div>
+
+        </div> <!-- END smoke-tracker-content -->
+    </div> <!-- END app-container -->
+
+    <!-- ========================== SHOP TOOLBAR LINK (Fixed Bottom) ========================== -->
+     <div class="shop-toolbar-fixed" id="shopToolbar">
+        <a href="shop.html" class="shop-toolbar-header-link" id="shopToolbarHeaderLink">
+            <span><i class="fas fa-store"></i> THEME SHOP</span>
+            <span class="shop-pts-display">
+                <i class="fas fa-coins points-icon"></i> <span id="shopUserPoints">0</span> PTS
+            </span>
+             <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <!-- ========================== REASON INPUT MODAL ========================== -->
+    <div class="modal-overlay" id="reasonModalOverlay">
+         <div class="modal-content">
+             <h3>Why this time? (Optional)</h3>
+             <textarea id="reasonInput" placeholder="e.g., stressed, bored, social, craving..."></textarea>
+             <input type="hidden" id="reasonLogTimestamp">
+             <div class="modal-actions">
+                 <button id="saveReasonButton" class="action-button">SAVE REASON</button> <!-- Ensure class -->
+                 <button id="cancelReasonButton" class="action-button">CANCEL</button> <!-- Ensure class -->
+             </div>
+         </div>
+    </div>
+
+    <!-- ========================== TOAST NOTIFICATION ========================== -->
+    <div class="toast-notification" id="toastNotification">Toast message</div>
+
+    <!-- ========================== SCRIPTS ========================== -->
+    <!-- Load main script first -->
+    <script src="smoke-tracker-script.js"></script>
+    <!-- Load calendar logic second -->
+    <script src="calendar-logic.js"></script>
+</body>
+</html>
