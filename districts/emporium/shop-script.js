@@ -1,30 +1,18 @@
-// shop-script.js
+// districts/emporium/shop-script.js
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Element Selectors ---
     const themeGalleryWindow = document.getElementById('themeGalleryWindow');
     const shopPageUserPointsDisplay = document.getElementById('shopPageUserPoints');
     const particleCanvasShop = document.getElementById('particleCanvasShop');
     const dispensingTrayVisual = document.querySelector('.dispensing-tray-visual');
-    const shopToastNotification = document.createElement('div');
+    // shopToastNotification is now created dynamically by SharedUtils.showToast
 
-    // Style the toast element (remains the same)
-    shopToastNotification.id = 'shopToastNotification'; // For potential specific styling via CSS
-    shopToastNotification.style.position = 'fixed';
-    shopToastNotification.style.bottom = '20px';
-    shopToastNotification.style.left = '50%';
-    shopToastNotification.style.transform = 'translateX(-50%) translateY(70px)';
-    shopToastNotification.style.backgroundColor = 'var(--theme-primary-dark, #333)';
-    shopToastNotification.style.color = 'var(--theme-text-on-dark, #fff)';
-    shopToastNotification.style.padding = '10px 20px';
-    shopToastNotification.style.border = 'var(--pixel-border-width, 2px) solid var(--theme-secondary-accent, #E9C46A)';
-    shopToastNotification.style.fontFamily = "'VT323', monospace";
-    shopToastNotification.style.fontSize = '18px';
-    shopToastNotification.style.zIndex = '4000';
-    shopToastNotification.style.opacity = '0';
-    shopToastNotification.style.transition = 'transform 0.3s ease-out, opacity 0.3s ease-out';
-    shopToastNotification.style.boxShadow = '2px 2px 0px var(--theme-secondary-accent, #E9C46A)';
-    document.body.appendChild(shopToastNotification);
+    // --- State Variables (Loaded from Managers) ---
+    let userPoints = DataManager.getUserPoints();
+    let ownedThemeIds = ThemeManager.getOwnedThemeIds(); // Changed variable name for clarity
+    let currentThemeId = ThemeManager.getCurrentThemeId(); // Changed variable name
 
-
+    // Particle system setup (remains largely the same, uses local canvas)
     let shopCtx, shopParticles = [];
     if (particleCanvasShop) {
         shopCtx = particleCanvasShop.getContext('2d');
@@ -38,68 +26,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const localStorageKeySuffix = '_v27_theme_shop'; // MUST match other scripts
-    const themes = { // MUST be complete and match other scripts
-        default: { name: "Default Retro", cost: 0, owned: true, description: "The classic look and feel.", cssVariables: { '--theme-primary-dark': '#264653', '--theme-primary-accent': '#2A9D8F', '--theme-secondary-accent': '#E9C46A', '--theme-tertiary-accent': '#F4A261', '--theme-highlight-accent': '#E76F51', '--theme-light-bg': '#EAEAEA', '--theme-card-bg': '#FFFFFF', '--theme-text-on-dark': '#EAEAEA', '--theme-page-bg': 'rgb(174, 217, 211)' } },
-        oceanDepths: { name: "Ocean Depths", cost: 1, description: "Dive into cool blue tranquility.", cssVariables: { '--theme-primary-dark': '#03045E', '--theme-primary-accent': '#0077B6', '--theme-secondary-accent': '#00B4D8', '--theme-tertiary-accent': '#90E0EF', '--theme-highlight-accent': '#CAF0F8', '--theme-light-bg': '#E0FBFC', '--theme-card-bg': '#FFFFFF', '--theme-text-on-dark': '#CAF0F8', '--theme-page-bg': '#ADE8F4' } },
-        volcanoRush: { name: "Volcano Rush", cost: 1, description: "Fiery reds and oranges.", cssVariables: { '--theme-primary-dark': '#2B0000', '--theme-primary-accent': '#6A0000', '--theme-secondary-accent': '#FF4500', '--theme-tertiary-accent': '#FF8C00', '--theme-highlight-accent': '#AE2012', '--theme-light-bg': '#FFF2E6', '--theme-card-bg': '#FFFFFF', '--theme-text-on-dark': '#FFDAB9', '--theme-page-bg': '#FFCDB2' } },
-        techOrangeBlue: { name: "Tech Orange & Blue", cost: 1, description: "A modern tech-inspired palette.", cssVariables: { '--theme-primary-dark': '#004C97', '--theme-primary-accent': '#4A7DB5', '--theme-secondary-accent': '#FF6600', '--theme-tertiary-accent': '#C0C0C0', '--theme-highlight-accent': '#FF7700', '--theme-light-bg': '#F0F0F0', '--theme-card-bg': '#FFFFFF', '--theme-text-on-dark': '#F0F0F0', '--theme-page-bg': '#E8E8E8' } },
-        forestGreens: { name: "Forest Greens", cost: 1, description: "Earthy and calming greens.", cssVariables: { '--theme-primary-dark': '#1A2B12', '--theme-primary-accent': '#335128', '--theme-secondary-accent': '#526F35', '--theme-tertiary-accent': '#8A9A5B', '--theme-highlight-accent': '#E0E7A3', '--theme-light-bg': '#F0F5E0', '--theme-card-bg': '#FFFFFF', '--theme-text-on-dark': '#E0E7A3', '--theme-page-bg': '#D8E0C0' } }
-    };
+    // THEMES are now loaded from ThemeManager
+    const allThemes = ThemeManager.getAllThemes();
 
-    let userPoints = parseInt(localStorage.getItem('idk_user_points_val' + localStorageKeySuffix)) || 0;
-    let ownedThemes = JSON.parse(localStorage.getItem('idk_owned_themes' + localStorageKeySuffix)) || ['default'];
-    let currentTheme = localStorage.getItem('idk_current_theme' + localStorageKeySuffix) || 'default';
-
-    function showToast(message, duration = 2500) {
-        if (!shopToastNotification) return;
-        shopToastNotification.textContent = message;
-        shopToastNotification.style.transform = 'translateX(-50%) translateY(0)';
-        shopToastNotification.style.opacity = '1';
-        setTimeout(() => {
-            shopToastNotification.style.transform = 'translateX(-50%) translateY(70px)';
-            shopToastNotification.style.opacity = '0';
-        }, duration);
+    function applyAndPersistTheme(themeId) {
+        ThemeManager.setCurrentThemeId(themeId); // This applies visually AND saves to localStorage
+        currentThemeId = themeId; // Update local state for immediate UI consistency if needed
     }
 
-    function applyThemeOnPage(themeId) {
-        const themeToApply = themes[themeId] || themes.default;
-        currentTheme = themeId; // Update the current theme state variable
-
-        if (themeToApply && themeToApply.cssVariables) {
-            const themeVars = themeToApply.cssVariables;
-            for (const [key, value] of Object.entries(themeVars)) {
-                document.documentElement.style.setProperty(key, value);
-            }
-            document.documentElement.style.setProperty('--theme-text-main', themeVars['--theme-primary-dark']);
-            document.documentElement.style.setProperty('--theme-border-main', themeVars['--theme-primary-dark']);
-        } else {
-            console.warn(`Theme ID "${themeId}" not found. Applying default explicitly.`);
-            if (themes.default && themes.default.cssVariables) { // Ensure default exists
-                 const defaultVars = themes.default.cssVariables;
-                 for (const [key, value] of Object.entries(defaultVars)) { document.documentElement.style.setProperty(key, value); }
-                 document.documentElement.style.setProperty('--theme-text-main', defaultVars['--theme-primary-dark']);
-                 document.documentElement.style.setProperty('--theme-border-main', defaultVars['--theme-primary-dark']);
-                 currentTheme = 'default'; // Explicitly set to default
-            }
-        }
-        saveShopData(); // Save theme choice immediately
-    }
-
-    function saveShopData() {
-        localStorage.setItem('idk_user_points_val' + localStorageKeySuffix, userPoints.toString());
-        localStorage.setItem('idk_owned_themes' + localStorageKeySuffix, JSON.stringify(ownedThemes));
-        localStorage.setItem('idk_current_theme' + localStorageKeySuffix, currentTheme);
+    // Only responsible for saving points now, as theme persistence is handled by ThemeManager
+    function saveUserPoints() {
+        DataManager.setUserPoints(userPoints);
     }
 
     function renderShopPageThemes() {
         if (!themeGalleryWindow) return;
         themeGalleryWindow.innerHTML = '';
 
-        Object.entries(themes).forEach(([themeId, themeData]) => {
+        // Use allThemes obtained from ThemeManager
+        Object.entries(allThemes).forEach(([themeId, themeData]) => {
             const itemSlot = document.createElement('div');
             itemSlot.className = 'vending-item-slot';
-            if (currentTheme === themeId) {
+            if (currentThemeId === themeId) { // Use currentThemeId
                 itemSlot.classList.add('highlighted-product');
             }
             itemSlot.dataset.themeId = themeId;
@@ -111,8 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             previewHTML += '</div>';
 
-            const isOwned = ownedThemes.includes(themeId);
-            const isActive = currentTheme === themeId;
+            const isOwned = ownedThemeIds.includes(themeId); // Use ownedThemeIds
+            const isActive = currentThemeId === themeId;   // Use currentThemeId
             let buttonHTML, statusHTML = '';
 
             if (isActive) {
@@ -150,40 +98,50 @@ document.addEventListener('DOMContentLoaded', () => {
         let particleColor = themeData.cssVariables['--theme-secondary-accent'];
 
         if (action === 'apply') {
-            applyThemeOnPage(themeId); // This now saves
-            showToast(`${themeData.name} theme APPLIED!`);
+            applyAndPersistTheme(themeId); // Use new function
+            SharedUtils.showToast(`${themeData.name} theme APPLIED!`, 2500, 'success');
             if (dispensingTrayVisual) dispensingTrayVisual.textContent = `${themeData.name} APPLIED!`;
-            if(cardElement && particleCanvasShop) {
+            if(cardElement && particleCanvasShop) { // Particle effect remains
                 const rect = cardElement.getBoundingClientRect();
                 createShopParticle(rect.left + rect.width/2, rect.top + rect.height/2, particleColor, 5, 30, 5, 1.2);
             }
         } else if (action === 'buy') {
             if (userPoints >= themeData.cost) {
                 userPoints -= themeData.cost;
-                ownedThemes.push(themeId);
-                applyThemeOnPage(themeId); // Apply immediately after buying (this also saves)
-                showToast(`Purchased & Applied ${themeData.name}!`);
+                saveUserPoints(); // Save updated points
+
+                // Add to owned themes using ThemeManager
+                if (ThemeManager.addOwnedThemeId(themeId)) {
+                    ownedThemeIds = ThemeManager.getOwnedThemeIds(); // Refresh local copy
+                }
+
+                applyAndPersistTheme(themeId); // Apply and persist the newly bought theme
+
+                // SharedUtils.showToast is already called by addOwnedThemeId if successful
+                // but we can add another for purchase confirmation if desired.
+                SharedUtils.showToast(`Purchased & Applied ${themeData.name}!`, 2500, 'success');
+
                 if (dispensingTrayVisual) {
                     dispensingTrayVisual.textContent = `VENDING ${themeData.name}...`;
                     setTimeout(() => { dispensingTrayVisual.textContent = `${themeData.name} DISPENSED!`;}, 700);
                 }
-                if(cardElement && particleCanvasShop) {
+                if(cardElement && particleCanvasShop) { // Particle effect
                     const rect = cardElement.getBoundingClientRect();
                     createShopParticle(rect.left + rect.width/2, rect.top + rect.height/2, particleColor, 8, 60, 8, 1.5);
                 }
             } else {
-                showToast("Not enough PTS!");
+                SharedUtils.showToast("Not enough PTS!", 2500, 'error');
                 if (dispensingTrayVisual) dispensingTrayVisual.textContent = `INSUFFICIENT PTS!`;
             }
         }
         renderShopPageThemes(); // Re-render to update states and points
     }
 
-    // --- Particle Effects ---
+    // --- Particle Effects (These functions remain local to shop-script.js) ---
     function createShopParticle(x, y, color, size, count, spread, speedMultiplier = 1) {
         if (!particleCanvasShop || !shopCtx) return;
         for (let i = 0; i < count; i++) {
-            shopParticles.push({ x, y, size: Math.random() * size + 2, color, vx: (Math.random() - 0.5) * spread * speedMultiplier, vy: (Math.random() * -2.5 - 0.5) * speedMultiplier, life: 50 + Math.random() * 30 }); // Adjusted vy for more upward burst
+            shopParticles.push({ x, y, size: Math.random() * size + 2, color, vx: (Math.random() - 0.5) * spread * speedMultiplier, vy: (Math.random() * -2.5 - 0.5) * speedMultiplier, life: 50 + Math.random() * 30 });
         }
         if (shopParticles.length > 0 && !shopParticles.isAnimatingLoop) {
             shopParticles.isAnimatingLoop = true;
@@ -195,9 +153,9 @@ document.addEventListener('DOMContentLoaded', () => {
         shopCtx.clearRect(0, 0, particleCanvasShop.width, particleCanvasShop.height);
         let stillAnimating = false;
         for (let i = shopParticles.length - 1; i >= 0; i--) {
-            const p = shopParticles[i]; p.x += p.vx; p.y += p.vy; p.vy += 0.09; /* Gravity */ p.life--;
+            const p = shopParticles[i]; p.x += p.vx; p.y += p.vy; p.vy += 0.09; p.life--;
             if (p.life <= 0) { shopParticles.splice(i, 1); continue; }
-            shopCtx.fillStyle = p.color; shopCtx.globalAlpha = Math.max(0, p.life / 80); // Fade out
+            shopCtx.fillStyle = p.color; shopCtx.globalAlpha = Math.max(0, p.life / 80);
             shopCtx.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size);
             stillAnimating = true;
         }
@@ -207,10 +165,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Initial Setup ---
-    // document.body.classList.add('shop-active'); // This is now directly in shop.html
     if(shopPageUserPointsDisplay) shopPageUserPointsDisplay.textContent = userPoints;
-    applyThemeOnPage(currentTheme);
+    ThemeManager.applyTheme(currentThemeId); // Apply theme using ThemeManager on load
     renderShopPageThemes();
 
-    console.log("Shop Page Initialized.");
+    console.log("Shop Page Initialized (Refactored for Rome Hub).");
 });
