@@ -4,24 +4,22 @@
     <!-- ========================== METADATA & BROWSER CONFIG ========================== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smoke Tracker - IDKY Retro</title>
+    <title>Smoke Tracker - Health District</title>
 
     <!-- ========================== STYLESHEETS & FONTS ========================== -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../style.css"> <!-- Main stylesheet -->
+    <link rel="stylesheet" href="smoke-specific.css"> <!-- Optional district-specific styles -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Inline styles removed, assuming they are now in style.css -->
-
 </head>
 <body>
     <!-- ========================== PARTICLE CANVAS ========================== -->
-    <canvas id="particleCanvas"></canvas>
+    <canvas id="particleCanvasSmokeTracker"></canvas> <!-- Unique ID for this page's canvas -->
 
     <!-- ========================== MAIN APP CONTAINER ========================== -->
-    <div class="app-container" style="padding-bottom: 100px;"> <!-- Padding for fixed toolbar + potential footer space -->
+    <div class="app-container smoke-tracker-app-container" style="padding-bottom: 100px;">
 
         <!-- SECTION: HEADER -->
         <div class="header-section">
@@ -30,6 +28,10 @@
                      <i class="fas fa-smoking title-icon"></i>
                      <h1>Smoke Tracker</h1>
                  </div>
+                 <!-- Navigation to Rome Hub -->
+                 <a href="../../index.html" class="rome-hub-link-from-district" title="Back to My Rome">
+                     <i class="fas fa-landmark"></i>
+                 </a>
              </div>
              <div class="header-stats-bar">
                  <div class="points-display"><i class="fas fa-coins points-icon"></i> <span id="userPoints">0</span> PTS</div>
@@ -38,7 +40,7 @@
              </div>
         </div>
 
-        <!-- SECTION: MAIN TRACKER CONTENT -->
+        <!-- SECTION: MAIN TRACKER CONTENT (Original content from smoke-tracker.html) -->
         <div class="smoke-tracker-content">
 
             <!-- SUB-SECTION: Cigarette Logging -->
@@ -104,7 +106,7 @@
                  <div id="dailyProgressChartContainer" class="daily-progress-chart-container" style="margin-bottom: 15px;">
                      <!-- Chart bars injected here -->
                  </div>
-                 <div style="margin-top: 15px; padding: 8px; border: var(--pixel-border-width) dashed var(--theme-primary-accent);">
+                 <div class="streak-info-box" style="margin-top: 15px; padding: 8px; border: var(--pixel-border-width) dashed var(--theme-primary-accent);">
                      <span style="font-size: 18px;">Current 'Under Limit' Streak: <strong style="color: var(--theme-primary-accent);" id="streakDisplay">0 Days</strong></span>
                      <i class="fas fa-fire" style="color: var(--theme-highlight-accent);"></i>
                  </div>
@@ -141,8 +143,8 @@
     </div> <!-- END app-container -->
 
     <!-- ========================== SHOP TOOLBAR LINK (Fixed Bottom) ========================== -->
-     <div class="shop-toolbar-fixed" id="shopToolbar">
-        <a href="shop.html" class="shop-toolbar-header-link" id="shopToolbarHeaderLink">
+     <div class="shop-toolbar-fixed" id="shopToolbarSmokeTracker"> <!-- Unique ID for this page's toolbar if needed -->
+        <a href="../emporium/shop.html" class="shop-toolbar-header-link">
             <span><i class="fas fa-store"></i> THEME SHOP</span>
             <span class="shop-pts-display">
                 <i class="fas fa-coins points-icon"></i> <span id="shopUserPoints">0</span> PTS
@@ -158,17 +160,19 @@
              <textarea id="reasonInput" placeholder="e.g., stressed, bored, social, craving..."></textarea>
              <input type="hidden" id="reasonLogTimestamp">
              <div class="modal-actions">
-                 <button id="saveReasonButton" class="action-button">SAVE REASON</button> <!-- Ensure class -->
-                 <button id="cancelReasonButton" class="action-button">CANCEL</button> <!-- Ensure class -->
+                 <button id="saveReasonButton" class="action-button">SAVE REASON</button>
+                 <button id="cancelReasonButton" class="action-button">CANCEL</button>
              </div>
          </div>
     </div>
 
-    <!-- ========================== TOAST NOTIFICATION ========================== -->
-    <div class="toast-notification" id="toastNotification">Toast message</div>
+    <!-- Toast Notification (will be handled by SharedUtils) -->
 
     <!-- ========================== SCRIPTS ========================== -->
-    <!-- Load main script first -->
+    <script src="../../js/shared-utils.js"></script>
+    <script src="../../js/data-manager.js"></script>
+    <script src="../../js/theme-manager.js"></script>
+    <!-- Load main smoke tracker script first -->
     <script src="smoke-tracker-script.js"></script>
     <!-- Load calendar logic second -->
     <script src="calendar-logic.js"></script>
