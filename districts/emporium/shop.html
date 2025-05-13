@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THEME VENDO-MATIC - IDKY Retro</title>
+    <link rel="stylesheet" href="style.css"> <!-- Main shared styles -->
+    <!-- shop-style.css is NO LONGER needed -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="shop-active"> <!-- Add shop-active class to body -->
+    <canvas id="particleCanvasShop"></canvas>
+
+    <!-- Navigation Area - Now part of normal flow -->
+    <nav class="shop-navigation-area">
+        <a href="smoke-tracker.html" class="shop-nav-button">
+            <i class="fas fa-smoking"></i> Smoke Tracker
+        </a>
+        <a href="index.html" class="shop-nav-button">
+            <i class="fas fa-microchip"></i> IDKY App
+        </a>
+    </nav>
+
+    <div class="vending-machine-page-container">
+        <div class="vending-machine">
+            <header class="vending-machine-header">
+                <div class="brand-logo">
+                    <h1>THEME VENDO-MATIC 9000</h1>
+                </div>
+                <div class="coin-slot-display">
+                    <span class="coin-icon-area"><i class="fas fa-coins"></i></span>
+                    <span id="shopPageUserPoints" class="points-readout">0</span>
+                    <span class="pts-label">PTS</span>
+                </div>
+            </header>
+
+            <main class="vending-machine-display-window" id="themeGalleryWindow">
+                <!-- Themes will be inserted here by shop-script.js -->
+            </main>
+
+            <footer class="vending-machine-footer">
+                <div class="dispensing-tray-visual">SELECT A THEME</div>
+                <div class="brand-smallprint">Property of IDKY Corp. No Refunds.</div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="shop-script.js"></script>
+</body>
+</html>
