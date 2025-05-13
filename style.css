@@ -1124,6 +1124,7 @@ button#cancelReasonButton:hover:not(:disabled) {
     border-bottom: var(--pixel-border-width) dashed var(--theme-border-main);
 }
 .calendar-nav-button { /* Extends .action-button or .base-button logic */
+   font-family: 'VT323', monospace; 
     composes: action-button;
     background-color: var(--theme-tertiary-accent);
     color: var(--theme-card-bg);
