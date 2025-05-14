@@ -15,9 +15,16 @@
 
     <div class="app-container rome-hub-container">
 
-        <!-- Visual representation of Rome will go here - MOVED UP -->
-        <div id="cityMapPlaceholder" style="width:100%; height: 200px; background-color: var(--theme-light-bg); border: 2px dashed var(--theme-primary-accent); display:flex; align-items:center; justify-content:center; margin-bottom:20px;">
-            [ Future Roman City Visuals ]
+        <!-- Visual representation of Rome will go here -->
+        <div id="cityMapPlaceholder" style="width:100%; height: 200px; background-color: var(--theme-light-bg); border: 2px dashed var(--theme-primary-accent); display:flex; align-items:center; justify-content:center; margin-bottom:20px; position: relative; overflow: hidden;">
+            <!-- City assets will be absolutely positioned within this container -->
+            <img src="assets/images/temple_large.png" alt="Large Temple" id="map-temple-large" class="map-asset">
+            <img src="assets/images/tree_conifer.png" alt="Conifer Tree" id="map-tree-conifer-1" class="map-asset">
+            <img src="assets/images/tree_round_large.png" alt="Round Tree" id="map-tree-round-1" class="map-asset">
+            <img src="assets/images/gatehouse.png" alt="Gatehouse" id="map-gatehouse-1" class="map-asset">
+            <img src="assets/images/bush_1.png" alt="Bush" id="map-bush-1" class="map-asset">
+            <img src="assets/images/bush_2.png" alt="Bush" id="map-bush-2" class="map-asset">
+            <img src="assets/images/column_tall.png" alt="Tall Column" id="map-column-1" class="map-asset">
         </div>
 
         <header class="header-section">
@@ -41,7 +48,6 @@
         <main class="rome-city-view" id="romeCityView">
             <h2>Welcome, Governor!</h2>
             <p>Your burgeoning city awaits your command. Develop districts to grow your Roman empire!</p>
-            <!-- cityMapPlaceholder was originally here -->
         </main>
 
         <nav class="district-navigation" id="districtNavigation">
