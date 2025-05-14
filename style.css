@@ -1836,7 +1836,7 @@ body.shop-active {
 }
 
 .map-asset.locked {
-    display: none; /* Hide locked buildings initially */
+    display: none; !important; /* Hide locked buildings initially */
     /* Or use opacity for a fade-in effect: */
     /* opacity: 0; */
     /* pointer-events: none; */
