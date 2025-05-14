@@ -731,7 +731,12 @@ body.shop-active {
 /* ==========================================================================
    8. HUB SPECIFIC & UTILITIES (includes Dashboard & Map)
    ========================================================================== */
-.over-limit { color: var(--theme-highlight-accent) !important; font-weight: bold; }
+
+/* General Utilities that might be used across the hub or districts if not globally defined */
+.over-limit {
+    color: var(--theme-highlight-accent) !important;
+    font-weight: bold;
+}
 
 /* Hub - City Map Visualizer */
 #cityMapPlaceholder {
@@ -739,9 +744,13 @@ body.shop-active {
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
+    /* The border is set inline in HTML: style="... border: 2px dashed var(--theme-primary-accent); ..." */
+    /* height and margin-bottom are also set inline in HTML */
+    /* position: relative and overflow: hidden are set inline in HTML */
 }
 
-.map-asset {
+/* Scoped Map Asset Styles */
+#cityMapPlaceholder .map-asset {
     position: absolute;
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
@@ -752,29 +761,28 @@ body.shop-active {
     -webkit-user-select: none;
     -ms-user-select: none;
     transform-origin: bottom center;
-    transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Keep for general & drop-in */
-    max-height: initial;
-    opacity: 1; /* Default visible state */
-    cursor: pointer;
+    /* Transition for drop-in animation and potentially other future state changes */
+    transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    max-height: initial; /* Let transform:scale primarily control the size */
+    opacity: 1; /* Default to visible unless .locked is applied */
+    cursor: pointer; /* Default for clickable assets */
 }
 
-.map-asset.locked {
+#cityMapPlaceholder .map-asset.locked {
     opacity: 0;
-    /* Start slightly above and smaller, final scale set by ID */
-    transform: translateY(-40px) scale(0.1); /* Initial small scale for animation */
+    /* transform: translateY(-40px) scale(0.1); /* Generic initial animation scale, overridden by specific ID.locked rule */
     pointer-events: none;
     cursor: default;
 }
 
-/* This class is added by JS to trigger the drop-in animation */
-.map-asset.dropping-in {
+#cityMapPlaceholder .map-asset.dropping-in {
     opacity: 1;
-    transform: translateY(0px); /* Final Y position */
-    /* The final scale will be applied by the specific #id rules below */
+    transform: translateY(0px); /* Target Y position for drop-in */
+    /* The final scale for dropping-in is inherited from the specific #ID rule */
 }
 
+/* --- Specific Asset Positioning & Final Scales for Display & Drop-in Animation --- */
 
-/* --- Asset Positioning & Final Scales for Drop-in --- */
 /* Back Row / Slightly further away */
 #map-temple-forum {
     left: 50%;
@@ -782,19 +790,17 @@ body.shop-active {
     bottom: 45%;
     z-index: 12;
 }
-.map-asset.locked#map-temple-forum { transform: translateX(-50%) translateY(-40px) scale(0.1); } /* Pre-animation state */
-.map-asset.dropping-in#map-temple-forum { transform: translateX(-50%) translateY(0px) scale(0.2); } /* Animation target */
-
+#cityMapPlaceholder .map-asset.locked#map-temple-forum { transform: translateX(-50%) translateY(-40px) scale(0.1); }
+#cityMapPlaceholder .map-asset.dropping-in#map-temple-forum { transform: translateX(-50%) translateY(0px) scale(0.2); }
 
 #map-city-gatehouse {
     left: 0%;
-    bottom: 20%; /* Corrected typo from 2-% */
+    bottom: 20%;
     z-index: 8;
     transform: scale(0.2);
 }
-.map-asset.locked#map-city-gatehouse { transform: translateY(-40px) scale(0.1); }
-.map-asset.dropping-in#map-city-gatehouse { transform: translateY(0px) scale(0.2); }
-
+#cityMapPlaceholder .map-asset.locked#map-city-gatehouse { transform: translateY(-40px) scale(0.1); }
+#cityMapPlaceholder .map-asset.dropping-in#map-city-gatehouse { transform: translateY(0px) scale(0.2); }
 
 #map-triumphal-arch {
     left: 88%;
@@ -802,9 +808,8 @@ body.shop-active {
     z-index: 8;
     transform: scale(0.2);
 }
-.map-asset.locked#map-triumphal-arch { transform: translateY(-40px) scale(0.1); }
-.map-asset.dropping-in#map-triumphal-arch { transform: translateY(0px) scale(0.2); }
-
+#cityMapPlaceholder .map-asset.locked#map-triumphal-arch { transform: translateY(-40px) scale(0.1); }
+#cityMapPlaceholder .map-asset.dropping-in#map-triumphal-arch { transform: translateY(0px) scale(0.2); }
 
 /* Middle Row - District Buildings */
 #map-building-knowledge { /* Basilica */
@@ -813,9 +818,8 @@ body.shop-active {
     z-index: 10;
     transform: scale(0.25);
 }
-.map-asset.locked#map-building-knowledge { transform: translateY(-40px) scale(0.15); }
-.map-asset.dropping-in#map-building-knowledge { transform: translateY(0px) scale(0.25); }
-
+#cityMapPlaceholder .map-asset.locked#map-building-knowledge { transform: translateY(-40px) scale(0.15); } /* Start smaller for animation */
+#cityMapPlaceholder .map-asset.dropping-in#map-building-knowledge { transform: translateY(0px) scale(0.25); }
 
 #map-building-health { /* Public Bath */
     left: 55%;
@@ -823,32 +827,30 @@ body.shop-active {
     z-index: 12;
     transform: scale(0.2);
 }
-.map-asset.locked#map-building-health { transform: translateY(-40px) scale(0.1); }
-.map-asset.dropping-in#map-building-health { transform: translateY(0px) scale(0.2); }
-
+#cityMapPlaceholder .map-asset.locked#map-building-health { transform: translateY(-40px) scale(0.1); }
+#cityMapPlaceholder .map-asset.dropping-in#map-building-health { transform: translateY(0px) scale(0.2); }
 
 /* Front Row / Closer */
-#map-building-emporium { /* Market Stall - Always visible */
+#map-building-emporium { /* Market Stall - Always visible (not using .locked or .dropping-in) */
     left: 40%;
     bottom: 15%;
     z-index: 15;
-    transform: scale(0.2); /* Final display scale */
+    transform: scale(0.2);
 }
-/* No .locked or .dropping-in needed if it's always visible from start */
 
-
-/* Scenery like trees (assuming always visible) */
+/* Scenery like trees (assuming always visible and not interactive with name tags) */
 #map-tree-conifer-legacy-1 {
     left: 5%;
     bottom: 55%;
     z-index: 5;
     transform: scale(0.35);
-    cursor: default; /* Trees might not be clickable */
+    cursor: default; /* Not interactive */
 }
-/* Add other non-interactive scenery similarly */
+/* Add other non-interactive scenery/trees similarly if needed */
+/* #map-tree-round-1 { ... } */
 
 
-/* Building Name Tag */
+/* Building Name Tag (Specific to the Hub's map) */
 #buildingNameTag {
     position: absolute;
     background-color: var(--theme-primary-dark);
@@ -857,120 +859,138 @@ body.shop-active {
     font-size: 12px;
     border: 1px solid var(--theme-primary-accent);
     box-shadow: 2px 2px 0px var(--theme-primary-accent);
-    z-index: 100;
+    z-index: 100; /* Highest visual layer on the map */
     opacity: 0;
-    transform: translateY(10px) scale(0.9);
+    transform: translateY(10px) scale(0.9); /* Initial state for pop-up animation */
     transition: opacity 0.2s ease-out, transform 0.2s ease-out;
-    pointer-events: none;
+    pointer-events: none; /* The tag itself should not be clickable */
     white-space: nowrap;
 }
 #buildingNameTag.visible {
     opacity: 1;
-    transform: translateY(0px) scale(1);
+    transform: translateY(0px) scale(1); /* Final state for pop-up animation */
 }
 
 
-/* Hub - District Navigation & Summaries (Dashboard) */
-.district-navigation { /* Old nav, can be hidden if dashboard cards are primary */
-     /* display: none; */
-     margin-top: 20px;
-     padding: 15px;
-     background-color: var(--theme-light-bg);
-     border: var(--pixel-border-width) solid var(--theme-border-main);
-     box-shadow: 2px 2px 0 var(--theme-primary-dark);
+/* Hub - Dashboard Layout & District Summaries */
+.dashboard-header .app-title-container h1 { /* Styles for the main "Governor's Dashboard" title */
+    font-size: 32px;
 }
-.district-navigation h3 {
-    font-size: 20px; color: var(--theme-primary-accent); margin-bottom: 10px;
-    padding-bottom: 5px; border-bottom: 1px dashed var(--theme-primary-accent);
-}
-.district-navigation ul li { margin-bottom: 8px; }
-.district-link { /* Now primarily for Manage buttons on cards, or old nav */
-    display: flex; align-items: center; padding: 8px 10px;
-    background-color: var(--theme-card-bg);
-    border: var(--pixel-border-width) solid var(--theme-border-main);
-    color: var(--theme-text-main); transition: all 0.2s ease;
-}
-.district-link:hover {
-    background-color: var(--theme-light-bg); border-color: var(--theme-primary-accent);
-    text-decoration: none; transform: translateX(2px);
-}
-.district-link i { margin-right: 10px; color: var(--theme-tertiary-accent); }
-.district-status { margin-left: auto; font-size: 0.85em; color: #777; font-style: italic; }
 
-.district-entry { /* For old nav style if kept */
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 5px;
+.dashboard-main {
+    margin-top: 20px;
 }
-.district-entry .district-link { flex-grow: 1; }
 
-
-/* Dashboard Specific Styles */
-.dashboard-header .app-title-container h1 { font-size: 32px; }
-.dashboard-main { margin-top: 20px; }
-.district-summaries-container h2 {
-    text-align: center; font-size: 24px; color: var(--theme-primary-accent);
-    margin-bottom: 20px; padding-bottom: 10px;
+.district-summaries-container h2 { /* "District Overview" title */
+    text-align: center;
+    font-size: 24px;
+    color: var(--theme-primary-accent);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
     border-bottom: var(--pixel-border-width) dashed var(--theme-primary-accent);
 }
+
 .summaries-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
 }
+
 .district-summary-card {
     background-color: var(--theme-card-bg);
     border: var(--pixel-border-width) solid var(--theme-border-main);
-    padding: 15px; box-shadow: 3px 3px 0px 0px var(--theme-primary-dark);
+    padding: 15px;
+    box-shadow: 3px 3px 0px 0px var(--theme-primary-dark);
+    display: flex; /* For better control of inner elements */
+    flex-direction: column; /* Stack content vertically */
+    justify-content: space-between; /* Push actions to bottom */
 }
+
 .district-summary-card.locked-summary {
-    opacity: 0.7; background-color: var(--theme-light-bg);
+    opacity: 0.7;
+    background-color: var(--theme-light-bg);
 }
 .district-summary-card.locked-summary .manage-district-button {
-    /*pointer-events: none; /* Make manage button unclickable for locked */
-    /* background-color: #bbb; */
-    /* color: #777; */
-    /* border-color: #999; */
+    /* Example: Visually disable or style the manage button for locked districts */
+    /* pointer-events: none; */
+    /* background-color: #bbb !important; */
+    /* color: #777 !important; */
+    /* border-color: #999 !important; */
 }
 
 .summary-card-header {
-    display: flex; align-items: center; margin-bottom: 10px;
-    padding-bottom: 8px; border-bottom: 1px dashed var(--theme-primary-accent);
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--theme-primary-accent);
 }
-.summary-card-header i { font-size: 20px; color: var(--theme-primary-accent); margin-right: 10px; }
-.summary-card-header h3 { margin-bottom: 0; font-size: 20px; }
-.district-summary-card p { font-size: 16px; margin-bottom: 8px; }
+
+.summary-card-header i {
+    font-size: 20px;
+    color: var(--theme-primary-accent);
+    margin-right: 10px;
+}
+
+.summary-card-header h3 {
+    margin-bottom: 0;
+    font-size: 20px;
+    color: var(--theme-text-main); /* Ensure it uses the main text color */
+}
+
+.district-summary-card p {
+    font-size: 16px;
+    margin-bottom: 8px;
+    flex-grow: 1; /* Allow status/data paragraphs to take up space before actions */
+}
+
 .summary-card-actions {
-    margin-top: 15px; display: flex; justify-content: flex-end; gap: 10px;
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-shrink: 0; /* Prevent action area from shrinking */
 }
-.summary-card-actions .action-button, /* For unlock buttons */
-.summary-card-actions .manage-district-button /* For 'Manage' links styled as buttons */
-{
-    padding: 6px 12px; font-size: 14px;
+
+.summary-card-actions .action-button, /* For .unlock-district-button */
+.summary-card-actions .manage-district-button { /* For <a> styled as button */
+    padding: 6px 12px;
+    font-size: 14px;
+    width: auto; /* Override .log-button or .action-button width:100% if inherited */
 }
-/* Ensure 'Manage' link looks like an action button */
-.manage-district-button {
-    composes: action-button; /* Conceptual */
-    display: inline-block; /* Make <a> behave more like button for styling */
-    background-color: var(--theme-primary-accent); /* Example color */
+
+.manage-district-button { /* Specific styling for the <a> "Manage" button */
+    /* composes: action-button; */ /* Conceptual */
+    display: inline-block;
+    background-color: var(--theme-primary-accent); /* Manage button color */
     color: var(--theme-card-bg);
-    text-align: center;
     border: var(--pixel-border-width) solid var(--theme-primary-dark);
     box-shadow: 1px 1px 0px var(--theme-primary-dark);
+    text-align: center;
+    text-decoration: none; /* Remove underline from link */
 }
 .manage-district-button:hover {
     background-color: color-mix(in srgb, var(--theme-primary-accent) 90%, black);
-    color: var(--theme-card-bg); /* Keep text color on hover */
-    text-decoration: none; /* Remove underline from link */
+    color: var(--theme-card-bg);
+    text-decoration: none;
     box-shadow: 2px 2px 0px var(--theme-primary-dark);
     transform: translateY(-1px);
 }
-
-
-.hub-footer {
-    text-align: center; margin-top: 30px; padding-top: 15px;
-    border-top: var(--pixel-border-width) dashed var(--theme-tertiary-accent);
-    font-size: 0.9em; color: var(--theme-text-main);
+.manage-district-button:active {
+    transform: translate(1px,1px);
+    box-shadow: none;
 }
 
+
+/* Hub Footer (already somewhat styled, just confirming placement) */
+.hub-footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: var(--pixel-border-width) dashed var(--theme-tertiary-accent);
+    font-size: 0.9em;
+    color: var(--theme-text-main);
+}
 
 /* ==========================================================================
    9. ANIMATIONS & KEYFRAMES
