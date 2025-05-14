@@ -732,24 +732,22 @@ body.shop-active {
    8. HUB SPECIFIC & UTILITIES (includes Dashboard & Map)
    ========================================================================== */
 
-/* General Utilities that might be used across the hub or districts if not globally defined */
+/* General Utilities */
 .over-limit {
     color: var(--theme-highlight-accent) !important;
     font-weight: bold;
 }
 
-/* Hub - City Map Visualizer */
+/* Hub - City Map Visualizer CONTAINER */
 #cityMapPlaceholder {
     background-image: url('assets/images/background/background.png');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    /* The border is set inline in HTML: style="... border: 2px dashed var(--theme-primary-accent); ..." */
-    /* height and margin-bottom are also set inline in HTML */
-    /* position: relative and overflow: hidden are set inline in HTML */
+    /* Inline styles in HTML for border, height, margin, position:relative, overflow:hidden */
 }
 
-/* Scoped Map Asset Styles */
+/* === MAP ASSET STYLES (Scoped to #cityMapPlaceholder) === */
 #cityMapPlaceholder .map-asset {
     position: absolute;
     image-rendering: pixelated;
@@ -761,39 +759,39 @@ body.shop-active {
     -webkit-user-select: none;
     -ms-user-select: none;
     transform-origin: bottom center;
-    /* Transition for drop-in animation and potentially other future state changes */
     transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    max-height: initial; /* Let transform:scale primarily control the size */
-    opacity: 1; /* Default to visible unless .locked is applied */
-    cursor: pointer; /* Default for clickable assets */
+    max-height: initial;
+    opacity: 1;
+    cursor: pointer;
 }
 
 #cityMapPlaceholder .map-asset.locked {
     opacity: 0;
-    /* transform: translateY(-40px) scale(0.1); /* Generic initial animation scale, overridden by specific ID.locked rule */
+    /* transform will be set by specific ID.locked rules */
     pointer-events: none;
     cursor: default;
 }
 
 #cityMapPlaceholder .map-asset.dropping-in {
     opacity: 1;
-    transform: translateY(0px); /* Target Y position for drop-in */
-    /* The final scale for dropping-in is inherited from the specific #ID rule */
+    transform: translateY(0px); /* Target Y for animation */
+    /* Final scale inherited from specific ID rule */
 }
 
-/* --- Specific Asset Positioning & Final Scales for Display & Drop-in Animation --- */
+/* --- Specific Map Asset Positioning & Animation States --- */
+/* ALL THESE ID-SPECIFIC RULES ARE FOR ELEMENTS *INSIDE* #cityMapPlaceholder */
 
-/* Back Row / Slightly further away */
-#map-temple-forum {
+/* Back Row */
+#cityMapPlaceholder #map-temple-forum { /* Scoping the ID selector as well for absolute safety */
     left: 50%;
-    transform: translateX(-50%) scale(0.2); /* Final display scale */
+    transform: translateX(-50%) scale(0.2);
     bottom: 45%;
     z-index: 12;
 }
 #cityMapPlaceholder .map-asset.locked#map-temple-forum { transform: translateX(-50%) translateY(-40px) scale(0.1); }
 #cityMapPlaceholder .map-asset.dropping-in#map-temple-forum { transform: translateX(-50%) translateY(0px) scale(0.2); }
 
-#map-city-gatehouse {
+#cityMapPlaceholder #map-city-gatehouse {
     left: 0%;
     bottom: 20%;
     z-index: 8;
@@ -802,7 +800,7 @@ body.shop-active {
 #cityMapPlaceholder .map-asset.locked#map-city-gatehouse { transform: translateY(-40px) scale(0.1); }
 #cityMapPlaceholder .map-asset.dropping-in#map-city-gatehouse { transform: translateY(0px) scale(0.2); }
 
-#map-triumphal-arch {
+#cityMapPlaceholder #map-triumphal-arch {
     left: 88%;
     bottom: 45%;
     z-index: 8;
@@ -812,16 +810,16 @@ body.shop-active {
 #cityMapPlaceholder .map-asset.dropping-in#map-triumphal-arch { transform: translateY(0px) scale(0.2); }
 
 /* Middle Row - District Buildings */
-#map-building-knowledge { /* Basilica */
+#cityMapPlaceholder #map-building-knowledge {
     left: 10%;
     bottom: 70%;
     z-index: 10;
     transform: scale(0.25);
 }
-#cityMapPlaceholder .map-asset.locked#map-building-knowledge { transform: translateY(-40px) scale(0.15); } /* Start smaller for animation */
+#cityMapPlaceholder .map-asset.locked#map-building-knowledge { transform: translateY(-40px) scale(0.15); }
 #cityMapPlaceholder .map-asset.dropping-in#map-building-knowledge { transform: translateY(0px) scale(0.25); }
 
-#map-building-health { /* Public Bath */
+#cityMapPlaceholder #map-building-health {
     left: 55%;
     bottom: 60%;
     z-index: 12;
@@ -830,27 +828,27 @@ body.shop-active {
 #cityMapPlaceholder .map-asset.locked#map-building-health { transform: translateY(-40px) scale(0.1); }
 #cityMapPlaceholder .map-asset.dropping-in#map-building-health { transform: translateY(0px) scale(0.2); }
 
-/* Front Row / Closer */
-#map-building-emporium { /* Market Stall - Always visible (not using .locked or .dropping-in) */
+/* Front Row */
+#cityMapPlaceholder #map-building-emporium {
     left: 40%;
     bottom: 15%;
     z-index: 15;
     transform: scale(0.2);
 }
 
-/* Scenery like trees (assuming always visible and not interactive with name tags) */
-#map-tree-conifer-legacy-1 {
+/* Scenery */
+#cityMapPlaceholder #map-tree-conifer-legacy-1 {
     left: 5%;
     bottom: 55%;
     z-index: 5;
     transform: scale(0.35);
-    cursor: default; /* Not interactive */
+    cursor: default;
 }
-/* Add other non-interactive scenery/trees similarly if needed */
-/* #map-tree-round-1 { ... } */
+
+/* === END OF MAP ASSET STYLES === */
 
 
-/* Building Name Tag (Specific to the Hub's map) */
+/* Building Name Tag (Specific to the Hub's map - uses unique ID, so generally safe) */
 #buildingNameTag {
     position: absolute;
     background-color: var(--theme-primary-dark);
@@ -859,21 +857,25 @@ body.shop-active {
     font-size: 12px;
     border: 1px solid var(--theme-primary-accent);
     box-shadow: 2px 2px 0px var(--theme-primary-accent);
-    z-index: 100; /* Highest visual layer on the map */
+    z-index: 100;
     opacity: 0;
-    transform: translateY(10px) scale(0.9); /* Initial state for pop-up animation */
+    transform: translateY(10px) scale(0.9);
     transition: opacity 0.2s ease-out, transform 0.2s ease-out;
-    pointer-events: none; /* The tag itself should not be clickable */
+    pointer-events: none;
     white-space: nowrap;
 }
 #buildingNameTag.visible {
     opacity: 1;
-    transform: translateY(0px) scale(1); /* Final state for pop-up animation */
+    transform: translateY(0px) scale(1);
 }
 
 
 /* Hub - Dashboard Layout & District Summaries */
-.dashboard-header .app-title-container h1 { /* Styles for the main "Governor's Dashboard" title */
+/* These styles use classes like .dashboard-header, .district-summary-card, etc. */
+/* They should be specific enough not to interfere with other pages unless those pages */
+/* also use these exact class names for similar structures. */
+
+.dashboard-header .app-title-container h1 {
     font-size: 32px;
 }
 
@@ -881,7 +883,7 @@ body.shop-active {
     margin-top: 20px;
 }
 
-.district-summaries-container h2 { /* "District Overview" title */
+.district-summaries-container h2 {
     text-align: center;
     font-size: 24px;
     color: var(--theme-primary-accent);
@@ -901,21 +903,14 @@ body.shop-active {
     border: var(--pixel-border-width) solid var(--theme-border-main);
     padding: 15px;
     box-shadow: 3px 3px 0px 0px var(--theme-primary-dark);
-    display: flex; /* For better control of inner elements */
-    flex-direction: column; /* Stack content vertically */
-    justify-content: space-between; /* Push actions to bottom */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .district-summary-card.locked-summary {
     opacity: 0.7;
     background-color: var(--theme-light-bg);
-}
-.district-summary-card.locked-summary .manage-district-button {
-    /* Example: Visually disable or style the manage button for locked districts */
-    /* pointer-events: none; */
-    /* background-color: #bbb !important; */
-    /* color: #777 !important; */
-    /* border-color: #999 !important; */
 }
 
 .summary-card-header {
@@ -935,13 +930,13 @@ body.shop-active {
 .summary-card-header h3 {
     margin-bottom: 0;
     font-size: 20px;
-    color: var(--theme-text-main); /* Ensure it uses the main text color */
+    color: var(--theme-text-main);
 }
 
 .district-summary-card p {
     font-size: 16px;
     margin-bottom: 8px;
-    flex-grow: 1; /* Allow status/data paragraphs to take up space before actions */
+    flex-grow: 1;
 }
 
 .summary-card-actions {
@@ -949,25 +944,24 @@ body.shop-active {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    flex-shrink: 0; /* Prevent action area from shrinking */
+    flex-shrink: 0;
 }
 
-.summary-card-actions .action-button, /* For .unlock-district-button */
-.summary-card-actions .manage-district-button { /* For <a> styled as button */
+.summary-card-actions .action-button,
+.summary-card-actions .manage-district-button {
     padding: 6px 12px;
     font-size: 14px;
-    width: auto; /* Override .log-button or .action-button width:100% if inherited */
+    width: auto;
 }
 
-.manage-district-button { /* Specific styling for the <a> "Manage" button */
-    /* composes: action-button; */ /* Conceptual */
+.manage-district-button {
     display: inline-block;
-    background-color: var(--theme-primary-accent); /* Manage button color */
+    background-color: var(--theme-primary-accent);
     color: var(--theme-card-bg);
     border: var(--pixel-border-width) solid var(--theme-primary-dark);
     box-shadow: 1px 1px 0px var(--theme-primary-dark);
     text-align: center;
-    text-decoration: none; /* Remove underline from link */
+    text-decoration: none;
 }
 .manage-district-button:hover {
     background-color: color-mix(in srgb, var(--theme-primary-accent) 90%, black);
@@ -981,8 +975,6 @@ body.shop-active {
     box-shadow: none;
 }
 
-
-/* Hub Footer (already somewhat styled, just confirming placement) */
 .hub-footer {
     text-align: center;
     margin-top: 30px;
