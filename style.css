@@ -1730,3 +1730,102 @@ body.shop-active {
     }
     .moment-card .moment-timestamp { margin-left: 0; margin-top: 3px; }
 }
+
+
+/* ==========================================================================
+   (Existing CSS above)
+   ========================================================================== */
+
+/* Add this new section, or append to an existing relevant one like Layout/Hub visuals */
+
+/* Hub - City Map Visualizer */
+#cityMapPlaceholder {
+    /* Ensures it's a positioning context for its children. */
+    /* overflow: hidden; is good to prevent assets from spilling out if mispositioned. */
+    /* background-color: var(--theme-page-bg); /* Optional: Match page background or set a specific map BG */
+    /* Consider adding a subtle background pattern or image for the ground later */
+}
+
+.map-asset {
+    position: absolute; /* Positioned relative to cityMapPlaceholder */
+    image-rendering: pixelated; /* Keeps pixel art crisp */
+    image-rendering: -moz-crisp-edges; /* Firefox */
+    image-rendering: crisp-edges; /* Other browsers */
+    /* Default bottom alignment, adjust as needed */
+    bottom: 10px; /* A small gap from the very bottom of the placeholder */
+    /* Prevent dragging images */
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Specific asset positioning - adjust these values to create your scene! */
+/* Heights/widths are not set here; using natural image dimensions.
+   You might need to scale them with transform: scale() or set explicit width/height
+   if their natural sizes are too large/small for the 200px placeholder height.
+   For this prototype, I'll assume natural sizes are somewhat reasonable.
+*/
+
+#map-temple-large {
+    left: 50%;
+    transform: translateX(-50%); /* Center it */
+    bottom: 20px; /* Raise it a bit to be prominent */
+    z-index: 10;
+    /* max-height: 150px; /* Example to control size if needed */
+}
+
+#map-tree-conifer-1 {
+    left: 25%;
+    bottom: 15px;
+    z-index: 15; /* In front of temple if overlaps */
+    /* max-height: 120px; */
+}
+
+#map-tree-round-1 {
+    left: 65%;
+    bottom: 15px;
+    z-index: 15;
+    /* max-height: 100px; */
+}
+
+#map-gatehouse-1 {
+    left: 10%;
+    bottom: 10px;
+    z-index: 12;
+    /* max-height: 90px; */
+}
+
+#map-column-1 {
+    left: 80%;
+    bottom: 10px;
+    z-index: 5; /* Potentially behind other things if it's a ruin */
+    /* max-height: 100px; */
+}
+
+#map-bush-1 {
+    left: 35%;
+    bottom: 5px; /* Closer to the very bottom */
+    z-index: 20; /* Foreground */
+    /* max-height: 40px; */
+}
+
+#map-bush-2 {
+    left: 58%;
+    bottom: 5px;
+    z-index: 20;
+    /* max-height: 40px; */
+}
+
+/* Example: if you had clouds
+#map-cloud-1 {
+    top: 10px;
+    left: 15%;
+    z-index: 1;
+}
+*/
+
+/* ==========================================================================
+   (Rest of style.css)
+   ========================================================================== */
