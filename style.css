@@ -546,66 +546,340 @@ button#cancelReasonButton:hover:not(:disabled) { background-color: #999; }
 #nextQuizQuestionButton:hover:not(:disabled), #finishQuizButton:hover:not(:disabled) { background-color: color-mix(in srgb, var(--theme-secondary-accent) 90%, black); }
 #closeQuizButton:hover:not(:disabled) { background-color: #999; }
 
-
 /* ==========================================================================
    6. SMOKE TRACKER APP SPECIFIC (Health District)
    ========================================================================== */
-.smoke-tracker-content .moment-card { padding: 15px; }
-.timer-display { font-size: 28px; background-color: var(--theme-primary-dark); color: var(--theme-text-on-dark); padding: 5px 10px; border: var(--pixel-border-width) solid var(--theme-primary-accent); margin: 10px auto; text-align: center; width: fit-content; min-width: 80px; box-shadow: inset 1px 1px 0px rgba(0,0,0,0.4); }
-.timer-display.counting-down { border-color: var(--theme-secondary-accent); }
-.timer-display.warning { animation: pulseWarning 1s infinite; border-color: var(--theme-highlight-accent); }
-.vape-timer-section .limit-setting { margin-top: 15px; padding-top: 10px; border-top: var(--pixel-border-width) dotted #bbb; }
-.status-limit-section h2 { text-align: center; color: var(--theme-primary-accent); font-size: 20px; margin-bottom: 10px; border-bottom: var(--pixel-border-width) dashed var(--theme-primary-accent); padding-bottom: 5px; }
-.status-limit-section > div { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 5px 0; }
-.status-limit-section > div:not(:last-child) { border-bottom: 1px dotted #ccc; }
-.status-limit-section span { font-size: 18px; }
-#smokeLogList .moment-card { padding: 8px !important; margin-bottom: 8px; animation: none; opacity: 1; }
-.log-item-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 5px; }
-.log-item-details { display: flex; align-items: center; flex-grow: 1; }
-.log-item-details i { font-size: 18px; margin-right: 8px; }
-.log-item-reason-icon-container { text-align: right; flex-shrink: 0; display: flex; align-items: center; gap: 8px; }
-.log-item-time { font-size: 14px; color: #666; white-space: nowrap; }
-.add-reason-icon { cursor: pointer; color: var(--theme-tertiary-accent); font-size: 16px; transition: color 0.2s, transform 0.2s; vertical-align: middle; }
-.add-reason-icon:hover { color: var(--theme-highlight-accent); transform: scale(1.1); }
-.add-reason-icon.has-reason { color: var(--theme-primary-accent); }
-.progress-section h2 { font-size: 18px; color: var(--theme-primary-dark); margin-bottom: 10px; }
-.daily-progress-chart-container { display: flex; justify-content: space-around; align-items: flex-end; height: 130px; border: var(--pixel-border-width) solid var(--theme-border-main); padding: 10px 5px 0px 5px; background-color: var(--theme-light-bg); box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1); overflow-x: auto; margin-bottom: 10px; }
-.chart-day-column { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; text-align: center; flex-basis: 13%; max-width: 50px; height: 100%; position: relative; }
-.chart-bar-wrapper { display: flex; flex-direction: column-reverse; align-items: center; width: 100%; height: calc(100% - 20px); position: relative; }
-.chart-bar { width: 60%; min-height: 2px; background-color: var(--theme-primary-accent); border: 1px solid var(--theme-primary-dark); box-shadow: 1px 1px 0px var(--theme-primary-dark); transition: height 0.3s ease-out; position: relative; }
-.chart-bar.cigarette-bar { background-color: var(--theme-highlight-accent); }
-.chart-bar:hover { filter: brightness(1.1); }
-.chart-bar-value { font-size: 12px; color: var(--theme-text-main); margin-bottom: 1px; font-weight: bold; height: 14px; line-height: 14px; }
-.chart-day-label { font-size: 12px; margin-top: 4px; color: var(--theme-text-main); height: 18px; line-height: 18px; }
-.progress-section .streak-info-box { margin-top: 15px; padding: 8px; border: var(--pixel-border-width) dashed var(--theme-primary-accent); }
+
+/* Apply to all direct .moment-card children within .smoke-tracker-content
+   to ensure these main section cards are visible by default and
+   don't rely on the global fade-in animation from Section 4.2. */
+.smoke-tracker-content > .moment-card {
+    padding: 15px; /* Default padding for these main sections */
+    opacity: 1;    /* Ensure visible */
+    animation: none; /* No global fade-in */
+    /* Other .moment-card base styles (border, shadow, margin-bottom) are inherited */
+}
+
+/* Specific padding overrides if a section card needs different padding than the default 15px */
+/* For example, if status-limit-section needed less: */
+/* .smoke-tracker-content > .status-limit-section.moment-card { padding: 10px; } */
+
+
+/* 6.1 Timer & Status (Smoke Tracker) */
+.timer-display {
+    font-size: 28px;
+    background-color: var(--theme-primary-dark);
+    color: var(--theme-text-on-dark);
+    padding: 5px 10px;
+    border: var(--pixel-border-width) solid var(--theme-primary-accent);
+    margin: 10px auto; /* Center the timer display */
+    text-align: center;
+    width: fit-content; /* Adjust to content size */
+    min-width: 80px; /* Ensure it's not too small */
+    box-shadow: inset 1px 1px 0px rgba(0,0,0,0.4);
+}
+.timer-display.counting-down {
+    border-color: var(--theme-secondary-accent);
+}
+.timer-display.warning {
+    animation: pulseWarning 1s infinite; /* Assumes pulseWarning is defined in Section 9 */
+    border-color: var(--theme-highlight-accent);
+}
+
+.vape-timer-section .limit-setting { /* Styles for limit setting within vape timer section */
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: var(--pixel-border-width) dotted #bbb;
+}
+
+.status-limit-section h2 { /* Shared h2 style for this section */
+    text-align: center;
+    color: var(--theme-primary-accent);
+    font-size: 20px;
+    margin-bottom: 10px;
+    border-bottom: var(--pixel-border-width) dashed var(--theme-primary-accent);
+    padding-bottom: 5px;
+}
+.status-limit-section > div { /* Direct children divs in status-limit-section (for rows) */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px 0;
+}
+.status-limit-section > div:not(:last-child) {
+    border-bottom: 1px dotted #ccc;
+}
+.status-limit-section span { /* For text like "CIGARETTES: 0 / ?" */
+    font-size: 18px;
+}
+/* .limit-setting styles are general (Section 4.3) and apply here */
+
+
+/* 6.2 Log List Items (Smoke Tracker) */
+/* #smokeLogList is a .moments-list, its children are .moment-card */
+/* These are individual log entries, so they can have their own animation/opacity if desired,
+   or be styled to appear immediately. Current setup makes them appear immediately. */
+#smokeLogList .moment-card {
+    padding: 8px !important; /* Override general .moment-card or .smoke-tracker-content > .moment-card padding */
+    margin-bottom: 8px;
+    opacity: 1;      /* Ensure visible */
+    animation: none;   /* No global fade-in, or specific fade-in if added by JS */
+}
+
+.log-item-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 5px;
+}
+.log-item-details {
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* Allow details to take available space */
+}
+.log-item-details i { /* Icon in smoke log (cigarette, vape) */
+    font-size: 18px;
+    margin-right: 8px;
+    /* Colors are set inline in JS based on log type */
+}
+.log-item-reason-icon-container {
+    text-align: right;
+    flex-shrink: 0; /* Prevent shrinking */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.log-item-time {
+    font-size: 14px;
+    color: #666;
+    white-space: nowrap;
+}
+.add-reason-icon { /* For the comment icon to add/edit reason */
+    cursor: pointer;
+    color: var(--theme-tertiary-accent);
+    font-size: 16px;
+    transition: color 0.2s, transform 0.2s;
+    vertical-align: middle; /* Align with text better */
+}
+.add-reason-icon:hover {
+    color: var(--theme-highlight-accent);
+    transform: scale(1.1);
+}
+.add-reason-icon.has-reason { /* When a reason exists */
+    color: var(--theme-primary-accent);
+}
+
+
+/* 6.3 Progress Chart (Smoke Tracker) */
+.progress-section h2 { /* Title for "WEEKLY CIGARETTE COUNT" */
+    font-size: 18px;
+    color: var(--theme-primary-dark);
+    margin-bottom: 10px;
+}
+.daily-progress-chart-container {
+    display: flex;
+    justify-content: space-around; /* Distribute day columns evenly */
+    align-items: flex-end; /* Align bars to the bottom */
+    height: 130px; /* Total height for bars, values, and labels */
+    border: var(--pixel-border-width) solid var(--theme-border-main);
+    padding: 10px 5px 0px 5px; /* Top padding for bar values, no bottom padding needed */
+    background-color: var(--theme-light-bg);
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
+    overflow-x: auto; /* Allow horizontal scroll if too many days for width */
+    margin-bottom: 10px;
+}
+.chart-day-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+    flex-basis: 13%; /* Approx 7 columns, adjust if more/less days shown */
+    max-width: 50px; /* Max width for a single day's column */
+    height: 100%;
+    position: relative; /* For potential tooltips or absolute elements later */
+}
+.chart-bar-wrapper { /* Contains the value and the bar itself */
+    display: flex;
+    flex-direction: column-reverse; /* Value appears above the bar */
+    align-items: center;
+    width: 100%;
+    height: calc(100% - 20px); /* Reserve space for the day label below */
+    position: relative;
+}
+.chart-bar {
+    width: 60%; /* Percentage of the .chart-day-column width */
+    min-height: 2px; /* Ensure bar is visible even for 0 value */
+    background-color: var(--theme-primary-accent); /* Default bar color (e.g., for vape chart if added) */
+    border: 1px solid var(--theme-primary-dark);
+    box-shadow: 1px 1px 0px var(--theme-primary-dark);
+    transition: height 0.3s ease-out, background-color 0.3s ease-out; /* Smooth transitions */
+}
+.chart-bar.cigarette-bar { /* Specific style for cigarette chart bars */
+    background-color: var(--theme-highlight-accent);
+}
+.chart-bar:hover {
+    filter: brightness(1.1); /* Slight highlight on hover */
+}
+.chart-bar-value {
+    font-size: 12px;
+    color: var(--theme-text-main);
+    margin-bottom: 1px; /* Space between value text and top of the bar */
+    font-weight: bold;
+    height: 14px; /* Consistent height for the value display area */
+    line-height: 14px;
+}
+.chart-day-label {
+    font-size: 12px;
+    margin-top: 4px; /* Space between bar bottom and label top */
+    color: var(--theme-text-main);
+    height: 18px; /* Consistent height for the label display area */
+    line-height: 18px;
+}
+
+.progress-section .streak-info-box { /* Box displaying streak info */
+    margin-top: 15px;
+    padding: 8px;
+    border: var(--pixel-border-width) dashed var(--theme-primary-accent);
+}
 .progress-section .streak-info-box span { font-size: 18px; }
-.progress-section .streak-info-box strong { color: var(--theme-primary-accent); }
-.progress-section .streak-info-box i.fa-fire { color: var(--theme-highlight-accent); }
-.calendar-section .log-button#toggleCalendarButton { width: auto; padding: 8px 15px; background-color: var(--theme-secondary-accent); color: var(--theme-primary-dark); }
-.calendar-log-container { display: none; margin-top: 15px; border: var(--pixel-border-width) solid var(--theme-primary-dark); padding: 10px; background-color: var(--theme-card-bg); box-shadow: 2px 2px 0 var(--theme-primary-dark); }
-.calendar-log-container.show { display: block; animation: retroFadeIn 0.4s ease-out; }
-.calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 5px; background-color: var(--theme-light-bg); border-bottom: var(--pixel-border-width) dashed var(--theme-border-main); }
-.calendar-nav-button { font-family: 'VT323', monospace; composes: action-button; background-color: var(--theme-tertiary-accent); color: var(--theme-card-bg); padding: 2px 8px; font-size: 16px; }
-.calendar-nav-button:hover:not(:disabled){ background-color: color-mix(in srgb, var(--theme-tertiary-accent) 90%, black); }
-.calendar-month-year { font-size: 20px; font-weight: bold; color: var(--theme-primary-accent); text-shadow: 1px 1px 0 var(--theme-primary-dark); }
-.calendar-grid { width: 100%; border-collapse: collapse; background-color: transparent; table-layout: fixed; }
-.calendar-grid th, .calendar-grid td { border: var(--pixel-border-width) solid var(--theme-border-main); text-align: center; padding: 2px; height: 50px; position: relative; overflow: hidden; }
-.calendar-grid th { background-color: var(--theme-light-bg); font-size: 14px; color: var(--theme-primary-dark); padding: 4px 2px; height: auto; }
-.calendar-day { font-size: 16px; vertical-align: top; cursor: default; transition: background-color 0.2s ease; }
-.calendar-day:hover:not(.other-month) { outline: 1px dashed var(--theme-secondary-accent); outline-offset: -2px; }
-.calendar-day-number { display: block; font-weight: bold; font-size: 14px; margin-bottom: 2px; text-align: left; padding: 2px 0 0 3px; color: var(--theme-text-main); }
-.calendar-day.other-month .calendar-day-number { color: #bbb; font-weight: normal; }
-.calendar-day.other-month { background-color: color-mix(in srgb, var(--theme-light-bg) 50%, transparent); cursor: default; pointer-events: none; }
-.calendar-day.other-month:hover { outline: none; }
-.calendar-day.today { border-color: var(--theme-secondary-accent); box-shadow: inset 0 0 0 1px var(--theme-secondary-accent); }
-.calendar-day.today .calendar-day-number { color: var(--theme-secondary-accent); font-weight: bold; }
-.calendar-day.calendar-day-success { background-color: color-mix(in srgb, var(--theme-primary-accent) 30%, transparent); }
-.calendar-day.calendar-day-overlimit { background-color: color-mix(in srgb, var(--theme-highlight-accent) 35%, transparent); }
-.testing-tools-section h2 { font-size: 18px; color: var(--theme-tertiary-accent); margin-bottom: 10px; }
-.testing-tools-section .action-button#endOfDayTestButton { padding: 8px 12px; background-color: var(--theme-secondary-accent); color: var(--theme-primary-dark); }
-.testing-tools-section .action-button#endOfDayTestButton:hover:not(:disabled) { background-color: color-mix(in srgb, var(--theme-secondary-accent) 90%, black); }
+.progress-section .streak-info-box strong { color: var(--theme-primary-accent); } /* Highlight streak number */
+.progress-section .streak-info-box i.fa-fire { color: var(--theme-highlight-accent); } /* Fire icon color */
 
 
+/* 6.4 Calendar (Smoke Tracker) */
+.calendar-section .log-button#toggleCalendarButton { /* Specific style for the "VIEW CALENDAR LOG" button */
+     width: auto; /* Don't take full width */
+     padding: 8px 15px;
+     background-color: var(--theme-secondary-accent);
+     color: var(--theme-primary-dark);
+     /* Other .log-button styles are inherited */
+}
+.calendar-log-container {
+    display: none; /* JS toggles to block */
+    margin-top: 15px;
+    border: var(--pixel-border-width) solid var(--theme-primary-dark);
+    padding: 10px;
+    background-color: var(--theme-card-bg); /* Use card background for the calendar area */
+    box-shadow: 2px 2px 0 var(--theme-primary-dark);
+}
+.calendar-log-container.show {
+    display: block;
+    animation: retroFadeIn 0.4s ease-out; /* Fade in when shown */
+}
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: var(--theme-light-bg); /* Light background for header bar */
+    border-bottom: var(--pixel-border-width) dashed var(--theme-border-main);
+}
+.calendar-nav-button { /* For PREV/NEXT month buttons */
+    /* Composes .action-button from Section 4.4 but can have specific overrides */
+    font-family: 'VT323', monospace;
+    composes: action-button; /* Conceptual, ensure base .action-button styles are considered */
+    background-color: var(--theme-tertiary-accent); /* Specific color for these navs */
+    color: var(--theme-card-bg);
+    padding: 2px 8px; /* Smaller padding for these small buttons */
+    font-size: 16px;
+    /* Other .action-button styles (border, shadow, transitions) apply */
+}
+.calendar-nav-button:hover:not(:disabled){
+    background-color: color-mix(in srgb, var(--theme-tertiary-accent) 90%, black);
+}
+.calendar-month-year { /* For "Month Year" display */
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--theme-primary-accent);
+    text-shadow: 1px 1px 0 var(--theme-primary-dark);
+}
+.calendar-grid { /* The <table> element */
+    width: 100%;
+    border-collapse: collapse;
+    background-color: transparent; /* Let container background show */
+    table-layout: fixed; /* Ensure even column widths for days */
+}
+.calendar-grid th, /* Day headers (S, M, T, W, T, F, S) */
+.calendar-grid td { /* Individual day cells */
+    border: var(--pixel-border-width) solid var(--theme-border-main);
+    text-align: center;
+    padding: 2px; /* Minimal padding within cells */
+    height: 50px; /* Fixed height for day cells */
+    position: relative; /* For tooltips or absolutely positioned content within cell */
+    overflow: hidden; /* Prevent content spill if too much data for a day */
+}
+.calendar-grid th { /* Day headers specific styling */
+    background-color: var(--theme-light-bg);
+    font-size: 14px;
+    color: var(--theme-primary-dark);
+    padding: 4px 2px; /* Slightly more padding for headers */
+    height: auto; /* Auto height for headers, not fixed 50px */
+}
+.calendar-day { /* Individual day cell <td> */
+    font-size: 16px; /* Base font size for content within the day cell */
+    vertical-align: top; /* Align day number and content to the top of the cell */
+    cursor: default; /* Default cursor, changes on hover for applicable days */
+    transition: background-color 0.2s ease;
+}
+.calendar-day:hover:not(.other-month) { /* Hover effect for days in current month */
+    outline: 1px dashed var(--theme-secondary-accent);
+    outline-offset: -2px; /* Outline inside the cell border */
+}
+.calendar-day-number { /* The span containing the day number (1, 2, 3...) */
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 2px; /* Space below the number before other content */
+    text-align: left; /* Align number to the left of the cell */
+    padding: 2px 0 0 3px; /* Small padding for the number */
+    color: var(--theme-text-main);
+}
+.calendar-day.other-month .calendar-day-number { /* Day numbers for previous/next month */
+    color: #bbb; /* Dimmed color */
+    font-weight: normal;
+}
+.calendar-day.other-month { /* Cells for days not in the current month */
+    background-color: color-mix(in srgb, var(--theme-light-bg) 50%, transparent); /* Dimmed background */
+    cursor: default;
+    pointer-events: none; /* Not interactive */
+}
+.calendar-day.other-month:hover {
+    outline: none; /* No hover outline for these days */
+}
+.calendar-day.today { /* Highlight for today's date */
+    border-color: var(--theme-secondary-accent); /* Accent border */
+    box-shadow: inset 0 0 0 1px var(--theme-secondary-accent); /* Inner highlight */
+}
+.calendar-day.today .calendar-day-number {
+    color: var(--theme-secondary-accent); /* Accent color for today's number */
+    font-weight: bold;
+}
+.calendar-day.calendar-day-success { /* Day where user met their goals */
+    background-color: color-mix(in srgb, var(--theme-primary-accent) 30%, transparent); /* Light success color */
+}
+.calendar-day.calendar-day-overlimit { /* Day where user went over limits */
+    background-color: color-mix(in srgb, var(--theme-highlight-accent) 35%, transparent); /* Light warning color */
+}
+/* .calendar-day-nodata uses default cell background, no specific style unless desired */
+
+/* Testing Tools Section (Smoke Tracker) */
+.testing-tools-section h2 {
+    font-size: 18px;
+    color: var(--theme-tertiary-accent);
+    margin-bottom: 10px;
+}
+.testing-tools-section .action-button#endOfDayTestButton { /* Specific for "SIMULATE END OF DAY" */
+    padding: 8px 12px;
+    background-color: var(--theme-secondary-accent);
+    color: var(--theme-primary-dark);
+}
+.testing-tools-section .action-button#endOfDayTestButton:hover:not(:disabled) {
+    background-color: color-mix(in srgb, var(--theme-secondary-accent) 90%, black);
+}
 /* ==========================================================================
    7. SHOP APP SPECIFIC (Emporium - Vending Machine)
    ========================================================================== */
