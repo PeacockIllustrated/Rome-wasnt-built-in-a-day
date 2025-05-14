@@ -1774,9 +1774,9 @@ body.shop-active {
 /* Back Row / Slightly further away */
 #map-temple-forum { /* Central, but not overly dominant */
     left: 50%;
-    transform: translateX(-50%) scale(0.25); /* Much smaller */
-    bottom: 60%; /* Higher on the dirt patch, appearing further */
-    z-index: 10;
+    transform: translateX(-50%) scale(0.3); /* Much smaller */
+    bottom: 50%; /* Higher on the dirt patch, appearing further */
+    z-index: 12;
 }
 
 #map-city-gatehouse {
@@ -1796,18 +1796,18 @@ body.shop-active {
 
 /* Middle Row - District Buildings */
 #map-building-knowledge { /* Basilica */
-    left: 28%;
-    bottom: 50%; /* Mid-depth on the dirt */
-    z-index: 12;
+    left: 50%;
+    bottom: 70%; /* Mid-depth on the dirt */
+    z-index: 10;
     transform: scale(0.25); /* Smaller */
     cursor: pointer;
 }
 
 #map-building-health { /* Public Bath */
-    left: 60%;
-    bottom: 50%; /* Mid-depth on the dirt */
+    left: 55%;
+    bottom: 60%; /* Mid-depth on the dirt */
     z-index: 12;
-    transform: scale(0.3); /* Smaller */
+    transform: scale(0.2); /* Smaller */
     cursor: pointer;
 }
 
