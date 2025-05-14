@@ -8,11 +8,10 @@
 /* ==========================================================================
    1. ROOT VARIABLES & DEFAULTS
    ========================================================================== */
-:root {
 
    /* style.css - at the top or in a variables section */
 :root {
-    --rome-font-family: 'Your Rome Font', sans-serif; /* Replace with your font */
+    --rome-font-family: 'VT323', monospace; /* Replace with your font */
     --rome-primary-color: #795548; /* Example: Brown */
     --rome-text-color: #3a2e20;    /* Example: Dark Brown */
     --rome-text-color-secondary: #5d4037;
