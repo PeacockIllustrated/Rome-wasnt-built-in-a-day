@@ -1892,3 +1892,92 @@ body.shop-active {
 /* ==========================================================================
    (Rest of style.css)
    ========================================================================== */
+/* ... (your existing CSS, including the map asset styles) ... */
+
+/* Dashboard Specific Styles */
+.dashboard-header .app-title-container h1 {
+    font-size: 32px; /* Larger title for dashboard */
+}
+
+.dashboard-main {
+    margin-top: 20px;
+}
+
+.district-summaries-container h2 {
+    text-align: center;
+    font-size: 24px;
+    color: var(--theme-primary-accent);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: var(--pixel-border-width) dashed var(--theme-primary-accent);
+}
+
+.summaries-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+    gap: 20px;
+}
+
+.district-summary-card {
+    background-color: var(--theme-card-bg);
+    border: var(--pixel-border-width) solid var(--theme-border-main);
+    padding: 15px;
+    box-shadow: 3px 3px 0px 0px var(--theme-primary-dark);
+}
+
+.district-summary-card.locked-summary {
+    opacity: 0.7;
+    background-color: var(--theme-light-bg); /* Different bg for locked */
+}
+
+.summary-card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--theme-primary-accent);
+}
+
+.summary-card-header i {
+    font-size: 20px;
+    color: var(--theme-primary-accent);
+    margin-right: 10px;
+}
+
+.summary-card-header h3 {
+    margin-bottom: 0;
+    font-size: 20px;
+}
+
+.district-summary-card p {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.summary-card-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    gap: 10px;
+}
+
+.summary-card-actions .action-button { /* For manage/unlock buttons */
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
+/* Hide the old district navigation if using dashboard cards */
+/* #districtNavigation {
+    display: none;
+} */
+
+
+/* Make sure mobile styles are considered */
+@media (max-width: 600px) {
+    .summaries-grid {
+        grid-template-columns: 1fr; /* Stack cards on mobile */
+    }
+    #cityMapPlaceholder {
+        height: 180px; /* Adjust map height on mobile if needed */
+    }
+}
