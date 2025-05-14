@@ -1743,6 +1743,8 @@ body.shop-active {
     background-repeat: no-repeat;
 }
 
+/* ... (existing CSS up to .map-asset) ... */
+
 .map-asset {
     position: absolute;
     image-rendering: pixelated;
@@ -1754,125 +1756,108 @@ body.shop-active {
     -webkit-user-select: none;
     -ms-user-select: none;
     transform-origin: bottom center;
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-    max-height: initial; /* Let scale primarily control size */
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Keep this for general transitions */
+    max-height: initial;
+    /* Default state for visibility, will be overridden by .locked or when shown */
+    opacity: 1;
+    transform: scale(1); /* Default scale, will be overridden by specific IDs */
 }
 
 .map-asset.locked {
-    display: none;
+    opacity: 0;
+    transform: translateY(-30px) scale(0.2); /* Start slightly above and small, adjust scale per asset if needed */
+    pointer-events: none; /* Not interactive when locked */
+    /* display: none; /* REMOVE THIS LINE */
 }
 
-/* --- Asset Positioning - SIGNIFICANTLY SMALLER SCALES --- */
-/*
-    Targeting space for 6-7 buildings.
-    The 'bottom' percentages now need to be more precise to place them
-    on the visual ground of background.png.
-    The central dirt patch appears to be roughly between bottom: 20% and bottom: 70%
-    of the placeholder's height.
-*/
+/* Add this class dynamically when unlocking to trigger animation */
+.map-asset.dropping-in {
+    opacity: 1;
+    /* The actual scale will be set by the specific asset's ID style */
+    /* We just need to reset translateY */
+    transform: translateY(0px);
+    /* The scale will be inherited from the specific #id rule */
+}
 
+
+/* --- Asset Positioning - YOUR SCALES --- */
 /* Back Row / Slightly further away */
-#map-temple-forum { /* Central, but not overly dominant */
+#map-temple-forum {
     left: 50%;
-    transform: translateX(-50%) scale(0.2); /* Much smaller */
-    bottom: 45%; /* Higher on the dirt patch, appearing further */
+    transform: translateX(-50%) scale(0.2);
+    bottom: 45%;
     z-index: 12;
 }
+.map-asset.locked#map-temple-forum { transform: translateX(-50%) translateY(-30px) scale(0.15); } /* Initial anim state */
+.map-asset.dropping-in#map-temple-forum { transform: translateX(-50%) translateY(0px) scale(0.2); } /* Final anim state */
+
 
 #map-city-gatehouse {
     left: 0%;
-    bottom: 2-%; /* On a path leading up */
+    /* bottom: 2-%; typo, assuming 20% or similar */
+    bottom: 20%;
     z-index: 8;
-    transform: scale(0.2); /* Smaller */
+    transform: scale(0.2);
 }
+.map-asset.locked#map-city-gatehouse { transform: translateY(-30px) scale(0.15); }
+.map-asset.dropping-in#map-city-gatehouse { transform: translateY(0px) scale(0.2); }
+
 
 #map-triumphal-arch {
     left: 88%;
-    bottom: 45%; /* On a path leading up */
+    bottom: 45%;
     z-index: 8;
-    transform: scale(0.2); /* Smaller */
+    transform: scale(0.2);
 }
+.map-asset.locked#map-triumphal-arch { transform: translateY(-30px) scale(0.15); }
+.map-asset.dropping-in#map-triumphal-arch { transform: translateY(0px) scale(0.2); }
 
 
 /* Middle Row - District Buildings */
 #map-building-knowledge { /* Basilica */
     left: 10%;
-    bottom: 70%; /* Mid-depth on the dirt */
+    bottom: 70%;
     z-index: 10;
-    transform: scale(0.25); /* Smaller */
+    transform: scale(0.25);
     cursor: pointer;
 }
+.map-asset.locked#map-building-knowledge { transform: translateY(-30px) scale(0.2); }
+.map-asset.dropping-in#map-building-knowledge { transform: translateY(0px) scale(0.25); }
+
 
 #map-building-health { /* Public Bath */
     left: 55%;
-    bottom: 60%; /* Mid-depth on the dirt */
+    bottom: 60%;
     z-index: 12;
-    transform: scale(0.2); /* Smaller */
+    transform: scale(0.2);
     cursor: pointer;
 }
+.map-asset.locked#map-building-health { transform: translateY(-30px) scale(0.15); }
+.map-asset.dropping-in#map-building-health { transform: translateY(0px) scale(0.2); }
+
 
 /* Front Row / Closer */
 #map-building-emporium { /* Market Stall */
     left: 40%;
-    bottom: 15%; /* Closer to the foreground on the dirt */
+    bottom: 15%;
     z-index: 15;
-    transform: scale(0.2); /* Slightly larger than other front buildings if it's a key one */
+    transform: scale(0.2);
     cursor: pointer;
 }
-
-/* Adding back some smaller houses or structures for density */
-/* You'll need to add these back to index.html if they were removed */
-/* Make sure you have these in your assets/images/city-pack/ folder */
-
-/* Example if you add house_domus back to HTML: */
-/* <img src="assets/images/city-pack/house_domus.png" alt="Domus House" id="map-house-domus-1" class="map-asset district-building locked"> */
-#map-house-domus-1 {
-    left: 15%;
-    bottom: 30%; /* Foreground area */
-    z-index: 14;
-    transform: scale(0.33);
-    /* If this is an unlockable, it needs the 'locked' class in HTML and JS logic */
-    /* cursor: pointer; */
-}
-
-/* Example if you add house_insula back to HTML: */
-/* <img src="assets/images/city-pack/house_insula.png" alt="Insula House" id="map-house-insula-1" class="map-asset district-building locked"> */
-#map-house-insula-1 {
-    left: 80%;
-    bottom: 30%; /* Foreground area */
-    z-index: 14;
-    transform: scale(0.35);
-    /* If this is an unlockable, it needs the 'locked' class in HTML and JS logic */
-    /* cursor: pointer; */
-}
-
-/* Example if you add fountain back to HTML */
-/* <img src="assets/images/city-pack/fountain.png" alt="Fountain" id="map-fountain" class="map-asset"> */
-#map-fountain {
-    left: 58%; /* Slightly off-center in front */
-    bottom: 25%; /* Very foreground */
-    z-index: 20;
-    transform: scale(0.3);
-}
+/* Emporium is not locked, so no specific .locked or .dropping-in for it unless you change its default state */
 
 
-/* Scenery like trees */
-#map-tree-conifer-legacy-1 { /* Assuming this is still used from assets/images/ */
-    left: 5%; /* On the grassy edge */
-    bottom: 55%; /* On the green area, appearing mid-distance */
-    z-index: 5; /* Can be behind some structures */
-    transform: scale(0.35);
-}
-
-/* You might want to add more trees from your city-pack or original assets */
-/* e.g., a tree on the right side: */
-/* In HTML: <img src="assets/images/tree_round_large.png" alt="Round Tree" id="map-tree-round-1" class="map-asset"> */
-#map-tree-round-1 { /* Add this ID to a tree in your HTML if you use it */
-    left: 92%;
+/* ... (styles for house_domus, house_insula, fountain, trees, if you're using them - apply similar .locked and .dropping-in logic if they are unlockable) ... */
+#map-tree-conifer-legacy-1 {
+    left: 5%;
     bottom: 55%;
     z-index: 5;
-    transform: scale(0.38);
+    transform: scale(0.35);
 }
+/* Assuming trees are always visible and not locked/animated for now */
+
+
+/* ... (rest of your CSS) ... */
 
 
 /* ==========================================================================
