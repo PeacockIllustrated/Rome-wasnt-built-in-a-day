@@ -7,40 +7,27 @@
     <!-- Path to global stylesheet from within districts/emporium/ -->
     <link rel="stylesheet" href="../../style.css">
     <!--
-        If shop-specific.css still has relevant non-theme structural styles,
-        you can keep it. Otherwise, aim to move styles to the global style.css.
+        If districts/emporium/shop-specific.css exists and has essential structural styles
+        that ARE NOT theme-related and DON'T conflict with the global style.css,
+        you can uncomment it. Otherwise, prefer styling in the global style.css.
+        For now, it's commented out to ensure global styles take precedence.
     -->
     <!-- <link rel="stylesheet" href="shop-specific.css"> -->
-    <style>
-        /* Minimal TEMPORARY placeholder styles for basic layout - these should ideally move to style.css */
-        /* These are just to make it somewhat usable before full styling */
-        #emporiumShopPage .currency-icon-small { width: 14px; height: 14px; vertical-align: middle; margin-left: 3px;}
-        #emporiumShopPage .emporium-theme-preview-swatches .swatch { display: inline-block; width: 18px; height: 18px; border: 1px solid #777; margin-left: 3px; border-radius: 3px; }
-        #emporiumShopPage .emporium-theme-preview-image-container { width: 100%; height: 120px; background-color: #e9e9e9; margin-bottom: 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc; }
-        #emporiumShopPage .emporium-theme-preview-image { max-width: 100%; max-height: 100%; object-fit: cover; }
-        #emporiumShopPage .preview-unavailable { font-style: italic; color: #777; }
-        #emporiumShopPage .emporium-theme-card { min-height: 320px; display: flex; flex-direction: column; }
-        #emporiumShopPage .emporium-theme-meta { margin-top: auto; }
-        #emporiumShopFilters button.active { font-weight: bold; border-bottom: 2px solid #007bff; /* Example color */ }
-        #emporiumShopFilters button { margin: 0 5px; padding: 5px 10px; }
-        #emporiumShopPage .shop-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #ccc; margin-bottom: 20px; }
-        /* Assuming .summaries-grid and .district-summary-card come from global style.css */
-    </style>
 </head>
 <body>
     <!-- Adjust container class to match your Rome Hub's main wrapper if needed -->
-    <div class="rome-hub-container" id="emporiumShopPage">
+    <div class="rome-hub-container" id="emporiumShopPage"> <!-- ID for potential page-specific CSS scoping -->
         <nav class="hub-navigation">
             <!-- Standard Navigation back to Hub. Adjust path and classes as needed. -->
             <a href="../../index.html" class="nav-link">Back to Rome Hub</a>
         </nav>
 
-        <main class="rome-content-area">
+        <main class="rome-content-area"> <!-- Class for consistent content padding/layout -->
             <header class="shop-header">
                 <h1>Theme Emporium</h1>
                 <div class="currency-display">
                     <span>Available Funds: </span>
-                    <span id="emporiumUserCurrency">0</span> <!-- Populated by JS -->
+                    <span id="emporiumUserCurrency">0</span>
                     <!-- Path to coin icon from within districts/emporium/ -->
                     <img src="../../assets/images/icons/coin.png" alt="Coins" class="currency-icon">
                 </div>
@@ -53,23 +40,23 @@
             </nav>
 
             <!--
-                The class 'summaries-grid' is assumed from your dashboard.
-                If you have a different grid system or want specific styling, adjust class name.
+                The class 'summaries-grid' is assumed from your dashboard for layout.
+                If you have a different grid system or want specific styling for the shop,
+                you might use a different class or add more specific CSS rules.
             -->
             <div id="emporiumThemeGrid" class="summaries-grid">
                 <!-- Theme cards will be dynamically populated here -->
-                <p>Loading themes...</p>
+                <p>Loading themes...</p> <!-- This will be replaced by JS -->
             </div>
         </main>
     </div>
 
     <!--
-    Load shared JS modules first. Paths are relative to districts/emporium/
-    It's crucial these paths are correct and that DataManager and ThemeManager are loaded
-    BEFORE shop-script.js if shop-script.js makes immediate calls to them.
-    The current shop-script.js has console warnings if they are not found.
+    CRITICAL: Load shared JS modules first. Paths are relative to districts/emporium/
+    Ensure DataManager and ThemeManager are correctly loaded and globally accessible
+    BEFORE shop-script.js is executed.
     -->
-    <script src="../../js/shared-utils.js"></script>
+    <script src="../../js/shared-utils.js"></script> <!-- If it exists and is a dependency -->
     <script src="../../js/data-manager.js"></script>
     <script src="../../js/theme-manager.js"></script>
 
