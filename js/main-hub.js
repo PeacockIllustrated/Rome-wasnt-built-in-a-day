@@ -4,28 +4,44 @@ document.addEventListener('DOMContentLoaded', () => {
     const userTotalPointsDisplay = document.getElementById('userTotalPoints');
     const cityProsperityScoreDisplay = document.getElementById('cityProsperityScore');
     const currentYearDisplay = document.getElementById('currentYear');
+    const districtNav = document.getElementById('districtNavigation');
+
+    // --- District Configuration ---
+    // Link building IDs on the map to district keys and their URLs
+    const districtMapConfig = {
+        knowledge: {
+            buildingId: 'map-building-knowledge',
+            url: 'districts/knowledge_forum/knowledge.html',
+            linkId: 'linkKnowledgeForum',
+            statusId: 'statusKnowledgeForum'
+        },
+        health: {
+            buildingId: 'map-building-health',
+            url: 'districts/health_district/smoke-tracker.html',
+            linkId: 'linkHealthDistrict',
+            statusId: 'statusHealthDistrict'
+        },
+        emporium: { // Emporium is "unlocked" by default
+            buildingId: 'map-building-emporium',
+            url: 'districts/emporium/shop.html',
+            linkId: 'linkEmporium',
+            statusId: 'statusEmporium'
+        }
+    };
+    const HUB_DATA_PREFIX = 'romehub_';
 
     function initializeHub() {
-        // Apply the saved theme
-        const currentThemeId = ThemeManager.getCurrentThemeId();
-        ThemeManager.applyTheme(currentThemeId);
-
-        // Load and display user points
+        ThemeManager.applyTheme(ThemeManager.getCurrentThemeId());
         updatePointsDisplay();
-
-        // Set current year in footer
         if (currentYearDisplay) {
             currentYearDisplay.textContent = new Date().getFullYear();
         }
-        
-        // Basic daily check example (can be expanded)
         performDailyGlobalTasks();
+        setupDistrictControls();
+        checkAllDistrictStatuses(); // Check and apply status on load
 
         console.log("Rome Hub Initialized.");
         SharedUtils.showToast("Welcome to your Rome!", 2000);
-
-        // TODO: Add logic to update district statuses based on DataManager
-        // TODO: Add logic for city visualization based on progress
     }
 
     function updatePointsDisplay() {
@@ -33,34 +49,103 @@ document.addEventListener('DOMContentLoaded', () => {
             userTotalPointsDisplay.textContent = DataManager.getUserPoints();
         }
     }
-    
+
     function performDailyGlobalTasks() {
         const today = SharedUtils.getCurrentDateString();
         const lastProcessed = DataManager.getLastProcessedDate();
-
         if (today !== lastProcessed) {
-            console.log("Performing daily global tasks for the first time today:", today);
-            // Example: Grant a small daily login bonus for visiting the hub
-            // DataManager.addPoints(1, "Daily Hub Visit");
-            // updatePointsDisplay(); // Update display if points changed
-
+            // DataManager.addPoints(1, "Daily Hub Visit"); // Example
+            // updatePointsDisplay();
             DataManager.setLastProcessedDate(today);
-            console.log("Last processed date updated to:", today);
-        } else {
-            console.log("Daily global tasks already performed for today:", today);
         }
     }
 
+    function isDistrictUnlocked(districtKey) {
+        if (districtKey === 'emporium') return true; // Emporium always unlocked for now
+        return DataManager.loadData(`${HUB_DATA_PREFIX}unlocked_${districtKey}`, false);
+    }
 
-    // --- Particle System for Hub (Optional - can be added later) ---
-    // const particleCanvasRome = document.getElementById('particleCanvasRome');
-    // let romeCtx, romeParticles = [];
-    // if (particleCanvasRome) {
-    //     romeCtx = particleCanvasRome.getContext('2d');
-    //     // Initialize canvas size etc.
-    // }
-    // function createRomeParticle() { /* ... */ }
-    // function updateAndDrawRomeParticles() { /* ... */ }
+    function unlockDistrict(districtKey) {
+        if (!districtMapConfig[districtKey]) return;
+
+        DataManager.saveData(`${HUB_DATA_PREFIX}unlocked_${districtKey}`, true);
+        SharedUtils.showToast(`${districtMapConfig[districtKey].linkId.replace('link', '')} District Unlocked!`, 2500, 'success');
+        
+        // Update the specific district's UI
+        updateDistrictUIVisuals(districtKey);
+    }
+
+    function updateDistrictUIVisuals(districtKey) {
+        const config = districtMapConfig[districtKey];
+        const buildingElement = document.getElementById(config.buildingId);
+        const linkElement = document.getElementById(config.linkId);
+        const statusElement = document.getElementById(config.statusId);
+        const unlockButton = districtNav.querySelector(`.unlock-district-button[data-district="${districtKey}"]`);
+
+        if (isDistrictUnlocked(districtKey)) {
+            if (buildingElement) {
+                buildingElement.classList.remove('locked');
+                // Add click listener if not already present or if re-enabled
+                buildingElement.removeEventListener('click', navigateToDistrict); // Remove old one first
+                buildingElement.addEventListener('click', navigateToDistrict);
+                buildingElement.dataset.url = config.url; // Store URL for click handler
+            }
+            if (unlockButton) {
+                unlockButton.style.display = 'none';
+            }
+            if (linkElement) {
+                linkElement.classList.remove('locked-link');
+            }
+            if (statusElement) {
+                statusElement.textContent = "(Developed)";
+            }
+        } else {
+            // This part handles initial setup for locked districts
+            if (buildingElement) {
+                buildingElement.classList.add('locked');
+            }
+            if (unlockButton) {
+                unlockButton.style.display = 'inline-block';
+            }
+            if (linkElement) {
+                // linkElement.classList.add('locked-link'); // Optional: style the link itself
+            }
+            if (statusElement) {
+                statusElement.textContent = "(Under Maint.)"; // Placeholder for locked
+            }
+        }
+    }
+    
+    function navigateToDistrict(event) {
+        const url = event.currentTarget.dataset.url;
+        if (url) {
+            window.location.href = url;
+        }
+    }
+
+    function checkAllDistrictStatuses() {
+        for (const districtKey in districtMapConfig) {
+            updateDistrictUIVisuals(districtKey);
+        }
+    }
+
+    function setupDistrictControls() {
+        const unlockButtons = districtNav.querySelectorAll('.unlock-district-button');
+        unlockButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const districtKey = event.target.dataset.district;
+                // For testing, unlock immediately. Later, you might add cost checks.
+                unlockDistrict(districtKey);
+            });
+        });
+
+        // Add initial click listeners for always-unlocked buildings like Emporium
+        const emporiumBuilding = document.getElementById(districtMapConfig.emporium.buildingId);
+        if (emporiumBuilding) {
+            emporiumBuilding.dataset.url = districtMapConfig.emporium.url;
+            emporiumBuilding.addEventListener('click', navigateToDistrict);
+        }
+    }
 
     initializeHub();
 });
