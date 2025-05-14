@@ -50,7 +50,7 @@ body {
     line-height: 1.5;
     padding: 15px;
     font-size: 18px;
-    overflow-x: hidden; /* Prevent horizontal scroll on main body */
+    overflow-x: hidden;
     background-color: var(--theme-page-bg);
     background-image:
         radial-gradient(rgba(38, 70, 83, 0.3) 1px, transparent 1px),
@@ -83,7 +83,6 @@ ul {
     list-style: none;
 }
 
-/* General Icon Styling */
 i.fas, i.far, i.fab {
     vertical-align: middle;
     margin-right: 5px;
@@ -93,13 +92,12 @@ i.fas, i.far, i.fab {
    3. LAYOUT & CONTAINERS
    ========================================================================== */
 .app-container {
-    max-width: 600px; /* Default max width for most app views */
+    max-width: 600px;
     margin: 0 auto;
 }
 
-/* Rome Hub Specific Container (can be wider if needed) */
-.rome-hub-container {
-    max-width: 700px;
+.rome-hub-container { /* For index.html, potentially wider for dashboard */
+    max-width: 750px; /* Increased width for dashboard */
 }
 
 
@@ -108,30 +106,6 @@ i.fas, i.far, i.fab {
    ========================================================================== */
 
 /* 4.1 Headers & Titles */
-
-/* In style.css, perhaps in section 4.1 Headers & Titles or a new one for district UI */
-
-.app-title-bar {
-    position: relative; /* To position the hub link within it */
-}
-
-.rome-hub-link-from-district {
-    position: absolute;
-    top: 50%;
-    right: 10px; /* Adjust as needed */
-    transform: translateY(-50%);
-    font-size: 20px; /* Adjust size */
-    color: var(--theme-tertiary-accent); /* Example color */
-    padding: 5px;
-}
-.rome-hub-link-from-district:hover {
-    color: var(--theme-secondary-accent);
-    text-decoration: none;
-}
-.rome-hub-link-from-district i {
-    margin-right: 0; /* No margin if it's just an icon */
-}
-
 .header-section {
     background-color: var(--theme-card-bg);
     padding: 10px;
@@ -147,6 +121,7 @@ i.fas, i.far, i.fab {
     margin-bottom: 10px;
     padding-bottom: 5px;
     border-bottom: var(--pixel-border-width) dashed var(--theme-primary-accent);
+    position: relative; /* For rome-hub-link-from-district */
 }
 
 .app-title-container {
@@ -170,7 +145,24 @@ i.fas, i.far, i.fab {
     font-size: 28px;
     color: var(--theme-text-main);
     text-transform: uppercase;
-    margin-bottom: 0; /* Override general h1 margin */
+    margin-bottom: 0;
+}
+
+.rome-hub-link-from-district {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: var(--theme-tertiary-accent);
+    padding: 5px;
+}
+.rome-hub-link-from-district:hover {
+    color: var(--theme-secondary-accent);
+    text-decoration: none;
+}
+.rome-hub-link-from-district i {
+    margin-right: 0;
 }
 
 .header-stats-bar {
@@ -213,24 +205,24 @@ i.fas, i.far, i.fab {
 }
 
 .points-display i.fa-coins,
-.points-display i.fa-star.gold-star-icon { /* Shared gold/yellow icons */
+.points-display i.fa-star.gold-star-icon {
     color: var(--theme-secondary-accent);
 }
-.points-display i.fa-poo { color: var(--theme-highlight-accent); } /* Stupid points */
-.points-display i.fa-calendar-check { color: var(--theme-primary-accent); } /* Smoke tracker streak */
-.points-display i.fa-city { color: var(--theme-tertiary-accent); } /* Hub prosperity */
-.points-display i.fa-landmark { color: var(--theme-primary-accent); } /* Hub title icon */
+.points-display i.fa-poo { color: var(--theme-highlight-accent); }
+.points-display i.fa-calendar-check { color: var(--theme-primary-accent); }
+.points-display i.fa-city { color: var(--theme-tertiary-accent); }
+.points-display i.fa-landmark { color: var(--theme-primary-accent); }
 
 
 /* 4.2 Cards & Lists */
-.moment-card { /* General card style for sections or list items */
+.moment-card {
     background-color: var(--theme-card-bg);
     color: var(--theme-text-main);
     margin-bottom: 10px;
     border: var(--pixel-border-width) solid var(--theme-border-main);
     box-shadow: 3px 3px 0px 0px var(--theme-primary-dark);
     animation: retroFadeIn 0.3s ease-out forwards;
-    opacity: 0; /* Initial state for animation */
+    opacity: 0;
     transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
 }
 
@@ -239,9 +231,8 @@ i.fas, i.far, i.fab {
     box-shadow: 4px 4px 2px 0px var(--theme-primary-dark), 0 0 5px rgba(from var(--theme-primary-accent) r g b / 0.3);
 }
 
-/* General list for moment cards */
 .moments-list {
-    /* No specific styling for the <ul> itself, direct children are cards */
+    /* No specific styling */
 }
 
 
@@ -249,17 +240,16 @@ i.fas, i.far, i.fab {
 textarea,
 input[type="text"],
 input[type="number"],
-input[type="password"] /* Added password for API key */
-{
+input[type="password"] {
     font-family: 'VT323', monospace;
     border: var(--pixel-border-width) solid var(--theme-border-main);
     background-color: var(--theme-light-bg);
     color: var(--theme-text-main);
     padding: 8px;
-    font-size: 18px; /* Default for textarea */
+    font-size: 18px;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
-    width: 100%; /* Default to full width, can be overridden */
+    width: 100%;
 }
 
 textarea {
@@ -270,9 +260,9 @@ textarea {
 input[type="text"],
 input[type="number"],
 input[type="password"] {
-    padding: 6px 8px; /* Slightly smaller padding for single line inputs */
+    padding: 6px 8px;
     font-size: 16px;
-    height: 36px; /* Consistent height for single line inputs */
+    height: 36px;
 }
 
 textarea:hover, input[type="text"]:hover, input[type="number"]:hover, input[type="password"]:hover {
@@ -285,31 +275,29 @@ textarea:focus, input[type="text"]:focus, input[type="number"]:focus, input[type
     box-shadow: inset 2px 2px 0px rgba(0,0,0,0.1);
 }
 
-/* Limit Setting Area (Shared by Smoke Tracker, potentially others) */
 .limit-setting {
     display: flex;
-    gap: 8px; /* Reduced gap */
+    gap: 8px;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
 }
 .limit-setting label {
     font-size: 16px;
-    margin-right: 0; /* Gap handles spacing */
+    margin-right: 0;
     color: var(--theme-text-main);
 }
 .limit-setting input[type="text"],
 .limit-setting input[type="number"] {
-    width: 60px; /* Reduced width */
+    width: 60px;
     font-size: 16px;
     text-align: center;
-    padding: 4px; /* Adjusted padding for smaller input */
-    height: 30px; /* Adjusted height */
+    padding: 4px;
+    height: 30px;
 }
 
 
 /* 4.4 Buttons */
-/* Base button style */
 .base-button {
     font-family: 'VT323', monospace;
     border: var(--pixel-border-width) solid var(--theme-primary-dark);
@@ -325,11 +313,11 @@ textarea:focus, input[type="text"]:focus, input[type="number"]:focus, input[type
     box-shadow: 3px 3px 0px var(--theme-primary-dark);
 }
 .base-button:active:not(:disabled) {
-    transform: translate(2px, 2px); /* Consistent with old log-button */
+    transform: translate(2px, 2px);
     box-shadow: none;
 }
 .base-button:disabled {
-    background-color: #ccc !important; /* Use important to override specific button colors */
+    background-color: #ccc !important;
     color: #888 !important;
     border-color: #aaa !important;
     cursor: not-allowed;
@@ -337,1088 +325,376 @@ textarea:focus, input[type="text"]:focus, input[type="number"]:focus, input[type
     box-shadow: none;
 }
 
-/* Main Action Buttons (e.g. Log Moment, Log Cigarette) */
 .log-button {
-    composes: base-button; /* Non-standard, conceptual. Apply base styles manually */
-    font-family: 'VT323', monospace; border: var(--pixel-border-width) solid var(--theme-primary-dark); cursor: pointer; text-align: center; outline: none; transition: all 0.1s ease; box-shadow: 2px 2px 0px var(--theme-primary-dark); white-space: nowrap; /* Re-apply from base */
+    composes: base-button;
+    font-family: 'VT323', monospace; border: var(--pixel-border-width) solid var(--theme-primary-dark); cursor: pointer; text-align: center; outline: none; transition: all 0.1s ease; box-shadow: 2px 2px 0px var(--theme-primary-dark); white-space: nowrap;
 
     background-color: var(--theme-primary-accent);
     color: var(--theme-card-bg);
     font-size: 18px;
     padding: 8px 15px;
-    width: 100%; /* Default for log buttons */
+    width: 100%;
 }
 .log-button:hover:not(:disabled) {
     background-color: color-mix(in srgb, var(--theme-primary-accent) 90%, black);
-    /* Inherits transform & shadow from .base-button hover */
 }
 
-/* Smaller Action Buttons (e.g. Set Limit, Modal buttons, Save API Key) */
 .action-button {
     composes: base-button;
-    font-family: 'VT323', monospace; border: var(--pixel-border-width) solid var(--theme-primary-dark); cursor: pointer; text-align: center; outline: none; transition: all 0.1s ease; box-shadow: 1px 1px 0px var(--theme-primary-dark); white-space: nowrap; /* Adjusted shadow for smaller button */
+    font-family: 'VT323', monospace; border: var(--pixel-border-width) solid var(--theme-primary-dark); cursor: pointer; text-align: center; outline: none; transition: all 0.1s ease; box-shadow: 1px 1px 0px var(--theme-primary-dark); white-space: nowrap;
 
     background-color: var(--theme-tertiary-accent);
     color: var(--theme-card-bg);
-    font-size: 14px; /* Default small button font size */
-    padding: 4px 8px; /* Default small button padding */
+    font-size: 14px;
+    padding: 4px 8px;
 }
 .action-button:hover:not(:disabled) {
     background-color: color-mix(in srgb, var(--theme-tertiary-accent) 90%, black);
-     /* Inherits transform from .base-button hover, adjust shadow if needed */
-    box-shadow: 2px 2px 0px var(--theme-primary-dark); /* Ensure consistent shadow growth */
+    box-shadow: 2px 2px 0px var(--theme-primary-dark);
 }
 .action-button:active:not(:disabled) {
-    transform: translate(1px, 1px); /* Adjusted for smaller button */
+    transform: translate(1px, 1px);
     box-shadow: none;
 }
 
-/* Specific button overrides if needed */
 #saveApiKeyButton, #selectAllButton, #testKnowledgeButton {
-    composes: action-button; /* Conceptual */
-    font-size: 16px; /* Slightly larger than default action-button */
+    composes: action-button;
+    font-size: 16px;
     padding: 6px 10px;
-    /* Unique background colors will be applied by their more specific selectors below */
 }
-
-#saveApiKeyButton { /* From original script.js */
-    background-color: var(--theme-tertiary-accent); /* Already covered by .action-button */
-}
-#selectAllButton {
-    background-color: var(--theme-tertiary-accent);
-}
-#testKnowledgeButton {
-    background-color: var(--theme-secondary-accent);
-    color: var(--theme-primary-dark);
-}
-#testKnowledgeButton:hover:not(:disabled) {
-    background-color: color-mix(in srgb, var(--theme-secondary-accent) 90%, black);
-}
+#selectAllButton { background-color: var(--theme-tertiary-accent); }
+#testKnowledgeButton { background-color: var(--theme-secondary-accent); color: var(--theme-primary-dark); }
+#testKnowledgeButton:hover:not(:disabled) { background-color: color-mix(in srgb, var(--theme-secondary-accent) 90%, black); }
 
 
 /* 4.5 Modals */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.7);
-    display: none; /* Hidden by default */
-    justify-content: center;
-    align-items: center;
-    z-index: 3000;
-    animation: fadeInBg 0.3s ease;
-    padding: 15px; /* Ensure modal content is not flush with screen edges */
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.7); display: none;
+    justify-content: center; align-items: center;
+    z-index: 3000; animation: fadeInBg 0.3s ease; padding: 15px;
 }
-.modal-overlay.show {
-    display: flex;
-}
-
-.modal-content { /* General modal content box */
-    background-color: var(--theme-card-bg);
-    padding: 20px;
+.modal-overlay.show { display: flex; }
+.modal-content {
+    background-color: var(--theme-card-bg); padding: 20px;
     border: var(--pixel-border-width) solid var(--theme-primary-dark);
     box-shadow: 4px 4px 0 var(--theme-primary-dark);
-    width: 100%; /* Take available width within padding */
-    max-width: 450px; /* Default max-width */
-    color: var(--theme-text-main);
-    animation: zoomInModal 0.3s ease-out;
-    max-height: 90vh; /* Prevent modal from being too tall */
-    overflow-y: auto; /* Allow content scrolling within modal */
+    width: 100%; max-width: 450px; color: var(--theme-text-main);
+    animation: zoomInModal 0.3s ease-out; max-height: 90vh; overflow-y: auto;
 }
-
-.modal-content h3 { /* For modals like Reason input */
-    font-size: 20px;
-    margin-bottom: 15px;
-    color: var(--theme-primary-accent);
-    text-align: center;
-    border-bottom: 1px dashed var(--theme-primary-accent);
+.modal-content h3 {
+    font-size: 20px; margin-bottom: 15px; color: var(--theme-primary-accent);
+    text-align: center; border-bottom: 1px dashed var(--theme-primary-accent);
     padding-bottom: 8px;
 }
-
-.modal-content textarea { /* For Reason input */
-    margin-bottom: 15px;
-    min-height: 80px;
-}
-
-.modal-actions {
-    display: flex;
-    justify-content: space-around;
-    gap: 10px; /* Add gap between modal buttons */
-    margin-top: 15px;
-}
-.modal-actions button { /* Applies to buttons in modal actions div */
-    min-width: 100px;
-    /* Specific styling for save/cancel should be by ID or more specific class */
-}
-button#saveReasonButton { /* Example for specific modal button */
-    background-color: var(--theme-primary-accent);
-    color: var(--theme-card-bg);
-}
-button#cancelReasonButton {
-    background-color: #aaa; /* A neutral grey */
-    color: var(--theme-primary-dark);
-}
-button#cancelReasonButton:hover:not(:disabled) {
-    background-color: #999;
-}
+.modal-content textarea { margin-bottom: 15px; min-height: 80px; }
+.modal-actions { display: flex; justify-content: space-around; gap: 10px; margin-top: 15px; }
+.modal-actions button { min-width: 100px; }
+button#saveReasonButton { background-color: var(--theme-primary-accent); color: var(--theme-card-bg); }
+button#cancelReasonButton { background-color: #aaa; color: var(--theme-primary-dark); }
+button#cancelReasonButton:hover:not(:disabled) { background-color: #999; }
 
 
 /* 4.6 Accordions */
-.accordion-section {
-    margin-bottom: 15px;
-}
+.accordion-section { margin-bottom: 15px; }
 .accordion-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: var(--theme-primary-dark);
-    color: var(--theme-text-on-dark);
-    border: var(--pixel-border-width) solid var(--theme-primary-dark);
-    cursor: pointer;
-    box-shadow: 2px 2px 0px var(--theme-primary-accent);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px; background-color: var(--theme-primary-dark);
+    color: var(--theme-text-on-dark); border: var(--pixel-border-width) solid var(--theme-primary-dark);
+    cursor: pointer; box-shadow: 2px 2px 0px var(--theme-primary-accent);
     transition: background-color 0.2s;
 }
-.accordion-header:hover {
-    background-color: color-mix(in srgb, var(--theme-primary-dark) 85%, var(--theme-secondary-accent));
-}
-.accordion-header span { /* Container for icon and text */
-    display: flex;
-    align-items: center;
-}
-.accordion-header i { /* Icon before title text */
-    margin-right: 8px;
-}
-.accordion-toggle-icon { /* The chevron icon */
-    transition: transform 0.3s ease-out;
-    margin-left: auto; /* Push to the right */
-    margin-right: 0; /* Remove default icon margin */
-}
-.accordion-toggle-icon.expanded {
-    transform: rotate(180deg);
-}
+.accordion-header:hover { background-color: color-mix(in srgb, var(--theme-primary-dark) 85%, var(--theme-secondary-accent)); }
+.accordion-header span { display: flex; align-items: center; }
+.accordion-header i { margin-right: 8px; }
+.accordion-toggle-icon { transition: transform 0.3s ease-out; margin-left: auto; margin-right: 0; }
+.accordion-toggle-icon.expanded { transform: rotate(180deg); }
 .accordion-content-container {
-    max-height: 0;
-    overflow-y: auto;
-    transition: max-height 0.3s ease-out, padding 0.3s ease-out, border 0.3s ease-out; /* Added border transition */
+    max-height: 0; overflow-y: auto;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out, border 0.3s ease-out;
     background-color: var(--theme-card-bg);
-    border: var(--pixel-border-width) solid transparent; /* Start transparent for smooth transition */
-    border-top: none;
-    padding: 0 10px; /* Horizontal padding when collapsed */
+    border: var(--pixel-border-width) solid transparent; border-top: none;
+    padding: 0 10px;
 }
-.accordion-content-container.expanded {
-    max-height: 400px; /* Adjust as needed */
-    padding: 10px;
-    border-color: var(--theme-border-main); /* Full border when expanded */
-}
+.accordion-content-container.expanded { max-height: 400px; padding: 10px; border-color: var(--theme-border-main); }
 
-/* 4.7 Placeholders for Empty Lists */
-.no-moments-placeholder,
-.no-items-placeholder,
-.no-logs-placeholder {
-    text-align: center;
-    padding: 20px;
-    color: #888;
-    font-style: italic;
+/* 4.7 Placeholders */
+.no-moments-placeholder, .no-items-placeholder, .no-logs-placeholder {
+    text-align: center; padding: 20px; color: #888; font-style: italic;
     background-color: var(--theme-light-bg);
-    border: var(--pixel-border-width) dashed var(--theme-border-main);
-    margin: 10px; /* Default margin, can be overridden */
+    border: var(--pixel-border-width) dashed var(--theme-border-main); margin: 10px;
 }
 
 /* 4.8 Toast Notifications */
-.toast-notification { /* Covers both #toastNotification and #shopToastNotification (if it uses this class) */
-    position: fixed;
-    bottom: 20px; /* Consistent positioning */
-    left: 50%;
-    transform: translateX(-50%) translateY(70px); /* Start off-screen */
-    background-color: var(--theme-primary-dark);
-    color: var(--theme-text-on-dark);
-    padding: 10px 20px;
-    border: var(--pixel-border-width) solid var(--theme-secondary-accent); /* Match shop toast */
-    font-family: 'VT323', monospace;
-    font-size: 16px; /* Match shop toast */
-    z-index: 4000;
-    opacity: 0;
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-    box-shadow: 2px 2px 0px var(--theme-secondary-accent); /* Match shop toast */
-    min-width: 200px; /* Ensure it's not too small */
-    text-align: center;
+.toast-notification {
+    position: fixed; bottom: 20px; left: 50%;
+    transform: translateX(-50%) translateY(70px);
+    background-color: var(--theme-primary-dark); color: var(--theme-text-on-dark);
+    padding: 10px 20px; border: var(--pixel-border-width) solid var(--theme-secondary-accent);
+    font-family: 'VT323', monospace; font-size: 16px; z-index: 4000;
+    opacity: 0; transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    box-shadow: 2px 2px 0px var(--theme-secondary-accent);
+    min-width: 200px; text-align: center;
 }
-.toast-notification.show {
-    transform: translateX(-50%) translateY(0);
-    opacity: 1;
-}
-/* Optional: Type-specific toast styles */
+.toast-notification.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 .toast-notification.error {
-    background-color: var(--theme-highlight-accent);
-    border-color: var(--theme-primary-dark);
-    color: var(--theme-card-bg);
-    box-shadow: 2px 2px 0px var(--theme-primary-dark);
+    background-color: var(--theme-highlight-accent); border-color: var(--theme-primary-dark);
+    color: var(--theme-card-bg); box-shadow: 2px 2px 0px var(--theme-primary-dark);
 }
 .toast-notification.success {
-    background-color: var(--theme-primary-accent);
-    border-color: var(--theme-primary-dark);
-    color: var(--theme-card-bg);
-    box-shadow: 2px 2px 0px var(--theme-primary-dark);
+    background-color: var(--theme-primary-accent); border-color: var(--theme-primary-dark);
+    color: var(--theme-card-bg); box-shadow: 2px 2px 0px var(--theme-primary-dark);
 }
 
 
 /* 4.9 Particle Canvas */
-#particleCanvas, /* Legacy ID, good to keep if old HTML might be referenced */
-#particleCanvasShop,
-#particleCanvasRome,
-#particleCanvasSmokeTracker, /* Specifically for Smoke Tracker */
-#particleCanvasKnowledge   /* Specifically for Knowledge Forum */
-/* Add any other specific particle canvas IDs here if you create more */
-{
-    position: fixed !important;      /* Takes it out of normal document flow */
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;         /* Full viewport width */
-    height: 100vh !important;        /* Full viewport height */
-    pointer-events: none !important; /* Allows mouse events to pass through */
-    z-index: -1 !important;          /* Places it behind all other content */
-    /* Optional: for debugging, give it a very light, semi-transparent background */
-    /* background-color: rgba(255, 0, 0, 0.1); */
+#particleCanvas, #particleCanvasShop, #particleCanvasRome,
+#particleCanvasSmokeTracker, #particleCanvasKnowledge {
+    position: fixed !important; top: 0 !important; left: 0 !important;
+    width: 100vw !important; height: 100vh !important;
+    pointer-events: none !important; z-index: -1 !important;
 }
 
-/* 4.10 Toolbars (e.g., Fixed Shop Link Toolbar) */
+/* 4.10 Toolbars */
 .shop-toolbar-fixed {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: var(--theme-primary-dark);
-    color: var(--theme-text-on-dark);
-    border-top: var(--pixel-border-width) solid var(--theme-border-main); /* Was theme-secondary-accent */
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
-    z-index: 1000;
+    position: fixed; bottom: 0; left: 0; width: 100%;
+    background-color: var(--theme-primary-dark); color: var(--theme-text-on-dark);
+    border-top: var(--pixel-border-width) solid var(--theme-border-main);
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.2); z-index: 1000;
 }
-.shop-toolbar-header-link { /* Style for the <a> tag itself */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 15px;
-    font-size: 18px;
-    color: var(--theme-text-on-dark);
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.1s ease;
+.shop-toolbar-header-link {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 15px; font-size: 18px; color: var(--theme-text-on-dark);
+    text-decoration: none; cursor: pointer; transition: background-color 0.1s ease;
 }
-.shop-toolbar-header-link:hover {
-    background-color: color-mix(in srgb, var(--theme-primary-dark) 85%, white);
-}
-.shop-toolbar-header-link .shop-pts-display { /* Points display inside the link */
-    font-size: 16px;
-    margin-left: auto; /* Push other content to left */
-    margin-right: 15px;
-}
-.shop-toolbar-header-link > i.fas.fa-arrow-right { /* Chevron/arrow on the far right */
-    color: var(--theme-secondary-accent);
-    margin-left: 5px; /* Space from points */
-    margin-right: 0; /* No extra margin on the very right */
-}
+.shop-toolbar-header-link:hover { background-color: color-mix(in srgb, var(--theme-primary-dark) 85%, white); }
+.shop-toolbar-header-link .shop-pts-display { font-size: 16px; margin-left: auto; margin-right: 15px; }
+.shop-toolbar-header-link > i.fas.fa-arrow-right { color: var(--theme-secondary-accent); margin-left: 5px; margin-right: 0; }
 
 
 /* ==========================================================================
    5. IDKY APP SPECIFIC (Knowledge Forum)
    ========================================================================== */
-
-/* 5.1 Moment Card Details (IDKY) */
-/* Specific padding for IDKY moment cards if needed, otherwise .moment-card is base */
 .moments-list > .moment-card,
 .archived-items-list-container .moment-card,
-.deepened-items-list-container .moment-card {
-    padding: 0; /* Inner elements will have padding */
-}
-
-.moment-card .moment-header { /* Shared by IDKY, Archive, Deepened */
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px;
-    cursor: pointer;
-}
-.moment-card .moment-checkbox-container input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-    accent-color: var(--theme-primary-accent);
-    flex-shrink: 0; /* Prevent shrinking */
-}
-.moment-card .moment-text-container {
-    flex-grow: 1;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-width: 0; /* Allow text to shrink and wrap */
-}
-.moment-card .moment-main-text {
-    flex-grow:1;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    flex-wrap: wrap; /* Allow timestamp to wrap */
-    gap: 5px 10px; /* Row gap, column gap */
-}
-.moment-card .moment-text { /* Main text of the moment */
-    word-break: break-word; /* Allow long words to break */
-}
-.moment-card .moment-timestamp {
-    font-size: 0.8em;
-    color: #777;
-    white-space: nowrap;
-    flex-shrink: 0; /* Prevent timestamp from shrinking too much */
-}
-.moment-card .status-indicator {
-    display: inline-block;
-    padding: 1px 4px;
-    font-size: 0.7em;
-    margin-left: 5px;
-    border: 1px solid;
-    border-radius: 3px;
-    font-weight: bold;
-    line-height: 1.2; /* Adjust line height */
-}
+.deepened-items-list-container .moment-card { padding: 0; }
+.moment-card .moment-header { display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; }
+.moment-card .moment-checkbox-container input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--theme-primary-accent); flex-shrink: 0; }
+.moment-card .moment-text-container { flex-grow: 1; display: flex; justify-content: space-between; align-items: center; min-width: 0; }
+.moment-card .moment-main-text { flex-grow:1; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 5px 10px; }
+.moment-card .moment-text { word-break: break-word; }
+.moment-card .moment-timestamp { font-size: 0.8em; color: #777; white-space: nowrap; flex-shrink: 0; }
+.moment-card .status-indicator { display: inline-block; padding: 1px 4px; font-size: 0.7em; margin-left: 5px; border: 1px solid; border-radius: 3px; font-weight: bold; line-height: 1.2; }
 .status-indicator.status-question { background-color: var(--theme-tertiary-accent); color: var(--theme-card-bg); border-color: var(--theme-primary-dark); }
 .status-indicator.status-correct { background-color: var(--theme-primary-accent); color: var(--theme-card-bg); border-color: var(--theme-primary-dark); }
 .status-indicator.status-incorrect { background-color: var(--theme-highlight-accent); color: var(--theme-card-bg); border-color: var(--theme-primary-dark); }
 .status-indicator.status-unclear { background-color: var(--theme-secondary-accent); color: var(--theme-primary-dark); border-color: var(--theme-primary-dark); }
-
-.moment-card .expand-icon {
-    transition: transform 0.2s;
-    padding-left: 5px; /* Give icon some space */
-    flex-shrink: 0;
-}
-.moment-card .expand-icon.expanded {
-    transform: rotate(180deg);
-}
-.moment-card .moment-actions {
-    display: flex; /* Align action buttons horizontally */
-    gap: 5px;
-    flex-shrink: 0;
-}
-.moment-card .moment-actions .action-button, /* General action button within moment card actions */
-.moment-card .moment-actions .review-button { /* Specific review button */
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
-    padding: 3px 6px;
-    color: var(--theme-tertiary-accent);
-    font-size: 1.1em;
-}
+.moment-card .expand-icon { transition: transform 0.2s; padding-left: 5px; flex-shrink: 0; }
+.moment-card .expand-icon.expanded { transform: rotate(180deg); }
+.moment-card .moment-actions { display: flex; gap: 5px; flex-shrink: 0; }
+.moment-card .moment-actions .action-button,
+.moment-card .moment-actions .review-button { background-color: transparent; border: none; box-shadow: none; padding: 3px 6px; color: var(--theme-tertiary-accent); font-size: 1.1em; }
 .moment-card .moment-actions .review-button.reviewed-true { color: var(--theme-primary-accent); }
 .moment-card .moment-actions .action-button:hover,
-.moment-card .moment-actions .review-button:hover {
-    color: var(--theme-highlight-accent);
-    transform: scale(1.1);
-}
-
-.moment-card .moment-answer-wrapper {
-    padding: 8px 12px;
-    border-top: 1px dashed var(--theme-primary-accent);
-    margin-top: 8px; /* Space from header */
-    display: none; /* Collapsed by default */
-}
+.moment-card .moment-actions .review-button:hover { color: var(--theme-highlight-accent); transform: scale(1.1); }
+.moment-card .moment-answer-wrapper { padding: 8px 12px; border-top: 1px dashed var(--theme-primary-accent); margin-top: 8px; display: none; }
 .moment-card .moment-answer-wrapper.expanded { display: block; }
-.moment-answer-content {
-    margin-bottom: 8px;
-    line-height: 1.4;
-    font-size: 0.95em;
-    word-wrap: break-word; /* Ensure long AI answers wrap */
-}
-.moment-answer-content .spinner-char {
-    display: inline-block;
-    animation: spin 1s linear infinite;
-}
-.regenerate-answer-button-container {
-    text-align: right;
-    margin-top: 5px;
-}
-.regenerate-answer-button { /* Uses .action-button base but can be more specific */
-    composes: action-button;
-    padding: 4px 8px;
-    font-size: 14px;
-    /* Specific background already handled by .action-button */
-}
-
-/* Moment Card Status Borders/Backgrounds */
-.moment-card.newly-added {
-    border-left: 5px solid var(--theme-secondary-accent);
-    animation: retroFadeIn 0.3s ease-out forwards, retroPulseBorder 1.5s 0.3s ease-in-out;
-}
+.moment-answer-content { margin-bottom: 8px; line-height: 1.4; font-size: 0.95em; word-wrap: break-word; }
+.moment-answer-content .spinner-char { display: inline-block; animation: spin 1s linear infinite; }
+.regenerate-answer-button-container { text-align: right; margin-top: 5px; }
+.regenerate-answer-button { padding: 4px 8px; font-size: 14px; }
+.moment-card.newly-added { border-left: 5px solid var(--theme-secondary-accent); animation: retroFadeIn 0.3s ease-out forwards, retroPulseBorder 1.5s 0.3s ease-in-out; }
 .moment-card.type-statement.verdict-correct { border-left: 5px solid var(--theme-primary-accent); }
 .moment-card.type-statement.verdict-incorrect { border-left: 5px solid var(--theme-highlight-accent); }
-.moment-card.type-statement.verdict-unclear { border-left: 5px solid var(--theme-secondary-accent); } /* Re-evaluate if same as newly-added */
+.moment-card.type-statement.verdict-unclear { border-left: 5px solid var(--theme-secondary-accent); }
 .moment-card.type-question { border-left: 5px solid var(--theme-tertiary-accent); }
-.moment-card.user-reviewed {
-    background-color: color-mix(in srgb, var(--theme-light-bg) 95%, var(--theme-secondary-accent) 5%);
-}
-.archived-moment-card .moment-timestamp,
-.deepened-moment-card .moment-timestamp {
-    font-style: italic;
-}
-.archived-moment-card.archive-revised {
-    border-right: 5px solid var(--theme-secondary-accent); /* Distinguish from left border indicators */
-}
-.deepened-moment-card {
-    border: var(--pixel-border-width) solid var(--theme-secondary-accent);
-    box-shadow: 3px 3px 0 var(--theme-secondary-accent);
-}
-.deepened-moment-card.mastered-celebrate-pop {
-    animation: masteredPop 0.5s ease-out;
-}
-.moment-card.archiving {
-    animation: fadeOutAndShrink 0.5s forwards;
-}
-
-
-/* IDKY Input Area & Controls */
-.api-key-area {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-    align-items: center;
-}
-#userApiKeyInput { /* Specifically for IDKY index.html */
-    flex-grow: 1;
-    /* Inherits general input styling */
-}
-
-.input-area { /* Specifically for IDKY index.html */
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.list-controls-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px;
-    background-color: var(--theme-light-bg);
-    border: var(--pixel-border-width) solid var(--theme-border-main);
-    margin-bottom: 15px;
-    box-shadow: 2px 2px 0px var(--theme-primary-dark);
-    flex-wrap: wrap;
-    gap: 10px;
-}
-.select-all-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-grow: 1;
-    min-width: 180px;
-}
-#selectedCount, #reviewedCountDisplay {
-    font-size: 14px;
-    color: var(--theme-text-main);
-    background-color: color-mix(in srgb, var(--theme-card-bg) 80%, transparent);
-    padding: 2px 5px;
-    border: 1px dashed var(--theme-border-main);
-    white-space: nowrap;
-}
-.batch-process-button-container {
-    text-align: center;
-    margin: 15px 0;
-}
-#processSelectedButton { /* This already uses .log-button for base, then customize */
-    width: auto;
-    padding: 8px 20px;
-    background-color: var(--theme-secondary-accent);
-    color: var(--theme-primary-dark);
-}
-#processSelectedButton:hover:not(:disabled) {
-    background-color: color-mix(in srgb, var(--theme-secondary-accent) 90%, black);
-}
-
-.overall-loading-indicator {
-    text-align: center;
-    padding: 10px;
-    font-size: 1.1em;
-    color: var(--theme-primary-accent);
-    background-color: var(--theme-light-bg);
-    border: var(--pixel-border-width) dashed var(--theme-primary-accent);
-    margin: 10px 0;
-    display: none; /* JS controls display */
-}
-
-
-/* 5.2 Quiz Modal Specifics (IDKY) */
-.quiz-modal-overlay .modal-content { /* Target .modal-content specifically inside quiz overlay */
-    max-width: 550px; /* Quiz modal can be a bit wider */
-}
-.quiz-modal h2 { /* Overrides .modal-content h3 for quiz */
-    font-size: 22px;
-    color: var(--theme-secondary-accent);
-    text-align: center;
-    margin-bottom: 15px;
-    border-bottom: var(--pixel-border-width) dashed var(--theme-secondary-accent);
-    padding-bottom: 8px;
-}
+.moment-card.user-reviewed { background-color: color-mix(in srgb, var(--theme-light-bg) 95%, var(--theme-secondary-accent) 5%); }
+.archived-moment-card .moment-timestamp, .deepened-moment-card .moment-timestamp { font-style: italic; }
+.archived-moment-card.archive-revised { border-right: 5px solid var(--theme-secondary-accent); }
+.deepened-moment-card { border: var(--pixel-border-width) solid var(--theme-secondary-accent); box-shadow: 3px 3px 0 var(--theme-secondary-accent); }
+.deepened-moment-card.mastered-celebrate-pop { animation: masteredPop 0.5s ease-out; }
+.moment-card.archiving { animation: fadeOutAndShrink 0.5s forwards; }
+.api-key-area { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+#userApiKeyInput { flex-grow: 1; }
+.input-area { display: flex; flex-direction: column; gap: 10px; }
+.list-controls-bar { display: flex; justify-content: space-between; align-items: center; padding: 8px; background-color: var(--theme-light-bg); border: var(--pixel-border-width) solid var(--theme-border-main); margin-bottom: 15px; box-shadow: 2px 2px 0px var(--theme-primary-dark); flex-wrap: wrap; gap: 10px; }
+.select-all-container { display: flex; align-items: center; gap: 8px; flex-grow: 1; min-width: 180px; }
+#selectedCount, #reviewedCountDisplay { font-size: 14px; color: var(--theme-text-main); background-color: color-mix(in srgb, var(--theme-card-bg) 80%, transparent); padding: 2px 5px; border: 1px dashed var(--theme-border-main); white-space: nowrap; }
+.batch-process-button-container { text-align: center; margin: 15px 0; }
+#processSelectedButton { width: auto; padding: 8px 20px; background-color: var(--theme-secondary-accent); color: var(--theme-primary-dark); }
+#processSelectedButton:hover:not(:disabled) { background-color: color-mix(in srgb, var(--theme-secondary-accent) 90%, black); }
+.overall-loading-indicator { text-align: center; padding: 10px; font-size: 1.1em; color: var(--theme-primary-accent); background-color: var(--theme-light-bg); border: var(--pixel-border-width) dashed var(--theme-primary-accent); margin: 10px 0; display: none; }
+.quiz-modal-overlay .modal-content { max-width: 550px; }
+.quiz-modal h2 { font-size: 22px; color: var(--theme-secondary-accent); text-align: center; margin-bottom: 15px; border-bottom: var(--pixel-border-width) dashed var(--theme-secondary-accent); padding-bottom: 8px; }
 .quiz-question-area { margin-bottom: 15px; }
-#quizQuestionNumber {
-    font-size: 0.9em;
-    color: #777;
-    text-align: right;
-    margin-bottom: 2px;
-}
-.quiz-question-text {
-    font-size: 1.1em;
-    margin-bottom: 10px;
-    line-height: 1.3;
-}
-.quiz-options-container {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 15px;
-}
-.quiz-option {
-    padding: 10px;
-    border: var(--pixel-border-width) solid var(--theme-border-main);
-    cursor: pointer;
-    transition: background-color 0.2s, border-color 0.2s;
-    background-color: var(--theme-light-bg);
-}
-.quiz-option:hover {
-    background-color: var(--theme-card-bg);
-    border-color: var(--theme-secondary-accent);
-}
-.quiz-option.selected {
-    border-color: var(--theme-secondary-accent);
-    background-color: color-mix(in srgb, var(--theme-secondary-accent) 20%, var(--theme-light-bg));
-    font-weight: bold;
-}
-.quiz-option.correct {
-    background-color: var(--theme-primary-accent) !important;
-    color: var(--theme-card-bg) !important;
-    border-color: var(--theme-primary-dark) !important;
-}
-.quiz-option.incorrect {
-    background-color: var(--theme-highlight-accent) !important;
-    color: var(--theme-card-bg) !important;
-    border-color: var(--theme-primary-dark) !important;
-}
-.quiz-feedback-area {
-    padding: 8px;
-    margin-bottom: 15px;
-    border: var(--pixel-border-width) dashed transparent;
-    text-align: center;
-    min-height: 2.5em; /* Ensure space even if empty */
-    line-height: 1.3;
-    font-weight: bold;
-}
-.quiz-feedback-area.correct {
-    border-color: var(--theme-primary-accent);
-    color: var(--theme-primary-accent);
-}
-.quiz-feedback-area.incorrect {
-    border-color: var(--theme-highlight-accent);
-    color: var(--theme-highlight-accent);
-}
-/* Quiz modal buttons use .action-button as a base, then specific colors */
-.quiz-modal-button {
-    font-family: 'VT323', monospace;
-    composes: action-button;
-    min-width: 120px;
-    font-size: 16px; /* Match #testKnowledgeButton */
-    padding: 6px 12px;
-}
+#quizQuestionNumber { font-size: 0.9em; color: #777; text-align: right; margin-bottom: 2px; }
+.quiz-question-text { font-size: 1.1em; margin-bottom: 10px; line-height: 1.3; }
+.quiz-options-container { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+.quiz-option { padding: 10px; border: var(--pixel-border-width) solid var(--theme-border-main); cursor: pointer; transition: background-color 0.2s, border-color 0.2s; background-color: var(--theme-light-bg); }
+.quiz-option:hover { background-color: var(--theme-card-bg); border-color: var(--theme-secondary-accent); }
+.quiz-option.selected { border-color: var(--theme-secondary-accent); background-color: color-mix(in srgb, var(--theme-secondary-accent) 20%, var(--theme-light-bg)); font-weight: bold; }
+.quiz-option.correct { background-color: var(--theme-primary-accent) !important; color: var(--theme-card-bg) !important; border-color: var(--theme-primary-dark) !important; }
+.quiz-option.incorrect { background-color: var(--theme-highlight-accent) !important; color: var(--theme-card-bg) !important; border-color: var(--theme-primary-dark) !important; }
+.quiz-feedback-area { padding: 8px; margin-bottom: 15px; border: var(--pixel-border-width) dashed transparent; text-align: center; min-height: 2.5em; line-height: 1.3; font-weight: bold; }
+.quiz-feedback-area.correct { border-color: var(--theme-primary-accent); color: var(--theme-primary-accent); }
+.quiz-feedback-area.incorrect { border-color: var(--theme-highlight-accent); color: var(--theme-highlight-accent); }
+.quiz-modal-button { font-family: 'VT323', monospace; composes: action-button; min-width: 120px; font-size: 16px; padding: 6px 12px; }
 #submitQuizAnswerButton { background-color: var(--theme-primary-accent); color: var(--theme-card-bg); }
 #nextQuizQuestionButton, #finishQuizButton { background-color: var(--theme-secondary-accent); color: var(--theme-primary-dark); }
 #closeQuizButton { background-color: #aaa; color: var(--theme-primary-dark); }
-
 #submitQuizAnswerButton:hover:not(:disabled) { background-color: color-mix(in srgb, var(--theme-primary-accent) 90%, black); }
-#nextQuizQuestionButton:hover:not(:disabled),
-#finishQuizButton:hover:not(:disabled) { background-color: color-mix(in srgb, var(--theme-secondary-accent) 90%, black); }
+#nextQuizQuestionButton:hover:not(:disabled), #finishQuizButton:hover:not(:disabled) { background-color: color-mix(in srgb, var(--theme-secondary-accent) 90%, black); }
 #closeQuizButton:hover:not(:disabled) { background-color: #999; }
 
 
 /* ==========================================================================
    6. SMOKE TRACKER APP SPECIFIC (Health District)
    ========================================================================== */
-.smoke-tracker-content .moment-card {
-    padding: 15px; /* General padding for smoke tracker sections within cards */
-}
-
-/* 6.1 Timer & Status (Smoke Tracker) */
-.timer-display {
-    font-size: 28px;
-    background-color: var(--theme-primary-dark);
-    color: var(--theme-text-on-dark);
-    padding: 5px 10px;
-    border: var(--pixel-border-width) solid var(--theme-primary-accent);
-    margin: 10px auto; /* Center the timer display */
-    text-align: center;
-    width: fit-content; /* Adjust to content size */
-    min-width: 80px; /* Ensure it's not too small */
-    box-shadow: inset 1px 1px 0px rgba(0,0,0,0.4);
-}
-.timer-display.counting-down {
-    border-color: var(--theme-secondary-accent);
-}
-.timer-display.warning {
-    animation: pulseWarning 1s infinite;
-    border-color: var(--theme-highlight-accent);
-}
-.vape-timer-section .limit-setting {
-    margin-top: 15px;
-    padding-top: 10px;
-    border-top: var(--pixel-border-width) dotted #bbb;
-}
-.status-limit-section h2 {
-    text-align: center; color: var(--theme-primary-accent); font-size: 20px; margin-bottom: 10px; border-bottom: var(--pixel-border-width) dashed var(--theme-primary-accent); padding-bottom: 5px;
-}
-.status-limit-section > div { /* Direct children divs in status-limit-section */
-    display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 5px 0;
-}
-.status-limit-section > div:not(:last-child) {
-    border-bottom: 1px dotted #ccc;
-}
+.smoke-tracker-content .moment-card { padding: 15px; }
+.timer-display { font-size: 28px; background-color: var(--theme-primary-dark); color: var(--theme-text-on-dark); padding: 5px 10px; border: var(--pixel-border-width) solid var(--theme-primary-accent); margin: 10px auto; text-align: center; width: fit-content; min-width: 80px; box-shadow: inset 1px 1px 0px rgba(0,0,0,0.4); }
+.timer-display.counting-down { border-color: var(--theme-secondary-accent); }
+.timer-display.warning { animation: pulseWarning 1s infinite; border-color: var(--theme-highlight-accent); }
+.vape-timer-section .limit-setting { margin-top: 15px; padding-top: 10px; border-top: var(--pixel-border-width) dotted #bbb; }
+.status-limit-section h2 { text-align: center; color: var(--theme-primary-accent); font-size: 20px; margin-bottom: 10px; border-bottom: var(--pixel-border-width) dashed var(--theme-primary-accent); padding-bottom: 5px; }
+.status-limit-section > div { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 5px 0; }
+.status-limit-section > div:not(:last-child) { border-bottom: 1px dotted #ccc; }
 .status-limit-section span { font-size: 18px; }
-
-
-/* 6.2 Log List Items (Smoke Tracker) */
-/* #smokeLogList is a .moments-list, its children are .moment-card */
-#smokeLogList .moment-card {
-    padding: 8px !important; /* Override general .moment-card padding for these list items */
-    margin-bottom: 8px;
-    /* Remove animation and opacity if they were for initial load only and cause issues here */
-    animation: none;
-    opacity: 1;
-}
-.log-item-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap; /* Allow wrapping on small screens */
-    gap: 5px;
-}
-.log-item-details {
-    display: flex;
-    align-items: center;
-    flex-grow: 1; /* Allow details to take available space */
-}
-.log-item-details i { /* Icon in smoke log */
-    font-size: 18px;
-    margin-right: 8px;
-}
-.log-item-reason-icon-container {
-    text-align: right;
-    flex-shrink: 0; /* Prevent shrinking */
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.log-item-time {
-    font-size: 14px;
-    color: #666;
-    white-space: nowrap;
-}
-.add-reason-icon {
-    cursor: pointer;
-    color: var(--theme-tertiary-accent);
-    font-size: 16px;
-    transition: color 0.2s, transform 0.2s;
-    vertical-align: middle;
-}
-.add-reason-icon:hover {
-    color: var(--theme-highlight-accent);
-    transform: scale(1.1);
-}
-.add-reason-icon.has-reason {
-    color: var(--theme-primary-accent);
-}
-
-/* 6.3 Progress Chart (Smoke Tracker) */
+#smokeLogList .moment-card { padding: 8px !important; margin-bottom: 8px; animation: none; opacity: 1; }
+.log-item-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 5px; }
+.log-item-details { display: flex; align-items: center; flex-grow: 1; }
+.log-item-details i { font-size: 18px; margin-right: 8px; }
+.log-item-reason-icon-container { text-align: right; flex-shrink: 0; display: flex; align-items: center; gap: 8px; }
+.log-item-time { font-size: 14px; color: #666; white-space: nowrap; }
+.add-reason-icon { cursor: pointer; color: var(--theme-tertiary-accent); font-size: 16px; transition: color 0.2s, transform 0.2s; vertical-align: middle; }
+.add-reason-icon:hover { color: var(--theme-highlight-accent); transform: scale(1.1); }
+.add-reason-icon.has-reason { color: var(--theme-primary-accent); }
 .progress-section h2 { font-size: 18px; color: var(--theme-primary-dark); margin-bottom: 10px; }
-.daily-progress-chart-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-end;
-    height: 130px; /* Bar area height + label height */
-    border: var(--pixel-border-width) solid var(--theme-border-main);
-    padding: 10px 5px 0px 5px; /* Top padding for bar values */
-    background-color: var(--theme-light-bg);
-    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
-    overflow-x: auto; /* Scroll if too many days for width */
-    margin-bottom: 10px;
-}
-.chart-day-column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end; /* Align items to bottom (label below bar) */
-    text-align: center;
-    flex-basis: 13%; /* Roughly 7 columns */
-    max-width: 50px;
-    height: 100%;
-    position: relative;
-}
-.chart-bar-wrapper { /* Contains value and bar */
-    display: flex;
-    flex-direction: column-reverse; /* Value above bar */
-    align-items: center;
-    width: 100%;
-    height: calc(100% - 20px); /* Space for label */
-    position: relative; /* For positioning value */
-}
-.chart-bar {
-    width: 60%;
-    min-height: 2px; /* Visible even if value is 0 */
-    background-color: var(--theme-primary-accent); /* Default bar color */
-    border: 1px solid var(--theme-primary-dark);
-    box-shadow: 1px 1px 0px var(--theme-primary-dark);
-    transition: height 0.3s ease-out;
-    position: relative; /* For ::before or ::after if needed */
-}
-.chart-bar.cigarette-bar { /* Specific for cigarette chart */
-    background-color: var(--theme-highlight-accent);
-}
-.chart-bar:hover {
-    filter: brightness(1.1);
-}
-.chart-bar-value {
-    font-size: 12px;
-    color: var(--theme-text-main);
-    margin-bottom: 1px; /* Space between value and bar top */
-    font-weight: bold;
-    height: 14px; /* Ensure consistent height for value */
-    line-height: 14px;
-}
-.chart-day-label {
-    font-size: 12px;
-    margin-top: 4px; /* Space between bar and label */
-    color: var(--theme-text-main);
-    height: 18px; /* Consistent height for label */
-    line-height: 18px;
-}
-.progress-section .streak-info-box { /* Renamed from inline style div */
-    margin-top: 15px; padding: 8px; border: var(--pixel-border-width) dashed var(--theme-primary-accent);
-}
+.daily-progress-chart-container { display: flex; justify-content: space-around; align-items: flex-end; height: 130px; border: var(--pixel-border-width) solid var(--theme-border-main); padding: 10px 5px 0px 5px; background-color: var(--theme-light-bg); box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1); overflow-x: auto; margin-bottom: 10px; }
+.chart-day-column { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; text-align: center; flex-basis: 13%; max-width: 50px; height: 100%; position: relative; }
+.chart-bar-wrapper { display: flex; flex-direction: column-reverse; align-items: center; width: 100%; height: calc(100% - 20px); position: relative; }
+.chart-bar { width: 60%; min-height: 2px; background-color: var(--theme-primary-accent); border: 1px solid var(--theme-primary-dark); box-shadow: 1px 1px 0px var(--theme-primary-dark); transition: height 0.3s ease-out; position: relative; }
+.chart-bar.cigarette-bar { background-color: var(--theme-highlight-accent); }
+.chart-bar:hover { filter: brightness(1.1); }
+.chart-bar-value { font-size: 12px; color: var(--theme-text-main); margin-bottom: 1px; font-weight: bold; height: 14px; line-height: 14px; }
+.chart-day-label { font-size: 12px; margin-top: 4px; color: var(--theme-text-main); height: 18px; line-height: 18px; }
+.progress-section .streak-info-box { margin-top: 15px; padding: 8px; border: var(--pixel-border-width) dashed var(--theme-primary-accent); }
 .progress-section .streak-info-box span { font-size: 18px; }
 .progress-section .streak-info-box strong { color: var(--theme-primary-accent); }
 .progress-section .streak-info-box i.fa-fire { color: var(--theme-highlight-accent); }
-
-/* 6.4 Calendar (Smoke Tracker) */
-.calendar-section .log-button#toggleCalendarButton { /* Specific toggle button */
-     width: auto; padding: 8px 15px; background-color: var(--theme-secondary-accent); color: var(--theme-primary-dark);
-}
-.calendar-log-container {
-    display: none; /* JS toggles to block */
-    margin-top: 15px;
-    border: var(--pixel-border-width) solid var(--theme-primary-dark);
-    padding: 10px;
-    background-color: var(--theme-card-bg); /* Card background for calendar */
-    box-shadow: 2px 2px 0 var(--theme-primary-dark);
-}
-.calendar-log-container.show {
-    display: block;
-    animation: retroFadeIn 0.4s ease-out;
-}
-.calendar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 5px;
-    background-color: var(--theme-light-bg);
-    border-bottom: var(--pixel-border-width) dashed var(--theme-border-main);
-}
-.calendar-nav-button { /* Extends .action-button or .base-button logic */
-   font-family: 'VT323', monospace; 
-    composes: action-button;
-    background-color: var(--theme-tertiary-accent);
-    color: var(--theme-card-bg);
-    padding: 2px 8px; /* Small padding for nav buttons */
-    font-size: 16px;
-}
-.calendar-nav-button:hover:not(:disabled){
-    background-color: color-mix(in srgb, var(--theme-tertiary-accent) 90%, black);
-}
-.calendar-month-year {
-    font-size: 20px;
-    font-weight: bold;
-    color: var(--theme-primary-accent);
-    text-shadow: 1px 1px 0 var(--theme-primary-dark);
-}
-.calendar-grid {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: transparent; /* Let container bg show */
-    table-layout: fixed; /* Ensure even column widths */
-}
-.calendar-grid th,
-.calendar-grid td {
-    border: var(--pixel-border-width) solid var(--theme-border-main);
-    text-align: center;
-    padding: 2px;
-    height: 50px; /* Fixed height for cells */
-    position: relative; /* For tooltips or absolutely positioned day numbers */
-    overflow: hidden; /* Prevent content spill */
-}
-.calendar-grid th { /* Day headers (S, M, T, W, T, F, S) */
-    background-color: var(--theme-light-bg);
-    font-size: 14px;
-    color: var(--theme-primary-dark);
-    padding: 4px 2px;
-    height: auto; /* Auto height for headers */
-}
-.calendar-day { /* Individual day cell <td> */
-    font-size: 16px; /* Overall font size for cell content if any */
-    vertical-align: top; /* Align day number to top */
-    cursor: default;
-    transition: background-color 0.2s ease;
-}
-.calendar-day:hover:not(.other-month) {
-    outline: 1px dashed var(--theme-secondary-accent);
-    outline-offset: -2px; /* Outline inside cell */
-}
-.calendar-day-number {
-    display: block;
-    font-weight: bold;
-    font-size: 14px;
-    margin-bottom: 2px; /* Space below number */
-    text-align: left;
-    padding: 2px 0 0 3px; /* Small padding for number */
-    color: var(--theme-text-main);
-}
-.calendar-day.other-month .calendar-day-number {
-    color: #bbb;
-    font-weight: normal;
-}
-.calendar-day.other-month {
-    background-color: color-mix(in srgb, var(--theme-light-bg) 50%, transparent);
-    cursor: default;
-    pointer-events: none; /* Not interactive */
-}
-.calendar-day.other-month:hover {
-    outline: none; /* No hover outline for other month days */
-}
-.calendar-day.today { /* Highlight today's date */
-    border-color: var(--theme-secondary-accent);
-    box-shadow: inset 0 0 0 1px var(--theme-secondary-accent); /* Inner highlight */
-}
-.calendar-day.today .calendar-day-number {
-    color: var(--theme-secondary-accent);
-    font-weight: bold;
-}
-.calendar-day.calendar-day-success {
-    background-color: color-mix(in srgb, var(--theme-primary-accent) 30%, transparent);
-}
-.calendar-day.calendar-day-overlimit {
-    background-color: color-mix(in srgb, var(--theme-highlight-accent) 35%, transparent);
-}
-.calendar-day.calendar-day-nodata {
-    /* Uses default cell background, no specific style needed unless desired */
-}
-
-/* Testing Tools Section (Smoke Tracker) */
+.calendar-section .log-button#toggleCalendarButton { width: auto; padding: 8px 15px; background-color: var(--theme-secondary-accent); color: var(--theme-primary-dark); }
+.calendar-log-container { display: none; margin-top: 15px; border: var(--pixel-border-width) solid var(--theme-primary-dark); padding: 10px; background-color: var(--theme-card-bg); box-shadow: 2px 2px 0 var(--theme-primary-dark); }
+.calendar-log-container.show { display: block; animation: retroFadeIn 0.4s ease-out; }
+.calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 5px; background-color: var(--theme-light-bg); border-bottom: var(--pixel-border-width) dashed var(--theme-border-main); }
+.calendar-nav-button { font-family: 'VT323', monospace; composes: action-button; background-color: var(--theme-tertiary-accent); color: var(--theme-card-bg); padding: 2px 8px; font-size: 16px; }
+.calendar-nav-button:hover:not(:disabled){ background-color: color-mix(in srgb, var(--theme-tertiary-accent) 90%, black); }
+.calendar-month-year { font-size: 20px; font-weight: bold; color: var(--theme-primary-accent); text-shadow: 1px 1px 0 var(--theme-primary-dark); }
+.calendar-grid { width: 100%; border-collapse: collapse; background-color: transparent; table-layout: fixed; }
+.calendar-grid th, .calendar-grid td { border: var(--pixel-border-width) solid var(--theme-border-main); text-align: center; padding: 2px; height: 50px; position: relative; overflow: hidden; }
+.calendar-grid th { background-color: var(--theme-light-bg); font-size: 14px; color: var(--theme-primary-dark); padding: 4px 2px; height: auto; }
+.calendar-day { font-size: 16px; vertical-align: top; cursor: default; transition: background-color 0.2s ease; }
+.calendar-day:hover:not(.other-month) { outline: 1px dashed var(--theme-secondary-accent); outline-offset: -2px; }
+.calendar-day-number { display: block; font-weight: bold; font-size: 14px; margin-bottom: 2px; text-align: left; padding: 2px 0 0 3px; color: var(--theme-text-main); }
+.calendar-day.other-month .calendar-day-number { color: #bbb; font-weight: normal; }
+.calendar-day.other-month { background-color: color-mix(in srgb, var(--theme-light-bg) 50%, transparent); cursor: default; pointer-events: none; }
+.calendar-day.other-month:hover { outline: none; }
+.calendar-day.today { border-color: var(--theme-secondary-accent); box-shadow: inset 0 0 0 1px var(--theme-secondary-accent); }
+.calendar-day.today .calendar-day-number { color: var(--theme-secondary-accent); font-weight: bold; }
+.calendar-day.calendar-day-success { background-color: color-mix(in srgb, var(--theme-primary-accent) 30%, transparent); }
+.calendar-day.calendar-day-overlimit { background-color: color-mix(in srgb, var(--theme-highlight-accent) 35%, transparent); }
 .testing-tools-section h2 { font-size: 18px; color: var(--theme-tertiary-accent); margin-bottom: 10px; }
-.testing-tools-section .action-button#endOfDayTestButton {
-    padding: 8px 12px; background-color: var(--theme-secondary-accent); color: var(--theme-primary-dark);
-}
-.testing-tools-section .action-button#endOfDayTestButton:hover:not(:disabled) {
-    background-color: color-mix(in srgb, var(--theme-secondary-accent) 90%, black);
-}
+.testing-tools-section .action-button#endOfDayTestButton { padding: 8px 12px; background-color: var(--theme-secondary-accent); color: var(--theme-primary-dark); }
+.testing-tools-section .action-button#endOfDayTestButton:hover:not(:disabled) { background-color: color-mix(in srgb, var(--theme-secondary-accent) 90%, black); }
 
 
 /* ==========================================================================
    7. SHOP APP SPECIFIC (Emporium - Vending Machine)
    ========================================================================== */
-
-/* 7.1 Shop Page Body & General Layout */
 body.shop-active {
-    background-color: var(--theme-primary-dark, #1a202c);
-    color: var(--theme-text-on-dark, #EAEAEA);
-    min-height: 100vh; /* Ensure background covers full height */
-    padding: 20px;     /* Padding around the entire shop page content */
-    overflow-y: auto;  /* Allow the body itself to scroll if content exceeds viewport */
+    background-color: var(--theme-primary-dark, #1a202c); color: var(--theme-text-on-dark, #EAEAEA);
+    min-height: 100vh; padding: 20px; overflow-y: auto;
 }
-
 .shop-navigation-area {
-    display: flex;
-    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
-    justify-content: center; /* Center wrapped buttons */
-    gap: 15px;
-    margin: 0 auto 25px auto; /* Center the nav area, add bottom margin */
-    padding: 10px;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;
+    margin: 0 auto 25px auto; padding: 10px;
     background-color: rgba(from var(--theme-primary-dark, #000) r g b / 0.5);
-    border-radius: 5px;
-    border: var(--pixel-border-width) solid var(--theme-secondary-accent);
-    box-shadow: 2px 2px 0 var(--theme-secondary-accent);
-    z-index: 100; /* Above particle canvas */
-    width: fit-content; /* Allow it to be as wide as its content */
-    max-width: 100%; /* Ensure it doesn't overflow its parent */
+    border-radius: 5px; border: var(--pixel-border-width) solid var(--theme-secondary-accent);
+    box-shadow: 2px 2px 0 var(--theme-secondary-accent); z-index: 100;
+    width: fit-content; max-width: 100%;
 }
-
 .shop-nav-button {
-    /* composes: base-button; -- conceptual, apply base styles and override */
-    font-family: 'VT323', monospace;
-    border: var(--pixel-border-width) solid var(--theme-secondary-accent);
-    cursor: pointer;
-    text-align: center;
-    outline: none;
-    transition: all 0.2s ease; /* Matched from original example */
-    box-shadow: 1px 1px 0 var(--theme-secondary-accent);
-    white-space: nowrap;
-    flex-shrink: 0; /* Prevent buttons from shrinking and causing premature wrap */
-
-    font-size: 16px;
-    color: var(--theme-secondary-accent);
-    text-decoration: none;
-    padding: 8px 15px;
-    background-color: transparent; /* Overrides base button if it had one */
+    font-family: 'VT323', monospace; border: var(--pixel-border-width) solid var(--theme-secondary-accent);
+    cursor: pointer; text-align: center; outline: none; transition: all 0.2s ease;
+    box-shadow: 1px 1px 0 var(--theme-secondary-accent); white-space: nowrap; flex-shrink: 0;
+    font-size: 16px; color: var(--theme-secondary-accent); text-decoration: none;
+    padding: 8px 15px; background-color: transparent;
 }
-
 .shop-nav-button:hover {
-    background-color: var(--theme-secondary-accent);
-    color: var(--theme-primary-dark);
-    transform: translateY(-1px);
-    box-shadow: 2px 2px 0 var(--theme-primary-dark); /* Ensure distinct hover shadow */
+    background-color: var(--theme-secondary-accent); color: var(--theme-primary-dark);
+    transform: translateY(-1px); box-shadow: 2px 2px 0 var(--theme-primary-dark);
 }
-
-.shop-nav-button i {
-    margin-right: 8px;
-}
-
-/* 7.2 Vending Machine Structure */
-.vending-machine-page-container {
-    width: 100%;
-    max-width: 700px; /* Max width of the entire vending machine area */
-    margin: 0 auto;   /* Center the container on the page */
-}
-
+.shop-nav-button i { margin-right: 8px; }
+.vending-machine-page-container { width: 100%; max-width: 700px; margin: 0 auto; }
 .vending-machine {
-    width: 100%;
-    background-color: var(--theme-tertiary-accent, #c0c0c0); /* Machine body color */
-    border: 4px solid var(--theme-primary-dark, #333);
-    border-radius: 10px;
-    box-shadow:
-        inset 0 0 15px rgba(0,0,0,0.3),
-        5px 5px 0px var(--theme-primary-dark, #111),
-        0 0 30px rgba(from var(--theme-secondary-accent, #E9C46A) r g b / 0.3);
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
+    width: 100%; background-color: var(--theme-tertiary-accent, #c0c0c0);
+    border: 4px solid var(--theme-primary-dark, #333); border-radius: 10px;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.3), 5px 5px 0px var(--theme-primary-dark, #111),
+                0 0 30px rgba(from var(--theme-secondary-accent, #E9C46A) r g b / 0.3);
+    padding: 15px; display: flex; flex-direction: column;
 }
-
 .vending-machine-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap; /* Allow items to wrap on small screens */
-    gap: 10px; /* Space between items if they wrap */
-    padding: 10px 15px;
-    margin-bottom: 15px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 10px; padding: 10px 15px; margin-bottom: 15px;
     background-color: var(--theme-primary-dark, #222);
-    border: 2px solid var(--theme-border-main, #444);
-    border-radius: 5px;
+    border: 2px solid var(--theme-border-main, #444); border-radius: 5px;
     box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
 }
-
 .brand-logo h1 {
-    font-size: 28px;
-    color: var(--theme-secondary-accent, #E9C46A);
-    text-shadow: 1px 1px 0 var(--theme-primary-dark, #000),
-                 0 0 5px var(--theme-secondary-accent, #E9C46A);
-    animation: flickerBrand 3s infinite alternate;
-    letter-spacing: 1px;
-    margin-bottom: 0; /* Override default h1 margin */
-    flex-shrink: 0; /* Prevent logo from shrinking excessively */
+    font-size: 28px; color: var(--theme-secondary-accent, #E9C46A);
+    text-shadow: 1px 1px 0 var(--theme-primary-dark, #000), 0 0 5px var(--theme-secondary-accent, #E9C46A);
+    animation: flickerBrand 3s infinite alternate; letter-spacing: 1px;
+    margin-bottom: 0; flex-shrink: 0;
 }
-
 .coin-slot-display {
-    background-color: #111;
-    color: var(--theme-highlight-accent, #00ff00);
-    padding: 8px 12px;
-    font-size: 20px;
-    border: 2px inset #000;
+    background-color: #111; color: var(--theme-highlight-accent, #00ff00);
+    padding: 8px 12px; font-size: 20px; border: 2px inset #000;
     box-shadow: 0 0 5px var(--theme-highlight-accent, #00ff00);
-    display: flex;
-    align-items: center;
-    border-radius: 3px;
-    flex-shrink: 0; /* Prevent display from shrinking */
+    display: flex; align-items: center; border-radius: 3px; flex-shrink: 0;
 }
-.coin-icon-area i {
-    color: var(--theme-secondary-accent, #E9C46A);
-    margin-right: 8px;
-    animation: coinShine 2s infinite;
-}
+.coin-icon-area i { color: var(--theme-secondary-accent, #E9C46A); margin-right: 8px; animation: coinShine 2s infinite; }
 .points-readout { min-width: 30px; text-align: right; }
 .pts-label { margin-left: 5px; font-size: 16px; }
-
 .vending-machine-display-window {
     background-color: rgba(from var(--theme-light-bg, #000000) r g b / 0.1);
     border: 3px solid var(--theme-primary-dark, #111);
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-    padding: 20px;
-    height: 400px; /* Fixed height for the scrollable item display */
-    overflow-y: auto; /* Enable vertical scrolling for themes */
-    display: grid;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5); padding: 20px;
+    height: 400px; overflow-y: auto; display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 15px;
-    border-radius: 5px;
-    position: relative; /* For scanlines pseudo-element */
+    gap: 15px; border-radius: 5px; position: relative;
 }
-.vending-machine-display-window::before { /* Scanlines effect */
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+.vending-machine-display-window::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
     background: linear-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.15) 50%);
-    background-size: 100% 4px;
-    animation: scanlinesVending 15s linear infinite;
-    pointer-events: none;
-    z-index: 1; /* Below items but above window background */
+    background-size: 100% 4px; animation: scanlinesVending 15s linear infinite;
+    pointer-events: none; z-index: 1;
 }
-
 .vending-machine-footer {
-    margin-top: 15px;
-    padding: 10px;
-    background-color: var(--theme-primary-dark, #222);
-    border: 2px solid var(--theme-border-main, #444);
-    border-radius: 5px;
+    margin-top: 15px; padding: 10px; background-color: var(--theme-primary-dark, #222);
+    border: 2px solid var(--theme-border-main, #444); border-radius: 5px;
 }
 .dispensing-tray-visual {
-    background-color: #111;
-    color: var(--theme-tertiary-accent, #ccc);
-    padding: 10px;
-    font-size: 16px;
-    text-align: center;
-    border-radius: 3px;
-    border: 1px inset #000;
-    margin-bottom: 8px;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    animation: trayTextFlicker 4s linear infinite;
+    background-color: #111; color: var(--theme-tertiary-accent, #ccc);
+    padding: 10px; font-size: 16px; text-align: center; border-radius: 3px;
+    border: 1px inset #000; margin-bottom: 8px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+    text-transform: uppercase; letter-spacing: 1px; animation: trayTextFlicker 4s linear infinite;
 }
-.brand-smallprint {
-    font-size: 12px;
-    color: var(--theme-text-on-dark, #aaa);
-    opacity: 0.7;
-    text-align: center;
-}
-
-/* 7.3 Vending Machine Items */
+.brand-smallprint { font-size: 12px; color: var(--theme-text-on-dark, #aaa); opacity: 0.7; text-align: center; }
 .vending-item-slot {
-    background-color: var(--theme-card-bg, #e0e0e0);
-    border: 2px solid var(--theme-border-main, #555);
-    color: var(--theme-text-main, #333);
-    padding: 10px;
-    border-radius: 4px;
+    background-color: var(--theme-card-bg, #e0e0e0); border: 2px solid var(--theme-border-main, #555);
+    color: var(--theme-text-main, #333); padding: 10px; border-radius: 4px;
     box-shadow: 2px 2px 0px rgba(from var(--theme-primary-dark, #000) r g b / 0.5);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Distribute space between preview, info, and purchase */
-    align-items: center;
-    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-    position: relative;
-    z-index: 2; /* Items above scanlines */
-    min-height: 220px; /* Ensure items have a minimum height */
+    display: flex; flex-direction: column; justify-content: space-between;
+    align-items: center; transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    position: relative; z-index: 2; min-height: 220px;
 }
 .vending-item-slot:hover {
     transform: scale(1.05);
@@ -1428,312 +704,34 @@ body.shop-active {
     box-shadow: 0 0 15px 5px var(--theme-secondary-accent, #E9C46A), 3px 3px 5px rgba(from var(--theme-primary-dark, #000) r g b / 0.6) !important;
     border-color: var(--theme-secondary-accent, #E9C46A);
 }
-
-.vending-item-preview {
-    width: 100%;
-    height: 60px;
-    display: flex;
-    margin-bottom: 10px;
-    border: 1px solid var(--theme-border-main, #ccc);
-    background-color: var(--theme-light-bg); /* Add a light bg to preview area */
-}
-.vending-item-preview span { /* Color swatches */
-    flex-grow: 1;
-    height: 100%;
-    transition: filter 0.2s ease;
-}
-.vending-item-slot:hover .vending-item-preview span {
-    filter: brightness(1.1);
-}
-
-.vending-item-info {
-    margin-bottom: 10px;
-    text-align: center;
-    width: 100%; /* Ensure info takes full width for centering */
-}
-.vending-item-name {
-    font-size: 18px;
-    color: var(--theme-primary-accent, #2A9D8F);
-    margin-bottom: 4px;
-}
-.vending-item-description {
-    font-size: 13px;
-    color: var(--theme-text-main, #333);
-    min-height: 2.6em; /* Approx 2 lines */
-    line-height: 1.3;
-    overflow: hidden;
-    margin-bottom: 0; /* Override default p margin */
-}
-
-.vending-item-purchase-area {
-    width: 100%;
-    text-align: center;
-    margin-top: auto; /* Push purchase area to the bottom of the card */
-}
-.vending-item-status {
-    display: block;
-    font-size: 13px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    min-height: 1.2em;
-}
+.vending-item-preview { width: 100%; height: 60px; display: flex; margin-bottom: 10px; border: 1px solid var(--theme-border-main, #ccc); background-color: var(--theme-light-bg); }
+.vending-item-preview span { flex-grow: 1; height: 100%; transition: filter 0.2s ease; }
+.vending-item-slot:hover .vending-item-preview span { filter: brightness(1.1); }
+.vending-item-info { margin-bottom: 10px; text-align: center; width: 100%; }
+.vending-item-name { font-size: 18px; color: var(--theme-primary-accent, #2A9D8F); margin-bottom: 4px; }
+.vending-item-description { font-size: 13px; color: var(--theme-text-main, #333); min-height: 2.6em; line-height: 1.3; overflow: hidden; margin-bottom: 0; }
+.vending-item-purchase-area { width: 100%; text-align: center; margin-top: auto; }
+.vending-item-status { display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px; min-height: 1.2em; }
 .vending-item-status.owned { color: var(--theme-tertiary-accent, #F4A261); }
 .vending-item-status.active { color: var(--theme-primary-accent, #2A9D8F); }
 .vending-item-status.cost { color: var(--theme-secondary-accent, #E9C46A); }
 .vending-item-status i.fa-coins { margin-left: 3px; }
-
-
 .vending-item-button {
-    /* This inherits from .base-button, then overrides if needed */
-    /* composes: base-button; -- conceptual */
     font-family: 'VT323', monospace; border: var(--pixel-border-width) solid var(--theme-primary-dark); cursor: pointer; text-align: center; outline: none; transition: all 0.1s ease-out; box-shadow: 2px 2px 0px var(--theme-primary-dark); white-space: nowrap;
-
-    width: 100%;
-    padding: 8px 10px;
-    font-size: 16px;
-    border-radius: 3px;
+    width: 100%; padding: 8px 10px; font-size: 16px; border-radius: 3px;
 }
 .vending-item-button.buy-button { background-color: var(--theme-tertiary-accent); color: var(--theme-card-bg); }
 .vending-item-button.apply-button { background-color: var(--theme-primary-accent); color: var(--theme-card-bg); }
 .vending-item-button.equipped-button { background-color: var(--theme-secondary-accent); color: var(--theme-primary-dark); }
-
-.vending-item-button:hover:not(:disabled) {
-    filter: brightness(1.1);
-    transform: translateY(-1px); /* from base-button */
-    box-shadow: 3px 3px 0px var(--theme-primary-dark); /* from base-button */
-}
-.vending-item-button:active:not(:disabled) {
-    transform: translate(2px, 2px); /* from base-button */
-    box-shadow: none; /* from base-button */
-    filter: brightness(0.9); /* Keep this specific active effect */
-}
-.vending-item-button:disabled { /* More specific disabled style from vending machine */
-    background-color: #777 !important; /* Use important to ensure override */
-    color: #bbb !important;
-    border-color: #555 !important;
-    box-shadow: none !important;
-}
-
-/* Ensure responsive overrides for shop are in Section 10 (Media Queries) */
-/* ==========================================================================
-   8. UTILITY CLASSES
-   ========================================================================== */
-.over-limit { /* For text indicating a limit is exceeded */
-    color: var(--theme-highlight-accent) !important;
-    font-weight: bold;
-}
-
-/* Hub Specific Utilities */
-.district-navigation {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: var(--theme-light-bg);
-    border: var(--pixel-border-width) solid var(--theme-border-main);
-    box-shadow: 2px 2px 0 var(--theme-primary-dark);
-}
-.district-navigation h3 {
-    font-size: 20px;
-    color: var(--theme-primary-accent);
-    margin-bottom: 10px;
-    padding-bottom: 5px;
-    border-bottom: 1px dashed var(--theme-primary-accent);
-}
-.district-navigation ul li {
-    margin-bottom: 8px;
-}
-.district-link {
-    display: flex;
-    align-items: center;
-    padding: 8px 10px;
-    background-color: var(--theme-card-bg);
-    border: var(--pixel-border-width) solid var(--theme-border-main);
-    color: var(--theme-text-main);
-    transition: all 0.2s ease;
-}
-.district-link:hover {
-    background-color: var(--theme-light-bg);
-    border-color: var(--theme-primary-accent);
-    text-decoration: none;
-    transform: translateX(2px);
-}
-.district-link i {
-    margin-right: 10px;
-    color: var(--theme-tertiary-accent);
-}
-.district-status {
-    margin-left: auto;
-    font-size: 0.85em;
-    color: #777;
-    font-style: italic;
-}
-.hub-footer {
-    text-align: center;
-    margin-top: 30px;
-    padding-top: 15px;
-    border-top: var(--pixel-border-width) dashed var(--theme-tertiary-accent);
-    font-size: 0.9em;
-    color: var(--theme-text-main);
-}
+.vending-item-button:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 3px 3px 0px var(--theme-primary-dark); }
+.vending-item-button:active:not(:disabled) { transform: translate(2px, 2px); box-shadow: none; filter: brightness(0.9); }
+.vending-item-button:disabled { background-color: #777 !important; color: #bbb !important; border-color: #555 !important; box-shadow: none !important; }
 
 
 /* ==========================================================================
-   9. ANIMATIONS & KEYFRAMES
+   8. HUB SPECIFIC & UTILITIES (includes Dashboard & Map)
    ========================================================================== */
-@keyframes pointsFlash {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.15); color: var(--theme-secondary-accent); }
-}
-@keyframes retroFadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-@keyframes retroPulseBorder {
-    0%, 100% { box-shadow: 3px 3px 0px 0px var(--theme-secondary-accent), var(--original-shadow, 3px 3px 0px 0px var(--theme-primary-dark)); } /* Keep original shadow */
-    50% { box-shadow: 3px 3px 0px 0px var(--theme-primary-accent), var(--original-shadow, 3px 3px 0px 0px var(--theme-primary-dark)); }
-}
-@keyframes pulseWarning {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-}
-@keyframes fadeInBg {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-@keyframes zoomInModal {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-@keyframes flickerBrand { /* For Vending Machine */
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.8; }
-}
-@keyframes coinShine { /* For Vending Machine */
-    0%, 100% { filter: brightness(1); }
-    50% { filter: brightness(1.5); }
-}
-@keyframes scanlinesVending { /* For Vending Machine */
-    0% { background-position: 0 0; }
-    100% { background-position: 0 -60px; }
-}
-@keyframes trayTextFlicker { /* For Vending Machine */
-    0%, 48%, 52%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-}
-@keyframes spin { /* For loading spinners */
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-@keyframes masteredPop { /* For IDKY mastered items */
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.1) rotate(-3deg); opacity: 0.8; box-shadow: 0 0 10px var(--theme-secondary-accent); }
-    100% { transform: scale(1); opacity: 1; }
-}
-@keyframes fadeOutAndShrink { /* For archiving moment cards */
-    0% { opacity: 1; transform: scaleY(1); max-height: 150px; /* approx height */ padding-top: 8px; padding-bottom: 8px; margin-bottom: 10px; }
-    100% { opacity: 0; transform: scaleY(0); max-height: 0; padding-top: 0; padding-bottom: 0; margin-bottom: 0; border-width:0; }
-}
-
-
-/* ==========================================================================
-   10. MEDIA QUERIES (Responsive Design)
-   ========================================================================== */
-@media (max-width: 600px) {
-    body {
-        padding: 10px;
-        padding-bottom: 70px; /* Ensure space for fixed toolbar */
-        font-size: 16px; /* Slightly smaller base font on mobile */
-    }
-
-    .app-container, .rome-hub-container {
-        padding: 0; /* Remove padding from container if body has padding */
-    }
-
-    .header-section {
-        padding: 8px;
-    }
-    .app-title-container h1 { font-size: 24px; }
-    .app-title-container i.title-icon { font-size: 22px; }
-    .header-stats-bar { gap: 5px 8px; /* Adjust gap for wrapping */ }
-    .points-display { font-size: 14px; }
-
-    /* IDKY Specific Mobile */
-    .moment-card .moment-header { padding: 6px; gap: 5px; }
-    .moment-card .moment-timestamp { font-size: 0.75em; }
-    .list-controls-bar { padding: 6px; }
-    #selectAllButton, #testKnowledgeButton { font-size: 14px; padding: 5px 8px; }
-
-    /* Modals on Mobile */
-    .modal-content { padding: 15px; }
-    .modal-content h2, .modal-content h3 { font-size: 18px; }
-    .quiz-modal-button { font-size: 14px; padding: 6px 10px; min-width: 100px;}
-
-    /* Shop Specific Mobile */
-    .shop-navigation-area {
-        gap: 10px;
-        margin-bottom: 15px;
-        padding: 8px;
-        /* flex-direction: column; /* Stack nav items if preferred */
-        /* align-items: stretch; */
-    }
-    .shop-nav-button {
-        font-size: 14px;
-        padding: 6px 10px;
-    }
-    .vending-machine-page-container { padding: 0; /* Handled by body padding */ }
-    .vending-machine-header {
-        flex-direction: column; /* Stack logo and coin slot */
-        align-items: center;
-        gap: 10px; /* Space between logo and coin slot */
-    }
-    .brand-logo h1 { order: 1; font-size: 24px; text-align:center; } /* Center if stacked */
-    .coin-slot-display { order: 2; }
-    .vending-machine-display-window {
-        height: auto; /* Let content determine height */
-        min-height: 300px; /* Minimum scrollable area */
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); /* Smaller items */
-        gap: 10px;
-        padding: 15px;
-    }
-    .vending-item-name { font-size: 16px; }
-    .vending-item-description { font-size: 12px; min-height: 2.4em; }
-    .vending-item-button { font-size: 14px; padding: 6px 8px; }
-    .vending-item-preview { height: 50px; }
-
-    /* Smoke Tracker Mobile */
-    .smoke-tracker-content .moment-card { padding: 10px; }
-    .timer-display { font-size: 24px; }
-    .log-button { font-size: 16px; padding: 8px 12px; } /* Slightly smaller main log buttons */
-    .action-button { font-size: 13px; padding: 3px 6px; } /* Smaller generic action buttons */
-    .status-limit-section span { font-size: 15px; }
-    .limit-setting input[type="text"], .limit-setting input[type="number"] { width: 50px; font-size:14px; }
-    .daily-progress-chart-container { height: 110px; }
-    .chart-bar-value, .chart-day-label { font-size: 11px; }
-    .calendar-month-year { font-size: 18px; }
-    .calendar-grid th, .calendar-day-number { font-size: 12px; }
-    .calendar-grid td { height: 40px; }
-
-    /* Fixed Toolbar Mobile */
-    .shop-toolbar-header-link { font-size: 16px; padding: 6px 10px; }
-    .shop-toolbar-header-link .shop-pts-display { font-size: 14px; }
-}
-
-@media (max-width: 400px) { /* Extra small screens */
-    .header-stats-bar {
-        justify-content: center; /* Center stats if they wrap heavily */
-    }
-    .vending-machine-display-window {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Even smaller items */
-    }
-    .moment-card .moment-main-text {
-        flex-direction: column; /* Stack text and timestamp in IDKY cards */
-        align-items: flex-start;
-    }
-    .moment-card .moment-timestamp { margin-left: 0; margin-top: 3px; }
-}
-
-/* ==========================================================================
-   (Existing CSS above)
-   ========================================================================== */
+.over-limit { color: var(--theme-highlight-accent) !important; font-weight: bold; }
 
 /* Hub - City Map Visualizer */
 #cityMapPlaceholder {
@@ -1742,8 +740,6 @@ body.shop-active {
     background-position: center center;
     background-repeat: no-repeat;
 }
-
-/* ... (existing CSS up to .map-asset) ... */
 
 .map-asset {
     position: absolute;
@@ -1756,50 +752,47 @@ body.shop-active {
     -webkit-user-select: none;
     -ms-user-select: none;
     transform-origin: bottom center;
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Keep this for general transitions */
+    transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Keep for general & drop-in */
     max-height: initial;
-    /* Default state for visibility, will be overridden by .locked or when shown */
-    opacity: 1;
-    transform: scale(1); /* Default scale, will be overridden by specific IDs */
+    opacity: 1; /* Default visible state */
+    cursor: pointer;
 }
 
 .map-asset.locked {
     opacity: 0;
-    transform: translateY(-30px) scale(0.2); /* Start slightly above and small, adjust scale per asset if needed */
-    pointer-events: none; /* Not interactive when locked */
-    /* display: none; /* REMOVE THIS LINE */
+    /* Start slightly above and smaller, final scale set by ID */
+    transform: translateY(-40px) scale(0.1); /* Initial small scale for animation */
+    pointer-events: none;
+    cursor: default;
 }
 
-/* Add this class dynamically when unlocking to trigger animation */
+/* This class is added by JS to trigger the drop-in animation */
 .map-asset.dropping-in {
     opacity: 1;
-    /* The actual scale will be set by the specific asset's ID style */
-    /* We just need to reset translateY */
-    transform: translateY(0px);
-    /* The scale will be inherited from the specific #id rule */
+    transform: translateY(0px); /* Final Y position */
+    /* The final scale will be applied by the specific #id rules below */
 }
 
 
-/* --- Asset Positioning - YOUR SCALES --- */
+/* --- Asset Positioning & Final Scales for Drop-in --- */
 /* Back Row / Slightly further away */
 #map-temple-forum {
     left: 50%;
-    transform: translateX(-50%) scale(0.2);
+    transform: translateX(-50%) scale(0.2); /* Final display scale */
     bottom: 45%;
     z-index: 12;
 }
-.map-asset.locked#map-temple-forum { transform: translateX(-50%) translateY(-30px) scale(0.15); } /* Initial anim state */
-.map-asset.dropping-in#map-temple-forum { transform: translateX(-50%) translateY(0px) scale(0.2); } /* Final anim state */
+.map-asset.locked#map-temple-forum { transform: translateX(-50%) translateY(-40px) scale(0.1); } /* Pre-animation state */
+.map-asset.dropping-in#map-temple-forum { transform: translateX(-50%) translateY(0px) scale(0.2); } /* Animation target */
 
 
 #map-city-gatehouse {
     left: 0%;
-    /* bottom: 2-%; typo, assuming 20% or similar */
-    bottom: 20%;
+    bottom: 20%; /* Corrected typo from 2-% */
     z-index: 8;
     transform: scale(0.2);
 }
-.map-asset.locked#map-city-gatehouse { transform: translateY(-30px) scale(0.15); }
+.map-asset.locked#map-city-gatehouse { transform: translateY(-40px) scale(0.1); }
 .map-asset.dropping-in#map-city-gatehouse { transform: translateY(0px) scale(0.2); }
 
 
@@ -1809,7 +802,7 @@ body.shop-active {
     z-index: 8;
     transform: scale(0.2);
 }
-.map-asset.locked#map-triumphal-arch { transform: translateY(-30px) scale(0.15); }
+.map-asset.locked#map-triumphal-arch { transform: translateY(-40px) scale(0.1); }
 .map-asset.dropping-in#map-triumphal-arch { transform: translateY(0px) scale(0.2); }
 
 
@@ -1819,9 +812,8 @@ body.shop-active {
     bottom: 70%;
     z-index: 10;
     transform: scale(0.25);
-    cursor: pointer;
 }
-.map-asset.locked#map-building-knowledge { transform: translateY(-30px) scale(0.2); }
+.map-asset.locked#map-building-knowledge { transform: translateY(-40px) scale(0.15); }
 .map-asset.dropping-in#map-building-knowledge { transform: translateY(0px) scale(0.25); }
 
 
@@ -1830,154 +822,226 @@ body.shop-active {
     bottom: 60%;
     z-index: 12;
     transform: scale(0.2);
-    cursor: pointer;
 }
-.map-asset.locked#map-building-health { transform: translateY(-30px) scale(0.15); }
+.map-asset.locked#map-building-health { transform: translateY(-40px) scale(0.1); }
 .map-asset.dropping-in#map-building-health { transform: translateY(0px) scale(0.2); }
 
 
 /* Front Row / Closer */
-#map-building-emporium { /* Market Stall */
+#map-building-emporium { /* Market Stall - Always visible */
     left: 40%;
     bottom: 15%;
     z-index: 15;
-    transform: scale(0.2);
-    cursor: pointer;
+    transform: scale(0.2); /* Final display scale */
 }
-/* Emporium is not locked, so no specific .locked or .dropping-in for it unless you change its default state */
+/* No .locked or .dropping-in needed if it's always visible from start */
 
 
-/* ... (styles for house_domus, house_insula, fountain, trees, if you're using them - apply similar .locked and .dropping-in logic if they are unlockable) ... */
+/* Scenery like trees (assuming always visible) */
 #map-tree-conifer-legacy-1 {
     left: 5%;
     bottom: 55%;
     z-index: 5;
     transform: scale(0.35);
+    cursor: default; /* Trees might not be clickable */
 }
-/* Assuming trees are always visible and not locked/animated for now */
+/* Add other non-interactive scenery similarly */
 
 
-/* ... (rest of your CSS) ... */
-
-
-/* ==========================================================================
-   (Rest of style.css)
-   ========================================================================== */
-
-/* District Navigation */
-.district-entry {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5px; /* Space between entries */
+/* Building Name Tag */
+#buildingNameTag {
+    position: absolute;
+    background-color: var(--theme-primary-dark);
+    color: var(--theme-text-on-dark);
+    padding: 3px 8px;
+    font-size: 12px;
+    border: 1px solid var(--theme-primary-accent);
+    box-shadow: 2px 2px 0px var(--theme-primary-accent);
+    z-index: 100;
+    opacity: 0;
+    transform: translateY(10px) scale(0.9);
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+    pointer-events: none;
+    white-space: nowrap;
 }
-
-.district-entry .district-link {
-    flex-grow: 1; /* Link takes available space */
-}
-
-.unlock-district-button {
-    margin-left: 10px;
-    padding: 5px 10px; /* Make it a bit smaller than default action-button if needed */
-    font-size: 14px;
-}
-
-.district-link.locked-link { /* Style for links of locked districts if desired */
-    /* opacity: 0.7; */
-    /* pointer-events: none; /* uncomment if you want to disable click on link too */
+#buildingNameTag.visible {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
 }
 
 
-/* ... (rest of existing CSS) ... */
-/* ==========================================================================
-   (Rest of style.css)
-   ========================================================================== */
-/* ... (your existing CSS, including the map asset styles) ... */
+/* Hub - District Navigation & Summaries (Dashboard) */
+.district-navigation { /* Old nav, can be hidden if dashboard cards are primary */
+     /* display: none; */
+     margin-top: 20px;
+     padding: 15px;
+     background-color: var(--theme-light-bg);
+     border: var(--pixel-border-width) solid var(--theme-border-main);
+     box-shadow: 2px 2px 0 var(--theme-primary-dark);
+}
+.district-navigation h3 {
+    font-size: 20px; color: var(--theme-primary-accent); margin-bottom: 10px;
+    padding-bottom: 5px; border-bottom: 1px dashed var(--theme-primary-accent);
+}
+.district-navigation ul li { margin-bottom: 8px; }
+.district-link { /* Now primarily for Manage buttons on cards, or old nav */
+    display: flex; align-items: center; padding: 8px 10px;
+    background-color: var(--theme-card-bg);
+    border: var(--pixel-border-width) solid var(--theme-border-main);
+    color: var(--theme-text-main); transition: all 0.2s ease;
+}
+.district-link:hover {
+    background-color: var(--theme-light-bg); border-color: var(--theme-primary-accent);
+    text-decoration: none; transform: translateX(2px);
+}
+.district-link i { margin-right: 10px; color: var(--theme-tertiary-accent); }
+.district-status { margin-left: auto; font-size: 0.85em; color: #777; font-style: italic; }
+
+.district-entry { /* For old nav style if kept */
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 5px;
+}
+.district-entry .district-link { flex-grow: 1; }
+
 
 /* Dashboard Specific Styles */
-.dashboard-header .app-title-container h1 {
-    font-size: 32px; /* Larger title for dashboard */
-}
-
-.dashboard-main {
-    margin-top: 20px;
-}
-
+.dashboard-header .app-title-container h1 { font-size: 32px; }
+.dashboard-main { margin-top: 20px; }
 .district-summaries-container h2 {
-    text-align: center;
-    font-size: 24px;
-    color: var(--theme-primary-accent);
-    margin-bottom: 20px;
-    padding-bottom: 10px;
+    text-align: center; font-size: 24px; color: var(--theme-primary-accent);
+    margin-bottom: 20px; padding-bottom: 10px;
     border-bottom: var(--pixel-border-width) dashed var(--theme-primary-accent);
 }
-
 .summaries-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
 }
-
 .district-summary-card {
     background-color: var(--theme-card-bg);
     border: var(--pixel-border-width) solid var(--theme-border-main);
-    padding: 15px;
-    box-shadow: 3px 3px 0px 0px var(--theme-primary-dark);
+    padding: 15px; box-shadow: 3px 3px 0px 0px var(--theme-primary-dark);
 }
-
 .district-summary-card.locked-summary {
-    opacity: 0.7;
-    background-color: var(--theme-light-bg); /* Different bg for locked */
+    opacity: 0.7; background-color: var(--theme-light-bg);
+}
+.district-summary-card.locked-summary .manage-district-button {
+    /*pointer-events: none; /* Make manage button unclickable for locked */
+    /* background-color: #bbb; */
+    /* color: #777; */
+    /* border-color: #999; */
 }
 
 .summary-card-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    padding-bottom: 8px;
-    border-bottom: 1px dashed var(--theme-primary-accent);
+    display: flex; align-items: center; margin-bottom: 10px;
+    padding-bottom: 8px; border-bottom: 1px dashed var(--theme-primary-accent);
 }
-
-.summary-card-header i {
-    font-size: 20px;
-    color: var(--theme-primary-accent);
-    margin-right: 10px;
-}
-
-.summary-card-header h3 {
-    margin-bottom: 0;
-    font-size: 20px;
-}
-
-.district-summary-card p {
-    font-size: 16px;
-    margin-bottom: 8px;
-}
-
+.summary-card-header i { font-size: 20px; color: var(--theme-primary-accent); margin-right: 10px; }
+.summary-card-header h3 { margin-bottom: 0; font-size: 20px; }
+.district-summary-card p { font-size: 16px; margin-bottom: 8px; }
 .summary-card-actions {
-    margin-top: 15px;
-    display: flex;
-    justify-content: flex-end; /* Align buttons to the right */
-    gap: 10px;
+    margin-top: 15px; display: flex; justify-content: flex-end; gap: 10px;
+}
+.summary-card-actions .action-button, /* For unlock buttons */
+.summary-card-actions .manage-district-button /* For 'Manage' links styled as buttons */
+{
+    padding: 6px 12px; font-size: 14px;
+}
+/* Ensure 'Manage' link looks like an action button */
+.manage-district-button {
+    composes: action-button; /* Conceptual */
+    display: inline-block; /* Make <a> behave more like button for styling */
+    background-color: var(--theme-primary-accent); /* Example color */
+    color: var(--theme-card-bg);
+    text-align: center;
+    border: var(--pixel-border-width) solid var(--theme-primary-dark);
+    box-shadow: 1px 1px 0px var(--theme-primary-dark);
+}
+.manage-district-button:hover {
+    background-color: color-mix(in srgb, var(--theme-primary-accent) 90%, black);
+    color: var(--theme-card-bg); /* Keep text color on hover */
+    text-decoration: none; /* Remove underline from link */
+    box-shadow: 2px 2px 0px var(--theme-primary-dark);
+    transform: translateY(-1px);
 }
 
-.summary-card-actions .action-button { /* For manage/unlock buttons */
-    padding: 6px 12px;
-    font-size: 14px;
+
+.hub-footer {
+    text-align: center; margin-top: 30px; padding-top: 15px;
+    border-top: var(--pixel-border-width) dashed var(--theme-tertiary-accent);
+    font-size: 0.9em; color: var(--theme-text-main);
 }
 
-/* Hide the old district navigation if using dashboard cards */
-/* #districtNavigation {
-    display: none;
-} */
+
+/* ==========================================================================
+   9. ANIMATIONS & KEYFRAMES
+   ========================================================================== */
+@keyframes pointsFlash { /* ... */ }
+@keyframes retroFadeIn { /* ... */ }
+@keyframes retroPulseBorder { /* ... */ }
+@keyframes pulseWarning { /* ... */ }
+@keyframes fadeInBg { /* ... */ }
+@keyframes zoomInModal { /* ... */ }
+@keyframes flickerBrand { /* ... */ }
+@keyframes coinShine { /* ... */ }
+@keyframes scanlinesVending { /* ... */ }
+@keyframes trayTextFlicker { /* ... */ }
+@keyframes spin { /* ... */ }
+@keyframes masteredPop { /* ... */ }
+@keyframes fadeOutAndShrink { /* ... */ }
 
 
-/* Make sure mobile styles are considered */
+/* ==========================================================================
+   10. MEDIA QUERIES (Responsive Design)
+   ========================================================================== */
 @media (max-width: 600px) {
-    .summaries-grid {
-        grid-template-columns: 1fr; /* Stack cards on mobile */
-    }
-    #cityMapPlaceholder {
-        height: 180px; /* Adjust map height on mobile if needed */
-    }
+    body { padding: 10px; padding-bottom: 70px; font-size: 16px; }
+    .app-container, .rome-hub-container { padding: 0; }
+    .header-section { padding: 8px; }
+    .app-title-container h1 { font-size: 24px; }
+    .app-title-container i.title-icon { font-size: 22px; }
+    .header-stats-bar { gap: 5px 8px; }
+    .points-display { font-size: 14px; }
+    .moment-card .moment-header { padding: 6px; gap: 5px; }
+    .moment-card .moment-timestamp { font-size: 0.75em; }
+    .list-controls-bar { padding: 6px; }
+    #selectAllButton, #testKnowledgeButton { font-size: 14px; padding: 5px 8px; }
+    .modal-content { padding: 15px; }
+    .modal-content h2, .modal-content h3 { font-size: 18px; }
+    .quiz-modal-button { font-size: 14px; padding: 6px 10px; min-width: 100px;}
+    .shop-navigation-area { gap: 10px; margin-bottom: 15px; padding: 8px; }
+    .shop-nav-button { font-size: 14px; padding: 6px 10px; }
+    .vending-machine-page-container { padding: 0; }
+    .vending-machine-header { flex-direction: column; align-items: center; gap: 10px; }
+    .brand-logo h1 { order: 1; font-size: 24px; text-align:center; }
+    .coin-slot-display { order: 2; }
+    .vending-machine-display-window { height: auto; min-height: 300px; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; padding: 15px; }
+    .vending-item-name { font-size: 16px; }
+    .vending-item-description { font-size: 12px; min-height: 2.4em; }
+    .vending-item-button { font-size: 14px; padding: 6px 8px; }
+    .vending-item-preview { height: 50px; }
+    .smoke-tracker-content .moment-card { padding: 10px; }
+    .timer-display { font-size: 24px; }
+    .log-button { font-size: 16px; padding: 8px 12px; }
+    .action-button { font-size: 13px; padding: 3px 6px; }
+    .status-limit-section span { font-size: 15px; }
+    .limit-setting input[type="text"], .limit-setting input[type="number"] { width: 50px; font-size:14px; }
+    .daily-progress-chart-container { height: 110px; }
+    .chart-bar-value, .chart-day-label { font-size: 11px; }
+    .calendar-month-year { font-size: 18px; }
+    .calendar-grid th, .calendar-day-number { font-size: 12px; }
+    .calendar-grid td { height: 40px; }
+    .shop-toolbar-header-link { font-size: 16px; padding: 6px 10px; }
+    .shop-toolbar-header-link .shop-pts-display { font-size: 14px; }
+
+    /* Dashboard specific mobile */
+    .summaries-grid { grid-template-columns: 1fr; } /* Stack cards */
+    #cityMapPlaceholder { height: 180px; /* Or adjust as needed */ }
+    .dashboard-header .app-title-container h1 { font-size: 28px; }
+}
+
+@media (max-width: 400px) {
+    .header-stats-bar { justify-content: center; }
+    .vending-machine-display-window { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+    .moment-card .moment-main-text { flex-direction: column; align-items: flex-start; }
+    .moment-card .moment-timestamp { margin-left: 0; margin-top: 3px; }
 }
