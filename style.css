@@ -1731,18 +1731,15 @@ body.shop-active {
     .moment-card .moment-timestamp { margin-left: 0; margin-top: 3px; }
 }
 
-
 /* ==========================================================================
    (Existing CSS above)
    ========================================================================== */
-
-/* Add this new section, or append to an existing relevant one like Layout/Hub visuals */
 
 /* Hub - City Map Visualizer */
 #cityMapPlaceholder {
     /* Ensures it's a positioning context for its children. */
     /* overflow: hidden; is good to prevent assets from spilling out if mispositioned. */
-    /* background-color: var(--theme-page-bg); /* Optional: Match page background or set a specific map BG */
+    /* background-color: #D2B48C; /* A sandy/earthy tone for the ground */
     /* Consider adding a subtle background pattern or image for the ground later */
 }
 
@@ -1751,80 +1748,90 @@ body.shop-active {
     image-rendering: pixelated; /* Keeps pixel art crisp */
     image-rendering: -moz-crisp-edges; /* Firefox */
     image-rendering: crisp-edges; /* Other browsers */
-    /* Default bottom alignment, adjust as needed */
-    bottom: 10px; /* A small gap from the very bottom of the placeholder */
+    bottom: 0px; /* Default to bottom, specific assets will override */
     /* Prevent dragging images */
     -webkit-user-drag: none;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    /* Adjust transform-origin if you plan to scale from the bottom */
+    transform-origin: bottom center;
 }
 
-/* Specific asset positioning - adjust these values to create your scene! */
-/* Heights/widths are not set here; using natural image dimensions.
-   You might need to scale them with transform: scale() or set explicit width/height
-   if their natural sizes are too large/small for the 200px placeholder height.
-   For this prototype, I'll assume natural sizes are somewhat reasonable.
-*/
-
-#map-temple-large {
-    left: 50%;
-    transform: translateX(-50%); /* Center it */
-    bottom: 20px; /* Raise it a bit to be prominent */
-    z-index: 10;
-    /* max-height: 150px; /* Example to control size if needed */
+/* --- Road Tiles --- */
+/* Assuming road_tile.png is a square, let's guess its height is around 32-48px */
+/* You'll need to know the actual height of road_tile.png to position correctly */
+/* For this example, let's assume road_tile.png is 40px high. */
+#map-road-tile-1 {
+    left: 30%;
+    bottom: 0px;
+    z-index: 1;
+    /* width: 15%; /* Example if you want to control width */
 }
-
-#map-tree-conifer-1 {
-    left: 25%;
-    bottom: 15px;
-    z-index: 15; /* In front of temple if overlaps */
-    /* max-height: 120px; */
-}
-
-#map-tree-round-1 {
-    left: 65%;
-    bottom: 15px;
-    z-index: 15;
-    /* max-height: 100px; */
-}
-
-#map-gatehouse-1 {
-    left: 10%;
-    bottom: 10px;
-    z-index: 12;
-    /* max-height: 90px; */
-}
-
-#map-column-1 {
-    left: 80%;
-    bottom: 10px;
-    z-index: 5; /* Potentially behind other things if it's a ruin */
-    /* max-height: 100px; */
-}
-
-#map-bush-1 {
-    left: 35%;
-    bottom: 5px; /* Closer to the very bottom */
-    z-index: 20; /* Foreground */
-    /* max-height: 40px; */
-}
-
-#map-bush-2 {
-    left: 58%;
-    bottom: 5px;
-    z-index: 20;
-    /* max-height: 40px; */
-}
-
-/* Example: if you had clouds
-#map-cloud-1 {
-    top: 10px;
-    left: 15%;
+#map-road-tile-2 {
+    left: calc(30% + 40px); /* Adjust 40px to actual width of road_tile */
+    bottom: 0px;
     z-index: 1;
 }
-*/
+#map-road-tile-3 {
+    left: calc(30% + 80px); /* Adjust 80px to 2x actual width of road_tile */
+    bottom: 0px;
+    z-index: 1;
+}
+
+/* --- Buildings & Structures --- */
+#map-temple-forum {
+    left: 50%;
+    transform: translateX(-50%); /* Center it */
+    bottom: 30px; /* Lifted as it's a main structure, above the basic road height */
+    z-index: 10;
+    max-height: 120px; /* Control size if needed */
+}
+
+#map-city-gatehouse {
+    left: 10%;
+    bottom: 0px; /* Assuming it sits on the ground line */
+    z-index: 12;
+    max-height: 100px;
+}
+
+#map-triumphal-arch {
+    right: 10%;
+    bottom: 0px; /* Sits on ground */
+    z-index: 12;
+    max-height: 110px;
+}
+
+#map-house-domus-1 {
+    left: 25%;
+    bottom: 10px; /* Slightly above ground if road is 0px */
+    z-index: 8;
+    max-height: 80px;
+}
+
+#map-house-insula-1 {
+    right: 25%;
+    bottom: 10px;
+    z-index: 8;
+    max-height: 90px;
+}
+
+#map-fountain {
+    left: 45%;
+    bottom: 5px; /* Slightly in front of temple, on the road level */
+    z-index: 15;
+    max-height: 50px;
+}
+
+/* --- Legacy Tree (if still used and in assets/images/) --- */
+#map-tree-conifer-legacy-1 {
+    left: 70%;
+    bottom: 10px;
+    z-index: 20; /* In front of some buildings */
+    max-height: 90px;
+}
+
 
 /* ==========================================================================
    (Rest of style.css)
