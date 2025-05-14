@@ -4,32 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Theme Emporium - Rome Hub</title>
-    <!-- Path to global stylesheet from within districts/emporium/ -->
     <link rel="stylesheet" href="../../style.css">
-    <!--
-        If districts/emporium/shop-specific.css exists and has essential structural styles
-        that ARE NOT theme-related and DON'T conflict with the global style.css,
-        you can uncomment it. Otherwise, prefer styling in the global style.css.
-        For now, it's commented out to ensure global styles take precedence.
-    -->
-    <!-- <link rel="stylesheet" href="shop-specific.css"> -->
+    <!-- <link rel="stylesheet" href="shop-specific.css"> --> <!-- Keep commented for now -->
 </head>
 <body>
-    <!-- Adjust container class to match your Rome Hub's main wrapper if needed -->
-    <div class="rome-hub-container" id="emporiumShopPage"> <!-- ID for potential page-specific CSS scoping -->
+    <div class="rome-hub-container" id="emporiumShopPage">
         <nav class="hub-navigation">
-            <!-- Standard Navigation back to Hub. Adjust path and classes as needed. -->
             <a href="../../index.html" class="nav-link">Back to Rome Hub</a>
         </nav>
 
-        <main class="rome-content-area"> <!-- Class for consistent content padding/layout -->
+        <main class="rome-content-area">
             <header class="shop-header">
                 <h1>Theme Emporium</h1>
                 <div class="currency-display">
                     <span>Available Funds: </span>
                     <span id="emporiumUserCurrency">0</span>
-                    <!-- Path to coin icon from within districts/emporium/ -->
-                    <img src="../../assets/images/icons/coin.png" alt="Coins" class="currency-icon">
+                    <img src="/assets/images/icons/coin.png" alt="Coins" class="currency-icon"> <!-- OPTION A: Root-relative -->
+                    <!-- If reverting path strategy, use: <img src="../../assets/images/icons/coin.png" ... > -->
                 </div>
             </header>
 
@@ -39,28 +30,15 @@
                 <button class="filter-btn" data-filter="unlockable">Unlockable</button>
             </nav>
 
-            <!--
-                The class 'summaries-grid' is assumed from your dashboard for layout.
-                If you have a different grid system or want specific styling for the shop,
-                you might use a different class or add more specific CSS rules.
-            -->
             <div id="emporiumThemeGrid" class="summaries-grid">
-                <!-- Theme cards will be dynamically populated here -->
-                <p>Loading themes...</p> <!-- This will be replaced by JS -->
+                <p>Loading themes...</p>
             </div>
         </main>
     </div>
 
-    <!--
-    CRITICAL: Load shared JS modules first. Paths are relative to districts/emporium/
-    Ensure DataManager and ThemeManager are correctly loaded and globally accessible
-    BEFORE shop-script.js is executed.
-    -->
-    <script src="../../js/shared-utils.js"></script> <!-- If it exists and is a dependency -->
+    <script src="../../js/shared-utils.js"></script>
     <script src="../../js/data-manager.js"></script>
     <script src="../../js/theme-manager.js"></script>
-
-    <script src="shop-script.js"></script> <!-- The script for this page -->
-
+    <script src="shop-script.js"></script>
 </body>
 </html>
