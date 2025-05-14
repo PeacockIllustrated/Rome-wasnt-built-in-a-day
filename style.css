@@ -9,6 +9,66 @@
    1. ROOT VARIABLES & DEFAULTS
    ========================================================================== */
 :root {
+
+   /* style.css - at the top or in a variables section */
+:root {
+    --rome-font-family: 'Your Rome Font', sans-serif; /* Replace with your font */
+    --rome-primary-color: #795548; /* Example: Brown */
+    --rome-text-color: #3a2e20;    /* Example: Dark Brown */
+    --rome-text-color-secondary: #5d4037;
+    --rome-text-color-muted: #8c7b70;
+    --rome-background-color: #fdf6e8; /* Example: Light Cream */
+    --rome-card-background: #fffaf0;  /* Example: Creamy White for cards */
+    --rome-card-background-subtle: #f5f0e1;
+    --rome-border-color: #ddcba7;     /* Example: Tan border */
+    --rome-border-color-light: #e0d6c1;
+    --rome-border-color-dark: #a1887f;
+    --rome-accent-color: #8d6e63;     /* Example: Muted Brown/Red */
+    --rome-accent-text-color: #ffffff;
+    --rome-accent-color-dark: #6d4c41;
+    --rome-accent-color-light: #e0efff; /* This was a placeholder, adjust */
+
+    --rome-button-secondary-bg: #d7ccc8;
+    --rome-button-secondary-text: #5d4037;
+    --rome-button-secondary-border: #bcaaa4;
+    --rome-button-secondary-hover-bg: #bcaaa4;
+    --rome-button-secondary-hover-border: #a1887f;
+
+    --rome-button-disabled-bg: #e0e0e0; /* Lighter gray for disabled */
+    --rome-button-disabled-text: #9e9e9e;
+    --rome-button-disabled-border: #c7c7c7;
+
+
+    --rome-success-bg: #e8f5e9; /* Light Green */
+    --rome-success-text: #388e3c;
+    --rome-success-border: #a5d6a7;
+
+    --rome-info-bg: #e3f2fd; /* Light Blue */
+    --rome-info-text: #1976d2;
+    --rome-info-border: #90caf9;
+
+    --rome-border-radius-xs: 2px;
+    --rome-border-radius-sm: 4px;
+    --rome-border-radius-md: 6px;
+
+    /* Spacing variables (optional but good practice) */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md-sm: 12px;
+    --space-md: 16px;
+    --space-lg: 24px;
+
+    /* Font sizes */
+    --font-size-xs: 0.8em;
+    --font-size-sm: 0.95em;
+    --font-size-md: 1em;
+    --font-size-lg: 1.3em;
+    --font-size-xl: 2em;
+
+    /* Icon sizes */
+    --icon-size-sm: 14px;
+    --icon-size-md: 22px;
+
     /* Default Theme Values (Fallback) */
     --retro-dark-default: #264653;
     --retro-teal-default: #2A9D8F;
@@ -48,8 +108,9 @@
    2. BASE ELEMENT STYLES
    ========================================================================== */
 body {
-    font-family: 'VT323', monospace;
-    color: var(--theme-text-main);
+   font-family: var(--rome-font-family);
+    background-color: var(--rome-background-color);
+    color: var(--rome-text-color);
     line-height: 1.5;
     padding: 15px;
     font-size: 18px;
