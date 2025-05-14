@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rome Wasn't Built in a Day!</title>
+    <title>Rome Wasn't Built in a Day! - Governor's Dashboard</title> <!-- New Title -->
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,80 +11,93 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <canvas id="particleCanvasRome"></canvas> <!-- Hub specific particle canvas -->
+    <canvas id="particleCanvasRome"></canvas>
 
     <div class="app-container rome-hub-container">
 
-        <div id="cityMapPlaceholder" style="width:100%; height: 200px; border: 2px dashed var(--theme-primary-accent); display:flex; align-items:center; justify-content:center; margin-bottom:20px; position: relative; overflow: hidden;">
-            <!-- Base City Assets (always visible for now) -->
+        <header class="header-section dashboard-header"> <!-- Added class for specific styling -->
+            <div class="app-title-bar">
+                <div class="app-title-container">
+                    <i class="fas fa-landmark title-icon"></i>
+                    <h1>Governor's Dashboard</h1>
+                </div>
+            </div>
+            <div class="header-stats-bar">
+                <div class="points-display">
+                    <i class="fas fa-coins points-icon"></i> <span id="userTotalPoints">0</span> TOTAL PTS
+                </div>
+                <div class="points-display">
+                    <i class="fas fa-city points-icon"></i> <span id="cityProsperityScore">LVL 1</span> PROSPERITY
+                </div>
+            </div>
+        </header>
+
+        <!-- City Map Visualizer -->
+        <div id="cityMapPlaceholder" style="width:100%; height: 220px; /* Slightly taller */ border: 2px dashed var(--theme-primary-accent); margin-bottom:20px; position: relative; overflow: hidden;">
+            <!-- Base City Assets -->
             <img src="assets/images/city-pack/city_gatehouse.png" alt="City Gatehouse" id="map-city-gatehouse" class="map-asset">
             <img src="assets/images/city-pack/temple_forum.png" alt="Forum Temple" id="map-temple-forum" class="map-asset">
             <img src="assets/images/tree_conifer.png" alt="Conifer Tree" id="map-tree-conifer-legacy-1" class="map-asset">
             <img src="assets/images/city-pack/triumphal_arch.png" alt="Triumphal Arch" id="map-triumphal-arch" class="map-asset">
 
-            <!-- District-Specific Buildings (initially hidden) -->
+            <!-- District Buildings -->
             <img src="assets/images/city-pack/basilica.png" alt="Knowledge Forum Basilica" id="map-building-knowledge" class="map-asset district-building locked">
             <img src="assets/images/city-pack/public_bath.png" alt="Health District Baths" id="map-building-health" class="map-asset district-building locked">
-            <!-- We can add one for Emporium too, always visible or unlocked by default -->
             <img src="assets/images/city-pack/market_stall.png" alt="Emporium Market" id="map-building-emporium" class="map-asset district-building">
-
-
         </div>
 
-        <header class="header-section">
-            <div class="app-title-bar">
-                <div class="app-title-container">
-                    <i class="fas fa-landmark title-icon"></i>
-                    <h1>My Rome</h1>
-                </div>
-            </div>
-            <div class="header-stats-bar">
-                <div class="points-display">
-                    <i class="fas fa-coins points-icon"></i> <span id="userTotalPoints">0</span> PTS
-                </div>
-                <div class="points-display">
-                    <i class="fas fa-city points-icon"></i> <span id="cityProsperityScore">LVL 1</span>
-                </div>
-            </div>
-        </header>
 
-        <main class="rome-city-view" id="romeCityView">
-            <h2>Welcome, Governor!</h2>
-            <p>Your burgeoning city awaits your command. Develop districts to grow your Roman empire!</p>
+        <main class="dashboard-main">
+            <section class="district-summaries-container">
+                <h2>District Overview</h2>
+                <div class="summaries-grid">
+                    <!-- Knowledge Forum Summary Card -->
+                    <div class="district-summary-card" id="summary-knowledge">
+                        <div class="summary-card-header">
+                            <i class="fas fa-book-open"></i>
+                            <h3>Knowledge Forum</h3>
+                        </div>
+                        <p class="district-summary-status">Status: Needs Development</p>
+                        <p class="district-summary-data">Data: N/A</p>
+                        <div class="summary-card-actions">
+                            <a href="districts/knowledge_forum/knowledge.html" class="action-button manage-district-button" id="linkKnowledgeForum">Manage</a>
+                            <button class="action-button unlock-district-button" data-district="knowledge">Unlock</button>
+                        </div>
+                    </div>
+
+                    <!-- Health District Summary Card -->
+                    <div class="district-summary-card" id="summary-health">
+                        <div class="summary-card-header">
+                            <i class="fas fa-heartbeat"></i>
+                            <h3>Health District</h3>
+                        </div>
+                        <p class="district-summary-status">Status: Needs Development</p>
+                        <p class="district-summary-data">Data: N/A</p>
+                        <div class="summary-card-actions">
+                            <a href="districts/health_district/smoke-tracker.html" class="action-button manage-district-button" id="linkHealthDistrict">Manage</a>
+                            <button class="action-button unlock-district-button" data-district="health">Unlock</button>
+                        </div>
+                    </div>
+
+                    <!-- Emporium Summary Card -->
+                    <div class="district-summary-card" id="summary-emporium">
+                        <div class="summary-card-header">
+                            <i class="fas fa-store"></i>
+                            <h3>Emporium</h3>
+                        </div>
+                        <p class="district-summary-status">Status: Operational</p>
+                        <p class="district-summary-data">Data: N/A</p> <!-- JS will populate -->
+                        <div class="summary-card-actions">
+                             <a href="districts/emporium/shop.html" class="action-button manage-district-button" id="linkEmporium">Visit Shop</a>
+                             <!-- No unlock button for Emporium as it's default open -->
+                        </div>
+                    </div>
+                     <!-- Add more district cards as needed -->
+                </div>
+            </section>
+
+            <!-- Potentially other dashboard sections like Global Goals, City Stats etc. -->
         </main>
-
-        <nav class="district-navigation" id="districtNavigation">
-            <h3>Districts</h3>
-            <ul>
-                <li>
-                    <div class="district-entry">
-                        <a href="districts/knowledge_forum/knowledge.html" class="district-link" id="linkKnowledgeForum">
-                            <i class="fas fa-book-open"></i> Knowledge Forum
-                            <span class="district-status" id="statusKnowledgeForum"></span>
-                        </a>
-                        <button class="action-button unlock-district-button" data-district="knowledge">Unlock</button>
-                    </div>
-                </li>
-                <li>
-                    <div class="district-entry">
-                        <a href="districts/health_district/smoke-tracker.html" class="district-link" id="linkHealthDistrict">
-                            <i class="fas fa-heartbeat"></i> Health District
-                            <span class="district-status" id="statusHealthDistrict"></span>
-                        </a>
-                        <button class="action-button unlock-district-button" data-district="health">Unlock</button>
-                    </div>
-                </li>
-                <li>
-                    <div class="district-entry">
-                        <a href="districts/emporium/shop.html" class="district-link" id="linkEmporium">
-                            <i class="fas fa-store"></i> Emporium
-                            <span class="district-status" id="statusEmporium">(Open)</span>
-                        </a>
-                        <!-- Emporium is unlocked by default for now -->
-                    </div>
-                </li>
-            </ul>
-        </nav>
 
         <footer class="hub-footer">
             <p>© <span id="currentYear"></span> IDKY Corp. All roads lead to data.</p>
