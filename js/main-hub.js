@@ -3,31 +3,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const userTotalPointsDisplay = document.getElementById('userTotalPoints');
     const cityProsperityScoreDisplay = document.getElementById('cityProsperityScore');
     const currentYearDisplay = document.getElementById('currentYear');
-    const districtNav = document.getElementById('districtNavigation'); // Keep this for unlock buttons on cards
+    // districtNav is not directly used for main nav anymore, but unlock buttons are on cards
     const cityMapPlaceholder = document.getElementById('cityMapPlaceholder');
+    const buildingNameTag = document.getElementById('buildingNameTag');
+
+    let selectedBuildingElement = null;
+    let nameTagTimeout = null;
 
     const districtMapConfig = {
         knowledge: {
             buildingId: 'map-building-knowledge',
             url: 'districts/knowledge_forum/knowledge.html',
-            linkId: 'linkKnowledgeForum', // Corresponds to the 'Manage' button ID on the card
-            statusId: 'statusKnowledgeForum', // Not directly used if status text is in summary card
+            linkId: 'linkKnowledgeForum', // ID of the 'Manage' button on its card
             name: 'Knowledge Forum',
             summaryElementId: 'summary-knowledge'
         },
         health: {
             buildingId: 'map-building-health',
             url: 'districts/health_district/smoke-tracker.html',
-            linkId: 'linkHealthDistrict', // Corresponds to the 'Manage' button ID on the card
-            statusId: 'statusHealthDistrict', // Not directly used
+            linkId: 'linkHealthDistrict', // ID of the 'Manage' button on its card
             name: 'Health District',
             summaryElementId: 'summary-health'
         },
         emporium: {
             buildingId: 'map-building-emporium',
             url: 'districts/emporium/shop.html',
-            linkId: 'linkEmporium', // Corresponds to the 'Manage' button ID on the card
-            statusId: 'statusEmporium', // Not directly used
+            linkId: 'linkEmporium', // ID of the 'Manage' button on its card
             name: 'Emporium',
             summaryElementId: 'summary-emporium'
         }
@@ -43,15 +44,16 @@ document.addEventListener('DOMContentLoaded', () => {
         performDailyGlobalTasks();
         
         if (cityMapPlaceholder) {
-            checkAllDistrictStatuses();
+            checkAllDistrictStatuses(); // Set initial visibility and data-name attributes
         } else {
             console.error("City Map Placeholder not found during init!");
         }
-        setupDistrictControls(); 
+        setupDistrictControls(); // For unlock buttons on cards
+        setupMapInteractions(); // For map building clicks
 
         console.log("Rome Hub Initialized.");
         SharedUtils.showToast("Welcome to your Rome!", 2000);
-        updateDashboardSummaries(); // Call after everything is set up
+        updateDashboardSummaries(); // Populate dashboard cards
     }
 
     function updatePointsDisplay() {
@@ -84,7 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
         DataManager.saveData(`${HUB_DATA_PREFIX}unlocked_${districtKey}`, true);
         SharedUtils.showToast(`${config.name} District Unlocked!`, 2500, 'success');
         
-        updateDistrictUIVisuals(districtKey, true); 
+        updateDistrictUIVisuals(districtKey, true); // Animate the unlocked building
+        updateDashboardSummaries(); // Refresh dashboard card for this district
     }
 
     function updateDistrictUIVisuals(districtKey, animate = false) {
@@ -95,61 +98,58 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const buildingElement = document.getElementById(config.buildingId);
-        // Link element is now the 'Manage' button on the card
-        const manageButtonElement = document.getElementById(config.linkId); 
         const summaryElement = document.getElementById(config.summaryElementId);
-        // Unlock button is now specifically within the summary card for that district
         const unlockButton = summaryElement ? summaryElement.querySelector(`.unlock-district-button[data-district="${districtKey}"]`) : null;
-
+        // const manageButtonElement = document.getElementById(config.linkId); // For styling the manage button
 
         if (!buildingElement) console.warn(`Building element not found for ID: ${config.buildingId}`);
-        if (!manageButtonElement && districtKey !== 'emporium') console.warn(`Manage button (link) element not found for ID: ${config.linkId}`); // Emporium might have different button text
         if (!summaryElement) console.warn(`Summary element not found for ID: ${config.summaryElementId}`);
-
 
         const unlocked = isDistrictUnlocked(districtKey);
 
         if (buildingElement) {
+            // Ensure data attributes are set for name tag and navigation
+            buildingElement.dataset.url = config.url;
+            buildingElement.dataset.districtKey = districtKey;
+            if (!buildingElement.dataset.name) { // Set if not already in HTML
+                 buildingElement.dataset.name = config.name;
+            }
+
             if (unlocked) {
                 buildingElement.classList.remove('locked');
                 
                 if (animate) {
-                    void buildingElement.offsetWidth; 
+                    void buildingElement.offsetWidth; // Force reflow
                     buildingElement.classList.add('dropping-in');
                     buildingElement.addEventListener('transitionend', () => {
                         buildingElement.classList.remove('dropping-in');
                     }, { once: true });
                 }
-                buildingElement.dataset.url = config.url;
-                buildingElement.removeEventListener('click', navigateToDistrict);
-                buildingElement.addEventListener('click', navigateToDistrict);
+                // Click listener is handled globally by setupMapInteractions
             } else {
                 buildingElement.classList.add('locked');
-                buildingElement.removeEventListener('click', navigateToDistrict);
             }
         }
 
         if (unlockButton) {
             unlockButton.style.display = unlocked ? 'none' : 'inline-block';
         }
-        
-        // If you want to visually change the manage button when locked/unlocked
-        if (manageButtonElement) {
-             manageButtonElement.classList.toggle('locked-link', !unlocked); // Example class
-        }
 
-
+        // Update dashboard card content
         if (summaryElement) {
             const statusDisplay = summaryElement.querySelector('.district-summary-status');
             const dataDisplay = summaryElement.querySelector('.district-summary-data');
+            const manageButton = summaryElement.querySelector('.manage-district-button');
+
 
             if (statusDisplay) {
                 statusDisplay.textContent = unlocked ? "Status: Operational" : "Status: Needs Development";
-                if (districtKey === 'emporium') statusDisplay.textContent = "Status: Operational"; // Emporium always operational
+                if (districtKey === 'emporium') statusDisplay.textContent = "Status: Operational";
             }
             
             if (dataDisplay) {
                 if (unlocked) {
+                    // Fetch and display actual data
                     if (districtKey === 'knowledge') {
                         dataDisplay.textContent = "Insights Logged: " + DataManager.loadData('idky_moments', []).length;
                     } else if (districtKey === 'health') {
@@ -162,25 +162,98 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             summaryElement.classList.toggle('locked-summary', !unlocked && districtKey !== 'emporium');
+            if(manageButton) {
+                // Optionally hide/disable manage button if locked
+                // manageButton.style.display = unlocked ? 'inline-block' : 'none';
+            }
         }
     }
     
-    function navigateToDistrict(event) {
-        const url = event.currentTarget.dataset.url;
-        if (url) {
-            window.location.href = url;
-        }
+    function setupMapInteractions() {
+        if (!cityMapPlaceholder) return;
+
+        cityMapPlaceholder.addEventListener('click', (event) => {
+            const clickedElement = event.target;
+
+            if (clickedElement.classList.contains('map-asset') && !clickedElement.classList.contains('locked')) {
+                const districtKey = clickedElement.dataset.districtKey;
+                const buildingName = clickedElement.dataset.name || "Structure"; // Fallback name
+                const buildingUrl = clickedElement.dataset.url;
+
+                if (selectedBuildingElement === clickedElement) {
+                    if (buildingUrl) {
+                        window.location.href = buildingUrl;
+                    }
+                    hideNameTag();
+                    selectedBuildingElement = null;
+                } else {
+                    showNameTag(clickedElement, buildingName);
+                    selectedBuildingElement = clickedElement;
+                }
+            } else {
+                if (selectedBuildingElement) {
+                    hideNameTag();
+                    selectedBuildingElement = null;
+                }
+            }
+        });
     }
 
+    function showNameTag(buildingElement, name) {
+        if (!buildingNameTag || !buildingElement) return;
+        buildingNameTag.textContent = name;
+
+        const buildingRect = buildingElement.getBoundingClientRect();
+        const placeholderRect = cityMapPlaceholder.getBoundingClientRect();
+
+        let tagTop = (buildingRect.bottom - placeholderRect.top) + 5;
+        let tagLeft = (buildingRect.left - placeholderRect.left) + (buildingRect.width / 2);
+        
+        buildingNameTag.style.left = `0px`; // Reset before measuring
+        buildingNameTag.style.top = `0px`; // Reset before measuring
+        buildingNameTag.classList.add('visible'); // Make it visible to measure its dimensions
+
+        const tagWidth = buildingNameTag.offsetWidth;
+        const tagHeight = buildingNameTag.offsetHeight;
+
+        tagLeft -= (tagWidth / 2); // Center the tag
+
+        // Boundary checks
+        if (tagLeft < 5) tagLeft = 5; // Add some padding from edge
+        if (tagLeft + tagWidth > placeholderRect.width - 5) {
+            tagLeft = placeholderRect.width - tagWidth - 5;
+        }
+        if (tagTop + tagHeight > placeholderRect.height - 5) {
+            tagTop = (buildingRect.top - placeholderRect.top) - tagHeight - 5; // Position above
+        }
+         if (tagTop < 5) tagTop = 5; // Prevent going off top
+
+        buildingNameTag.style.left = `${tagLeft}px`;
+        buildingNameTag.style.top = `${tagTop}px`;
+        
+        clearTimeout(nameTagTimeout);
+        nameTagTimeout = setTimeout(() => {
+            if (selectedBuildingElement === buildingElement) {
+                hideNameTag();
+                selectedBuildingElement = null;
+            }
+        }, 3000);
+    }
+
+    function hideNameTag() {
+        if (!buildingNameTag) return;
+        buildingNameTag.classList.remove('visible');
+        clearTimeout(nameTagTimeout);
+    }
+    
     function checkAllDistrictStatuses() {
         console.log("Checking all district statuses on load...");
         for (const districtKey in districtMapConfig) {
-            updateDistrictUIVisuals(districtKey, false); 
+            updateDistrictUIVisuals(districtKey, false); // No animation on initial load
         }
     }
     
     function setupDistrictControls() {
-        // Event delegation for unlock buttons if they are dynamically added or many
         const summariesContainer = document.querySelector('.district-summaries-container');
         if (summariesContainer) {
             summariesContainer.addEventListener('click', (event) => {
@@ -188,30 +261,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     const districtKey = event.target.dataset.district;
                     unlockDistrict(districtKey);
                 }
+                // Could also handle manage button clicks here if they don't have hrefs
             });
-        }
-
-
-        // For Emporium (always unlocked), ensure its building is clickable
-        if (isDistrictUnlocked('emporium')) {
-            const emporiumConfig = districtMapConfig.emporium;
-            const emporiumBuilding = document.getElementById(emporiumConfig.buildingId);
-            if (emporiumBuilding) {
-                emporiumBuilding.classList.remove('locked'); 
-                emporiumBuilding.dataset.url = emporiumConfig.url;
-                emporiumBuilding.addEventListener('click', navigateToDistrict);
-            }
         }
     }
     
     function updateDashboardSummaries() {
         for (const districtKey in districtMapConfig) {
-            updateDistrictUIVisuals(districtKey, false); // Re-run to populate data correctly
+            updateDistrictUIVisuals(districtKey, false); // Refresh data on cards
         }
     }
 
     // --- INITIALIZE THE HUB ---
-    initializeHub(); 
-    // updateDashboardSummaries(); // This is now called at the end of initializeHub
+    initializeHub();
 
 }); // END OF DOMContentLoaded
