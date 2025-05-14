@@ -1804,7 +1804,7 @@ body.shop-active {
 }
 
 #map-building-health { /* Public Bath */
-    left: 72%;
+    left: 60%;
     bottom: 50%; /* Mid-depth on the dirt */
     z-index: 12;
     transform: scale(0.3); /* Smaller */
@@ -1814,7 +1814,7 @@ body.shop-active {
 /* Front Row / Closer */
 #map-building-emporium { /* Market Stall */
     left: 40%;
-    bottom: 35%; /* Closer to the foreground on the dirt */
+    bottom: 15%; /* Closer to the foreground on the dirt */
     z-index: 15;
     transform: scale(0.2); /* Slightly larger than other front buildings if it's a key one */
     cursor: pointer;
