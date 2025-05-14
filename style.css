@@ -1737,11 +1737,10 @@ body.shop-active {
 
 /* Hub - City Map Visualizer */
 #cityMapPlaceholder {
-    background-image: url('assets/images/background/background.png'); /* NEW BACKGROUND */
-    background-size: cover; /* Stretch to cover the container, might crop */
-    background-position: center center; /* Center the background image */
+    background-image: url('assets/images/background/background.png');
+    background-size: cover;
+    background-position: center center;
     background-repeat: no-repeat;
-    /* The light-bg color is removed from inline style, border is still there */
 }
 
 .map-asset {
@@ -1749,99 +1748,131 @@ body.shop-active {
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
-    /* bottom: 0px; */ /* Default bottom will be overridden per asset */
     -webkit-user-drag: none;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
-    transform-origin: bottom center; /* IMPORTANT for scaling from the base */
+    transform-origin: bottom center;
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    max-height: initial; /* Let scale primarily control size */
 }
 
 .map-asset.locked {
     display: none;
 }
 
-/* --- Asset Positioning - Adjusted for NEW background.png --- */
+/* --- Asset Positioning - SIGNIFICANTLY SMALLER SCALES --- */
 /*
-    With the new background, buildings will likely be placed within or around
-    the large central dirt patch.
-    'bottom' values will be percentages or pixels from the bottom of the 200px placeholder.
-    You'll need to visually map these to the dirt area or paths in background.png.
-    The dirt area seems to occupy roughly the middle 50-60% vertically.
+    Targeting space for 6-7 buildings.
+    The 'bottom' percentages now need to be more precise to place them
+    on the visual ground of background.png.
+    The central dirt patch appears to be roughly between bottom: 20% and bottom: 70%
+    of the placeholder's height.
 */
 
-/* Central Large Structure (e.g., on the main dirt patch, slightly towards the back) */
-#map-temple-forum {
+/* Back Row / Slightly further away */
+#map-temple-forum { /* Central, but not overly dominant */
     left: 50%;
-    transform: translateX(-50%) scale(0.85); /* Scaled appropriately */
-    bottom: 55%; /* Positioned in the upper part of the dirt area */
+    transform: translateX(-50%) scale(0.45); /* Much smaller */
+    bottom: 60%; /* Higher on the dirt patch, appearing further */
     z-index: 10;
-    max-height: initial;
 }
 
-/* District Buildings - Placed around the central area or on paths */
-#map-building-knowledge { /* Basilica - Knowledge Forum */
-    left: 25%;
-    bottom: 40%; /* On the edge of the dirt, or on a path */
-    z-index: 12;
-    transform: scale(0.75);
-    max-height: initial;
-    cursor: pointer;
-}
-
-#map-building-health { /* Public Bath - Health District */
-    left: 75%;
-    bottom: 40%; /* Symmetrical to knowledge building */
-    z-index: 12;
-    transform: scale(0.7);
-    max-height: initial;
-    cursor: pointer;
-}
-
-#map-building-emporium { /* Market Stall - Emporium */
-    left: 50%;
-    transform: translateX(-50%) scale(0.7);
-    bottom: 25%; /* More towards the foreground of the dirt patch */
-    z-index: 15;
-    max-height: initial;
-    cursor: pointer;
-}
-
-
-/* Supporting Structures / Scenery */
-#map-city-gatehouse { /* Could be at an entrance path */
+#map-city-gatehouse {
     left: 10%;
-    bottom: 30%; /* Near a path leading into the area */
-    z-index: 8; /* Potentially further back */
-    transform: scale(0.65);
-    max-height: initial;
-}
-
-#map-triumphal-arch { /* Another entrance or landmark on a path */
-    left: 88%;
-    bottom: 30%;
+    bottom: 45%; /* On a path leading up */
     z-index: 8;
-    transform: scale(0.7);
-    max-height: initial;
+    transform: scale(0.35); /* Smaller */
 }
 
-#map-tree-conifer-legacy-1 { /* Placed on a grassy area */
+#map-triumphal-arch {
+    left: 88%;
+    bottom: 45%; /* On a path leading up */
+    z-index: 8;
+    transform: scale(0.38); /* Smaller */
+}
+
+
+/* Middle Row - District Buildings */
+#map-building-knowledge { /* Basilica */
+    left: 28%;
+    bottom: 50%; /* Mid-depth on the dirt */
+    z-index: 12;
+    transform: scale(0.4); /* Smaller */
+    cursor: pointer;
+}
+
+#map-building-health { /* Public Bath */
+    left: 72%;
+    bottom: 50%; /* Mid-depth on the dirt */
+    z-index: 12;
+    transform: scale(0.38); /* Smaller */
+    cursor: pointer;
+}
+
+/* Front Row / Closer */
+#map-building-emporium { /* Market Stall */
+    left: 40%;
+    bottom: 35%; /* Closer to the foreground on the dirt */
+    z-index: 15;
+    transform: scale(0.42); /* Slightly larger than other front buildings if it's a key one */
+    cursor: pointer;
+}
+
+/* Adding back some smaller houses or structures for density */
+/* You'll need to add these back to index.html if they were removed */
+/* Make sure you have these in your assets/images/city-pack/ folder */
+
+/* Example if you add house_domus back to HTML: */
+/* <img src="assets/images/city-pack/house_domus.png" alt="Domus House" id="map-house-domus-1" class="map-asset district-building locked"> */
+#map-house-domus-1 {
     left: 15%;
-    bottom: 65%; /* Higher up, on the green area */
-    z-index: 5; /* Can be further back */
-    transform: scale(0.6);
-    max-height: initial;
+    bottom: 30%; /* Foreground area */
+    z-index: 14;
+    transform: scale(0.33);
+    /* If this is an unlockable, it needs the 'locked' class in HTML and JS logic */
+    /* cursor: pointer; */
 }
 
-/*
-    Remove or re-purpose these if they don't fit the new background well,
-    or add new ones from your city-pack as needed.
-    #map-house-domus-1
-    #map-house-insula-1
-    #map-fountain
-*/
+/* Example if you add house_insula back to HTML: */
+/* <img src="assets/images/city-pack/house_insula.png" alt="Insula House" id="map-house-insula-1" class="map-asset district-building locked"> */
+#map-house-insula-1 {
+    left: 80%;
+    bottom: 30%; /* Foreground area */
+    z-index: 14;
+    transform: scale(0.35);
+    /* If this is an unlockable, it needs the 'locked' class in HTML and JS logic */
+    /* cursor: pointer; */
+}
+
+/* Example if you add fountain back to HTML */
+/* <img src="assets/images/city-pack/fountain.png" alt="Fountain" id="map-fountain" class="map-asset"> */
+#map-fountain {
+    left: 58%; /* Slightly off-center in front */
+    bottom: 25%; /* Very foreground */
+    z-index: 20;
+    transform: scale(0.3);
+}
+
+
+/* Scenery like trees */
+#map-tree-conifer-legacy-1 { /* Assuming this is still used from assets/images/ */
+    left: 5%; /* On the grassy edge */
+    bottom: 55%; /* On the green area, appearing mid-distance */
+    z-index: 5; /* Can be behind some structures */
+    transform: scale(0.35);
+}
+
+/* You might want to add more trees from your city-pack or original assets */
+/* e.g., a tree on the right side: */
+/* In HTML: <img src="assets/images/tree_round_large.png" alt="Round Tree" id="map-tree-round-1" class="map-asset"> */
+#map-tree-round-1 { /* Add this ID to a tree in your HTML if you use it */
+    left: 92%;
+    bottom: 55%;
+    z-index: 5;
+    transform: scale(0.38);
+}
 
 
 /* ==========================================================================
