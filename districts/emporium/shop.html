@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Theme Emporium - Rome Hub</title>
-    <link rel="stylesheet" href="../../style.css">
-    <!-- <link rel="stylesheet" href="shop-specific.css"> --> <!-- Keep commented for now -->
+    <link rel="stylesheet" href="../../style.css"> <!-- Global Rome Theme FIRST -->
+    <link rel="stylesheet" href="shop-specific.css"> <!-- Emporium Specific Overrides/Additions AFTER -->
 </head>
 <body>
     <div class="rome-hub-container" id="emporiumShopPage">
@@ -19,8 +19,7 @@
                 <div class="currency-display">
                     <span>Available Funds: </span>
                     <span id="emporiumUserCurrency">0</span>
-                    <img src="/assets/images/icons/coin.png" alt="Coins" class="currency-icon"> <!-- OPTION A: Root-relative -->
-                    <!-- If reverting path strategy, use: <img src="../../assets/images/icons/coin.png" ... > -->
+                    <img src="/assets/images/icons/coin.png" alt="Coins" class="currency-icon">
                 </div>
             </header>
 
