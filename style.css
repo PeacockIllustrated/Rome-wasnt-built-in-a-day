@@ -1737,11 +1737,9 @@ body.shop-active {
 
 /* Hub - City Map Visualizer */
 #cityMapPlaceholder {
-    background-image: url('assets/images/background-road.png');
+    background-image: url('assets/images/background/background.png'); /* NEW BACKGROUND */
     background-size: cover; /* Stretch to cover the container, might crop */
-    /* background-size: contain; /* Fit entire image within container, might leave gaps */
-    /* background-size: 100% auto; /* Stretch to full width, auto height */
-    background-position: center bottom; /* Keep the road part at the bottom */
+    background-position: center center; /* Center the background image */
     background-repeat: no-repeat;
     /* The light-bg color is removed from inline style, border is still there */
 }
@@ -1751,138 +1749,104 @@ body.shop-active {
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
-    bottom: 5px; /* Default bottom, adjust based on road in background */
+    /* bottom: 0px; */ /* Default bottom will be overridden per asset */
     -webkit-user-drag: none;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
-    transform-origin: bottom center;
-}
-
-/* --- Asset Positioning - Adjusted for new background and to reduce clustering --- */
-/* Values are illustrative; fine-tune them based on actual sprite sizes and desired layout */
-/* The goal is to place them on or behind the road in background-road.png */
-/* The 'bottom' values might need significant adjustment depending on how high the road is in your background image. */
-/* If background-road.png has a lot of sky, these 'bottom' values might need to be higher. */
-/* Let's assume the road in background-road.png occupies roughly the bottom 20-30% of the 200px placeholder height. */
-
-#map-city-gatehouse {
-    left: 8%; /* Further left */
-    bottom: 25px; /* Adjust this based on road height in background */
-    z-index: 10;
-    max-height: 75px; /* Made smaller */
-}
-
-#map-house-domus-1 {
-    left: 22%; /* Spaced out */
-    bottom: 30px;
-    z-index: 12;
-    max-height: 60px; /* Made smaller */
-}
-
-#map-fountain {
-    left: 38%; /* Spaced out */
-    bottom: 20px; /* Lower, assuming it's in front */
-    z-index: 15;
-    max-height: 40px; /* Made smaller */
-}
-
-#map-temple-forum {
-    left: 50%;
-    transform: translateX(-50%); /* Center */
-    bottom: 35px; /* Main building, higher up */
-    z-index: 9; /* Might be behind fountain or other foreground elements */
-    max-height: 100px; /* Made smaller than before */
-}
-
-#map-house-insula-1 {
-    left: 68%; /* Spaced out */
-    /* right: 22%; */ /* Alternative to left if you prefer */
-    bottom: 30px;
-    z-index: 12;
-    max-height: 70px; /* Made smaller */
-}
-
-#map-tree-conifer-legacy-1 {
-    left: 80%;
-    /* right: 12%; */
-    bottom: 28px;
-    z-index: 14; /* Can be in front of some buildings */
-    max-height: 70px; /* Made smaller */
-}
-
-#map-triumphal-arch {
-    left: 90%;
-    /* right: 5%; */
-    bottom: 25px;
-    z-index: 10;
-    max-height: 80px; /* Made smaller */
-}
-
-/* ... (existing CSS) ... */
-
-/* Hub - City Map Visualizer */
-#cityMapPlaceholder {
-    background-image: url('assets/images/background-road.png');
-    background-size: cover;
-    background-position: center bottom;
-    background-repeat: no-repeat;
-}
-
-.map-asset {
-    /* ... (existing .map-asset styles) ... */
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* For smooth appearance */
+    transform-origin: bottom center; /* IMPORTANT for scaling from the base */
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
 .map-asset.locked {
-    display: none; !important; /* Hide locked buildings initially */
-    /* Or use opacity for a fade-in effect: */
-    /* opacity: 0; */
-    /* pointer-events: none; */
+    display: none;
 }
 
-/* --- Asset Positioning --- */
-/* Base City Assets (Adjust as needed) */
-#map-city-gatehouse {
-    left: 5%; bottom: 25px; z-index: 10; max-height: 70px;
-}
-#map-temple-forum { /* This could be a central, always visible landmark */
-    left: 50%; transform: translateX(-50%); bottom: 35px; z-index: 8; max-height: 90px;
-}
-#map-tree-conifer-legacy-1 {
-    left: 88%; bottom: 28px; z-index: 14; max-height: 65px;
-}
-#map-triumphal-arch {
-    left: 75%; bottom: 25px; z-index: 10; max-height: 75px;
+/* --- Asset Positioning - Adjusted for NEW background.png --- */
+/*
+    With the new background, buildings will likely be placed within or around
+    the large central dirt patch.
+    'bottom' values will be percentages or pixels from the bottom of the 200px placeholder.
+    You'll need to visually map these to the dirt area or paths in background.png.
+    The dirt area seems to occupy roughly the middle 50-60% vertically.
+*/
+
+/* Central Large Structure (e.g., on the main dirt patch, slightly towards the back) */
+#map-temple-forum {
+    left: 50%;
+    transform: translateX(-50%) scale(0.85); /* Scaled appropriately */
+    bottom: 55%; /* Positioned in the upper part of the dirt area */
+    z-index: 10;
+    max-height: initial;
 }
 
-
-/* District-Specific Buildings - Position them where they should appear when unlocked */
-#map-building-knowledge { /* Basilica for Knowledge Forum */
+/* District Buildings - Placed around the central area or on paths */
+#map-building-knowledge { /* Basilica - Knowledge Forum */
     left: 25%;
-    bottom: 30px;
+    bottom: 40%; /* On the edge of the dirt, or on a path */
     z-index: 12;
-    max-height: 85px;
-    cursor: pointer; /* Indicates it's clickable */
-}
-
-#map-building-health { /* Public Bath for Health District */
-    left: 60%;
-    bottom: 30px;
-    z-index: 12;
-    max-height: 70px;
+    transform: scale(0.75);
+    max-height: initial;
     cursor: pointer;
 }
 
-#map-building-emporium { /* Market Stall for Emporium */
-    left: 40%; /* Example position */
-    bottom: 20px;
+#map-building-health { /* Public Bath - Health District */
+    left: 75%;
+    bottom: 40%; /* Symmetrical to knowledge building */
+    z-index: 12;
+    transform: scale(0.7);
+    max-height: initial;
+    cursor: pointer;
+}
+
+#map-building-emporium { /* Market Stall - Emporium */
+    left: 50%;
+    transform: translateX(-50%) scale(0.7);
+    bottom: 25%; /* More towards the foreground of the dirt patch */
     z-index: 15;
-    max-height: 55px;
+    max-height: initial;
     cursor: pointer;
 }
 
+
+/* Supporting Structures / Scenery */
+#map-city-gatehouse { /* Could be at an entrance path */
+    left: 10%;
+    bottom: 30%; /* Near a path leading into the area */
+    z-index: 8; /* Potentially further back */
+    transform: scale(0.65);
+    max-height: initial;
+}
+
+#map-triumphal-arch { /* Another entrance or landmark on a path */
+    left: 88%;
+    bottom: 30%;
+    z-index: 8;
+    transform: scale(0.7);
+    max-height: initial;
+}
+
+#map-tree-conifer-legacy-1 { /* Placed on a grassy area */
+    left: 15%;
+    bottom: 65%; /* Higher up, on the green area */
+    z-index: 5; /* Can be further back */
+    transform: scale(0.6);
+    max-height: initial;
+}
+
+/*
+    Remove or re-purpose these if they don't fit the new background well,
+    or add new ones from your city-pack as needed.
+    #map-house-domus-1
+    #map-house-insula-1
+    #map-fountain
+*/
+
+
+/* ==========================================================================
+   (Rest of style.css)
+   ========================================================================== */
 
 /* District Navigation */
 .district-entry {
