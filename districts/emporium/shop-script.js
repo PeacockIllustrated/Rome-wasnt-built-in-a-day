@@ -1,72 +1,78 @@
 // districts/emporium/shop-script.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    // console.log("districts/emporium/shop-script.js loaded and DOM ready.");
+    let currentUserPoints = 0;
+    let activeThemeId = "default_rome"; // Ensure this matches the ID in ThemeManager
+    let allThemesData = []; // Will be populated from ThemeManager
 
-    let currentUserCurrency = 500;
-    let activeThemeId = "default_rome";
-    const themesData = [ // Ensure your previewImage paths are correct (root-relative or ../../)
-        { id: "default_rome", name: "Imperial Standard", description: "The classic look and feel of Rome, majestic and timeless.", cost: 0, previewImage: "/assets/images/theme-previews/default_rome_preview.png", previewColors: ["#A0522D", "#D2B48C", "#FFFFFF", "#800000"] },
-        { id: "colosseum_sand", name: "Colosseum Sand", description: "Earthy tones inspired by the sands of the grand arena.", cost: 100, previewImage: "/assets/images/theme-previews/colosseum_sand_preview.png", previewColors: ["#DEB887", "#F0E68C", "#3E2723", "#BF360C"] },
-        { id: "senate_marble", name: "Senate Marble", description: "Cool, elegant whites and greys, fit for senatorial decrees.", cost: 150, previewImage: "/assets/images/theme-previews/senate_marble_preview.png", previewColors: ["#E0E0E0", "#BDBDBD", "#212121", "#4A148C"] },
-        { id: "night_watch", name: "Night Watch", description: "Darker hues for a city under the stars.", cost: 200, previewImage: "/assets/images/theme-previews/night_watch_preview.png", previewColors: ["#263238", "#455A64", "#CFD8DC", "#FF6F00"] }
-    ];
+    // --- Corrected DataManager & ThemeManager Integration ---
+    function loadInitialData() {
+        if (typeof DataManager !== 'undefined') {
+            currentUserPoints = DataManager.getUserPoints();
+        } else {
+            console.warn("DataManager not found. Simulating points.");
+            currentUserPoints = 500; // Fallback for simulation
+        }
 
-    // --- DataManager & ThemeManager Integration (CRITICAL: ADJUST METHOD NAMES) ---
-    if (typeof DataManager !== 'undefined') {
-        if (typeof DataManager.getCurrency === 'function') currentUserCurrency = DataManager.getCurrency();
-        else if (typeof DataManager.loadData === 'function') {
-            const dmCurrency = DataManager.loadData('romehub_user_currency');
-            if (typeof dmCurrency === 'number') currentUserCurrency = dmCurrency;
-            else console.warn("DM: loadData('romehub_user_currency') !num.");
-        } else console.warn("DM: getCurrency/loadData missing.");
+        if (typeof ThemeManager !== 'undefined') {
+            allThemesData = ThemeManager.getAllThemes(); // Get themes from ThemeManager
+            activeThemeId = ThemeManager.getCurrentThemeId();
 
-        themesData.forEach(theme => {
-            if (typeof DataManager.isThemeOwned === 'function') theme.isOwned = DataManager.isThemeOwned(theme.id);
-            else if (typeof DataManager.loadData === 'function') theme.isOwned = !!DataManager.loadData('romehub_owned_theme_' + theme.id);
-            else { console.warn(`DM: isThemeOwned/loadData missing for ${theme.id}.`); theme.isOwned = (theme.id === "default_rome"); }
-        });
-    } else { console.warn("DM not found. Simulating."); themesData.forEach(t => t.isOwned = (t.id === "default_rome"));}
-
-    if (typeof ThemeManager !== 'undefined') {
-        if (typeof ThemeManager.getActiveThemeId === 'function') activeThemeId = ThemeManager.getActiveThemeId() || "default_rome";
-        else console.warn("TM: getActiveThemeId missing.");
-        themesData.forEach(theme => theme.isActive = (theme.id === activeThemeId));
-    } else { console.warn("TM not found. Simulating."); themesData.forEach(t => t.isActive = (t.id === "default_rome"));}
-
-    renderThemeShop();
-    addEventListeners();
+            const ownedThemeIds = ThemeManager.getOwnedThemeIds();
+            allThemesData.forEach(theme => {
+                theme.isOwned = ownedThemeIds.includes(theme.id);
+                theme.isActive = (theme.id === activeThemeId);
+            });
+        } else {
+            console.warn("ThemeManager not found. Simulating themes.");
+            // Fallback simulation if ThemeManager is missing (for isolated testing)
+            allThemesData = [
+                { id: "default_rome", name: "Imperial Standard", description: "Classic Rome.", cost: 0, previewImage: "/assets/images/theme-previews/default_rome_preview.png", previewColors: ["#A0522D", "#D2B48C", "#FFFFFF", "#800000"], isOwned: true, isActive: true },
+                { id: "colosseum_sand", name: "Colosseum Sand", description: "Earthy arena tones.", cost: 100, previewImage: "/assets/images/theme-previews/colosseum_sand_preview.png", previewColors: ["#DEB887", "#F0E68C", "#3E2723", "#BF360C"], isOwned: false, isActive: false },
+            ];
+            activeThemeId = "default_rome";
+        }
+    }
 
     function renderThemeShop() {
         const themeGrid = document.getElementById('emporiumThemeGrid');
         const userCurrencyDisplay = document.getElementById('emporiumUserCurrency');
 
-        if (userCurrencyDisplay) userCurrencyDisplay.textContent = currentUserCurrency;
+        if (userCurrencyDisplay) userCurrencyDisplay.textContent = currentUserPoints;
         else console.error("#emporiumUserCurrency not found!");
         if (!themeGrid) { console.error("#emporiumThemeGrid not found!"); return; }
-        themeGrid.innerHTML = '';
+        themeGrid.innerHTML = ''; // Clear existing content
 
-        if (typeof ThemeManager !== 'undefined' && typeof ThemeManager.getActiveThemeId === 'function') {
-             activeThemeId = ThemeManager.getActiveThemeId() || "default_rome";
+        // Re-fetch active theme ID and owned status before re-rendering
+        if (typeof ThemeManager !== 'undefined') {
+             activeThemeId = ThemeManager.getCurrentThemeId();
+             const ownedThemeIds = ThemeManager.getOwnedThemeIds();
+             allThemesData.forEach(theme => {
+                theme.isOwned = ownedThemeIds.includes(theme.id);
+                theme.isActive = (theme.id === activeThemeId);
+             });
         }
-        themesData.forEach(theme => theme.isActive = (theme.id === activeThemeId));
 
-        themesData.forEach(theme => {
-            const canAfford = currentUserCurrency >= theme.cost;
+
+        allThemesData.forEach(theme => {
+            const canAfford = currentUserPoints >= theme.cost;
             const scrollElement = document.createElement('div');
-            scrollElement.className = 'emporium-theme-scroll'; // New class for the scroll
+            scrollElement.className = 'emporium-theme-scroll';
             scrollElement.dataset.themeId = theme.id;
-            scrollElement.tabIndex = 0; // Make it focusable for keyboard interaction
+            scrollElement.tabIndex = 0;
 
-            let unlockButtonHtml = !theme.isOwned ? `<button class="btn btn-primary btn-unlock-theme" data-theme-id="${theme.id}" data-cost="${theme.cost}" ${!canAfford ? 'disabled title="Insufficient Funds"' : ''}>Unlock ${!canAfford ? '(Low Pts)' : ''}</button>` : '';
+            let unlockButtonHtml = !theme.isOwned ? `<button class="btn btn-primary btn-unlock-theme" data-theme-id="${theme.id}" data-cost="${theme.cost}" ${!canAfford ? 'disabled title="Insufficient Points"' : ''}>Unlock ${theme.cost > 0 ? theme.cost + 'pts' : ''} ${!canAfford && theme.cost > 0 ? '(Low)' : ''}</button>` : '';
             let applyButtonHtml = (theme.isOwned && !theme.isActive) ? `<button class="btn btn-secondary btn-apply-theme" data-theme-id="${theme.id}">Apply</button>` : '';
-            let previewButtonHtml = `<button class="btn btn-info btn-preview-theme" data-theme-id="${theme.id}">Preview</button>`; // Always show preview
+            // let previewButtonHtml = `<button class="btn btn-info btn-preview-theme" data-theme-id="${theme.id}">Preview</button>`; // Preview can be implicit on click/unroll
+
+            // Define the path to your pts icon
+            const ptsIconPath = '/assets/images/icons/coin.png'; // Ensure this path is correct
 
             scrollElement.innerHTML = `
                 <div class="scroll-header">
                     <h3 class="emporium-theme-name">${theme.name}</h3>
                     <div class="emporium-theme-preview-swatches">
-                        ${theme.previewColors.map(color => `<span class="swatch" style="background-color: ${color};"></span>`).join('')}
+                        ${(theme.previewColors || []).map(color => `<span class="swatch" style="background-color: ${color};"></span>`).join('')}
                     </div>
                 </div>
                 <div class="scroll-content">
@@ -77,8 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p class="emporium-theme-description">${theme.description}</p>
                     <div class="emporium-theme-meta">
                         <div class="emporium-theme-status">
-                            <span class="emporium-theme-cost" style="display: ${theme.isOwned ? 'none' : 'inline'};">
-                                Cost: ${theme.cost} <span class="currency-icon-small pts-icon" title="Points"></span>
+                            <span class="emporium-theme-cost" style="display: ${theme.isOwned || theme.cost === 0 ? 'none' : 'inline'};">
+                                Cost: ${theme.cost} <img src="${ptsIconPath}" alt="pts" class="currency-icon-small pts-icon" title="Points">
                             </span>
                             <span class="emporium-theme-owned-badge" style="display: ${theme.isOwned ? 'inline-block' : 'none'};">Owned</span>
                             <span class="emporium-theme-active-badge" style="display: ${theme.isActive ? 'inline-block' : 'none'};">Active</span>
@@ -86,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="emporium-theme-actions">
                             ${unlockButtonHtml}
                             ${applyButtonHtml}
-                            ${previewButtonHtml}
+                            <!-- ${previewButtonHtml} -->
                         </div>
                     </div>
                 </div>
@@ -98,8 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function addEventListeners() {
         const themeGrid = document.getElementById('emporiumThemeGrid');
         if (themeGrid) {
-            themeGrid.addEventListener('click', handleScrollClick); // Changed to handle scroll toggle
-            themeGrid.addEventListener('keydown', (event) => { // Keyboard accessibility for scrolls
+            themeGrid.addEventListener('click', handleScrollClick);
+            themeGrid.addEventListener('keydown', (event) => {
                 if (event.key === 'Enter' || event.key === ' ') {
                     if (event.target.classList.contains('emporium-theme-scroll')) {
                         event.preventDefault();
@@ -107,24 +113,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             });
-            // Delegate button clicks within the scroll
             themeGrid.addEventListener('click', handleThemeActionClick);
         }
-
 
         document.querySelectorAll('#emporiumShopFilters .filter-btn')
             .forEach(button => button.addEventListener('click', handleFilterClick));
     }
-    
+
     function handleScrollClick(event) {
         const scrollElement = event.target.closest('.emporium-theme-scroll');
-        if (scrollElement && !event.target.closest('button')) { // Don't toggle if a button inside was clicked
+        if (scrollElement && !event.target.closest('button')) {
             toggleScroll(scrollElement);
         }
     }
 
     function toggleScroll(scrollElement) {
-        // Close other open scrolls
         document.querySelectorAll('.emporium-theme-scroll.open').forEach(openScroll => {
             if (openScroll !== scrollElement) {
                 openScroll.classList.remove('open');
@@ -133,17 +136,20 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollElement.classList.toggle('open');
     }
 
-    function handleThemeActionClick(event) { // This now handles button clicks inside scrolls
+    function handleThemeActionClick(event) {
         const button = event.target.closest('button');
         if (!button) return;
         const themeId = button.dataset.themeId;
         if (!themeId) return;
 
-        event.stopPropagation(); // Prevent scroll from closing when button is clicked
+        event.stopPropagation();
 
-        if (button.classList.contains('btn-unlock-theme')) unlockTheme(themeId, parseInt(button.dataset.cost, 10));
-        else if (button.classList.contains('btn-apply-theme')) applyTheme(themeId);
-        else if (button.classList.contains('btn-preview-theme')) previewTheme(themeId);
+        if (button.classList.contains('btn-unlock-theme')) {
+            unlockThemeAction(themeId, parseInt(button.dataset.cost, 10));
+        } else if (button.classList.contains('btn-apply-theme')) {
+            applyThemeAction(themeId);
+        }
+        // else if (button.classList.contains('btn-preview-theme')) previewThemeAction(themeId);
     }
 
     function handleFilterClick(event) {
@@ -152,53 +158,105 @@ document.addEventListener('DOMContentLoaded', () => {
         filterThemesDisplay(event.currentTarget.dataset.filter);
     }
 
-    function unlockTheme(themeId, cost) {
-        // CRITICAL: Adjust DataManager method names to match your actual API
-        if (currentUserCurrency >= cost) {
-            if (typeof DataManager !== 'undefined') {
-                let currencyUpdated = false, themeOwnedUpdated = false;
-                if (typeof DataManager.setCurrency === 'function') { DataManager.setCurrency(currentUserCurrency - cost); currencyUpdated = true; }
-                else if (typeof DataManager.saveSingleData === 'function') { DataManager.saveSingleData('romehub_user_currency', currentUserCurrency - cost); currencyUpdated = true; }
+    function unlockThemeAction(themeId, cost) {
+        if (typeof DataManager === 'undefined' || typeof ThemeManager === 'undefined') {
+            console.error("Unlock Error: DataManager or ThemeManager not available.");
+            SharedUtils.showToast("Error: Cannot connect to Scriptorium records.", 3000, 'error');
+            return;
+        }
 
-                if (typeof DataManager.setThemeAsOwned === 'function') { DataManager.setThemeAsOwned(themeId); themeOwnedUpdated = true; }
-                else if (typeof DataManager.saveSingleData === 'function') { DataManager.saveSingleData('romehub_owned_theme_' + themeId, true); themeOwnedUpdated = true; }
+        if (currentUserPoints >= cost) {
+            // Deduct points
+            DataManager.setUserPoints(currentUserPoints - cost);
+            currentUserPoints -= cost; // Update local state
 
-                if (currencyUpdated && themeOwnedUpdated) {
-                    currentUserCurrency -= cost;
-                    const theme = themesData.find(t => t.id === themeId);
-                    if (theme) theme.isOwned = true;
-                    alert(`Scroll of "${theme ? theme.name : themeId}" acquired!`);
-                    renderThemeShop(); // Re-render
-                } else { alert("Could not save unlock. DataManager methods missing/failed."); console.error("Unlock Error: DM methods missing/failed.");}
-            } else { console.error("Unlock Error: DM not available."); alert("Error: Cannot connect to Scriptorium records.");}
-        } else alert("Not enough points for this scroll.");
+            // Add theme to owned
+            if (ThemeManager.addOwnedThemeId(themeId)) {
+                // Update the local allThemesData for immediate UI reflection
+                const theme = allThemesData.find(t => t.id === themeId);
+                if (theme) theme.isOwned = true;
+                
+                SharedUtils.showToast(`Scroll of "${theme ? theme.name : themeId}" acquired!`, 2500, 'success');
+                renderThemeShop(); // Re-render to update button states and currency
+            } else {
+                // If addOwnedThemeId failed (e.g., already owned, though button should be hidden)
+                // Revert points deduction if necessary, or handle as per ThemeManager's return
+                DataManager.setUserPoints(currentUserPoints + cost); // Revert
+                currentUserPoints += cost;
+                SharedUtils.showToast("Failed to record theme ownership.", 3000, 'error');
+            }
+        } else {
+            SharedUtils.showToast("Not enough points for this scroll.", 2500, 'warning');
+        }
     }
 
-    function applyTheme(themeId) {
-        // CRITICAL: Adjust ThemeManager method name
-        if (typeof ThemeManager !== 'undefined' && typeof ThemeManager.applyTheme === 'function') {
-            if (ThemeManager.applyTheme(themeId)) {
-                activeThemeId = themeId;
-                alert(`Style of "${themesData.find(t => t.id === themeId)?.name || themeId}" now active!`);
-                renderThemeShop();
-            } else alert("Failed to apply style via ThemeManager.");
-        } else { console.error("Apply Error: TM or applyTheme method missing."); alert("Error: Scribe is unavailable to apply style.");}
+    function applyThemeAction(themeId) {
+        if (typeof ThemeManager === 'undefined') {
+            console.error("Apply Error: ThemeManager not available.");
+            SharedUtils.showToast("Error: Scribe is unavailable to apply style.", 3000, 'error');
+            return;
+        }
+
+        if (ThemeManager.setCurrentThemeId(themeId)) {
+            activeThemeId = themeId; // Update local state
+            const theme = allThemesData.find(t => t.id === themeId);
+            SharedUtils.showToast(`Style of "${theme ? theme.name : themeId}" now active!`, 2500, 'success');
+            renderThemeShop(); // Re-render to update active status and button states
+        } else {
+            SharedUtils.showToast("Failed to apply style.", 3000, 'error');
+        }
     }
 
-    function previewTheme(themeId) {
-        const theme = themesData.find(t => t.id === themeId);
-        alert(`Previewing style of "${theme ? theme.name : themeId}" - Scribe is preparing a vision...`);
-    }
+    // function previewThemeAction(themeId) {
+    //     // Basic preview: show toast. Could be expanded to temporarily apply styles.
+    //     const theme = allThemesData.find(t => t.id === themeId);
+    //     SharedUtils.showToast(`Previewing: ${theme ? theme.name : themeId}`, 2000, 'info');
+    // }
 
     function filterThemesDisplay(filterType) {
         document.querySelectorAll('#emporiumThemeGrid .emporium-theme-scroll').forEach(scroll => {
-            const theme = themesData.find(t => t.id === scroll.dataset.themeId);
+            const themeId = scroll.dataset.themeId;
+            const theme = allThemesData.find(t => t.id === themeId);
             if (!theme) { scroll.style.display = 'none'; return; }
-            let showScroll = (filterType === 'all') ||
-                           (filterType === 'owned' && theme.isOwned) ||
-                           (filterType === 'unlockable' && !theme.isOwned);
+
+            let showScroll = false;
+            switch (filterType) {
+                case 'all':
+                    showScroll = true;
+                    break;
+                case 'owned':
+                    showScroll = theme.isOwned;
+                    break;
+                case 'unlockable':
+                    showScroll = !theme.isOwned && theme.cost > 0;
+                    break;
+                default:
+                    showScroll = true;
+            }
             scroll.style.display = showScroll ? '' : 'none';
-            if (!showScroll) scroll.classList.remove('open'); // Close filtered out scrolls
+            if (!showScroll) scroll.classList.remove('open');
         });
     }
+
+    // --- Initialize Shop ---
+    loadInitialData();
+    renderThemeShop();
+    addEventListeners();
+
+    // Add specific styling for the small pts icon in the card if not already in CSS
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = `
+        .currency-icon-small.pts-icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: var(--space-xs, 4px);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-image: url('/assets/images/icons/coin.png'); /* Path to your pts icon */
+        }
+    `;
+    document.head.appendChild(styleSheet);
+
 });
