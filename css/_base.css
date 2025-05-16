@@ -1,0 +1,63 @@
+/* css/_base.css - Base element styling */
+
+body {
+    font-family: var(--rome-font-family);
+    background-color: var(--theme-page-bg); /* Updated by ThemeManager */
+    color: var(--theme-text-main);         /* Updated by ThemeManager */
+    line-height: 1.6; /* Slightly more for VT323 readability */
+    padding: var(--space-md);
+    font-size: 18px; /* Base font size */
+    overflow-x: hidden;
+    min-height: 100vh;
+    /* Background pattern from old style, if still desired and not theme-specific */
+    /* If pattern should change with theme, it should be part of theme's cssVariables */
+    /* background-image:
+        radial-gradient(rgba(38, 70, 83, 0.3) 1px, transparent 1px),
+        radial-gradient(rgba(244, 162, 97, 0.4) 1px, transparent 1px);
+    background-size: 50px 50px, 100px 100px;
+    background-position: 0 0, 25px 25px; */
+    padding-bottom: 80px; /* For fixed toolbars, adjust if needed */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--theme-text-main); /* Or var(--rome-primary-color) if headings are always a specific color */
+    margin-bottom: 0.6em; /* Adjusted margin */
+    line-height: 1.3;
+    letter-spacing: 0.5px; /* Good for VT323 */
+}
+
+h1 { font-size: var(--font-size-xl); }
+h2 { font-size: calc(var(--font-size-xl) * 0.8); }
+h3 { font-size: var(--font-size-lg); }
+/* etc. for h4, h5, h6 */
+
+p {
+    margin-bottom: 1em;
+}
+
+a {
+    color: var(--theme-primary-accent); /* Updated by ThemeManager */
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+a:hover {
+    text-decoration: underline;
+    color: var(--theme-highlight-accent); /* Updated by ThemeManager */
+}
+
+ul, ol { /* Basic list styling if not reset */
+    list-style: none; /* Assuming reset handles this, or keep it */
+    padding-left: 0;  /* Assuming reset handles this */
+    margin-bottom: 1em;
+}
+li {
+    margin-bottom: 0.5em;
+}
+
+
+/* Font Awesome Icons - general styling */
+i.fas, i.far, i.fab, i.fa { /* Added .fa for general Font Awesome use */
+    vertical-align: middle;
+    margin-right: var(--space-xs);
+    line-height: 1; /* Helps with alignment */
+}
