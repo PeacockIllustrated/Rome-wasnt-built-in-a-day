@@ -1,5 +1,8 @@
 /* css/_variables.css */
 :root {
+    /* !!! IMPORTANT: Replace 'Rome-wasnt-built-in-a-day' with your actual repository name if different !!! */
+    --repo-name-prefix: "/Rome-wasnt-built-in-a-day"; /* Or "" if using a custom domain mapped to root */
+
     /* Rome Theme Variables */
     --rome-font-family: 'VT323', monospace;
     --rome-primary-color: #795548; /* Brown */
@@ -37,27 +40,24 @@
     --rome-button-info-hover-bg: #546E7A;
     --rome-button-info-hover-border: #37474F;
 
-    --rome-button-disabled-bg: #E0E0E0; /* Lighter gray for disabled */
+    --rome-button-disabled-bg: #E0E0E0;
     --rome-button-disabled-text: #9E9E9E;
     --rome-button-disabled-border: #BDBDBD;
 
-    /* Success/Info (from Quiz, good to have globally) */
-    --rome-success-bg: #DFF0D8; /* Light Greenish Parchment */
-    --rome-success-text: #3C763D; /* Dark Green */
+    --rome-success-bg: #DFF0D8;
+    --rome-success-text: #3C763D;
     --rome-success-border: #8DBF8B;
 
-    --rome-info-bg: #e3f2fd; /* Light Blue */
+    --rome-info-bg: #e3f2fd;
     --rome-info-text: #1976d2;
     --rome-info-border: #90caf9;
 
-    /* Layout & Sizing */
     --rome-border-radius-xs: 3px;
     --rome-border-radius-sm: 5px;
     --rome-border-radius-md: 8px;
 
     --rome-card-shadow: 3px 3px 0px var(--rome-border-color-dark);
 
-    /* Spacing variables */
     --space-xs: 4px;
     --space-sm: 8px;
     --space-md-sm: 12px;
@@ -65,47 +65,25 @@
     --space-lg: 24px;
     --space-xl: 32px;
 
-    /* Font sizes */
     --font-size-xs: 0.8em;
     --font-size-sm: 0.95em;
     --font-size-md: 1em;
     --font-size-lg: 1.3em;
     --font-size-xl: 2em;
 
-    /* Icon sizes */
     --icon-size-sm: 14px;
     --icon-size-md: 22px;
 
-    /* Icon Path - CRITICAL: ADJUST THIS PATH TO BE CORRECT FROM THE ROOT OF YOUR SITE */
-    /* If shop.html is at districts/emporium/shop.html, then to get to assets/images/icons/coin.png */
-    /* the path from shop.html would be ../../assets/images/icons/coin.png */
-    /* For CSS, it's relative to the CSS file location OR use root-relative /assets/... */
-    /* Assuming style.css is at the root: */
-    /* --pts-icon-url: url('/assets/images/icons/coin.png'); */
-    /* If your GitHub pages site is at username.github.io/repository-name/ */
-    /* then you might need: url('/repository-name/assets/images/icons/coin.png'); */
-    /* For now, using the relative path from where _emporium.css would be if it needs it */
-    /* Better: keep it general for JS to use, and CSS uses relative from CSS file. */
-    /* --pts-icon-url: url('../../assets/images/icons/coin.png'); */ /* If css/_emporium.css references it */
-     --pts-icon-url: url('../../assets/images/icons/coin.png'); /* Path relative FROM the CSS file that uses it */
+    /* Corrected Icon Path for CSS */
+    --pts-icon-url: url(var(--repo-name-prefix, "") + "/assets/images/icons/coin.png");
 
 
-    /* Default Theme Values (Fallback for old ThemeManager structure, less relevant now) */
-    --retro-dark-default: #264653;
-    --retro-teal-default: #2A9D8F;
-    --retro-yellow-default: #E9C46A;
-    --retro-orange-default: #F4A261;
-    --retro-coral-default: #E76F51;
-    --retro-light-bg-default: #EAEAEA;
-    --retro-card-bg-default: #FFFFFF;
-    --retro-text-on-dark-default: #EAEAEA;
-    --retro-page-bg-default: rgb(174, 217, 211);
-
-    /* Generic Theme Variables - JS updates these based on the active --rome- theme */
-    --theme-primary-dark: var(--rome-primary-color); /* Example mapping */
+    /* Generic Theme Variables - These are updated by ThemeManager */
+    /* Their initial values here act as fallbacks IF ThemeManager fails or before it runs */
+    --theme-primary-dark: var(--rome-primary-color);
     --theme-primary-accent: var(--rome-accent-color);
     --theme-secondary-accent: var(--rome-secondary-color);
-    --theme-tertiary-accent: var(--rome-border-color); /* Example */
+    --theme-tertiary-accent: var(--rome-border-color);
     --theme-highlight-accent: var(--rome-accent-color-dark);
     --theme-light-bg: var(--rome-card-background-subtle);
     --theme-card-bg: var(--rome-card-background);
@@ -114,6 +92,5 @@
     --theme-text-on-dark: var(--rome-accent-text-color);
     --theme-page-bg: var(--rome-background-color);
 
-    /* Common Sizing & Styling Variables (old, may be redundant) */
     --pixel-border-width: 2px;
 }
