@@ -37,6 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add more questions here
     ];
 
+    document.getElementById('testStartQuizDirectly')?.addEventListener('click', () => {
+    if (typeof window.initiateRomeQuiz === 'function') {
+        window.initiateRomeQuiz();
+    }
+});
     // --- DOM Element References ---
     const quizSection = document.getElementById('romeQuizSection');
     const quizTitleEl = document.getElementById('quizTitle'); // If you want to dynamically set it
