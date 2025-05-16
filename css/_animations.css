@@ -1,69 +1,138 @@
 /* css/_animations.css - Keyframe Animations */
 
 @keyframes pointsFlash {
-  0%, 100% { transform: scale(1); color: var(--rome-secondary-color); }
-  50% { transform: scale(1.15); color: var(--rome-accent-color); }
+  0%, 100% {
+    transform: scale(1);
+    color: var(--rome-secondary-color); /* Start/end with gold */
+  }
+  50% {
+    transform: scale(1.2) rotate(-3deg); /* Add a little rotation */
+    color: var(--rome-accent-text-color); /* Flash to text color on accent */
+    text-shadow: 0 0 5px var(--rome-secondary-color);
+  }
 }
 
-@keyframes retroFadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes retroFadeIn { /* General purpose fade in */
+  from {
+    opacity: 0;
+    transform: translateY(15px); /* Slightly more noticeable entry */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@keyframes retroPulseBorder {
-  0% { border-left-color: var(--rome-secondary-color); } /* Assuming gold for new */
-  50% { border-left-color: var(--rome-accent-color); } /* Pulse to red */
-  100% { border-left-color: var(--rome-secondary-color); }
+@keyframes retroPulseBorder { /* For newly added items, using Roman theme colors */
+  0% {
+    border-left-color: var(--rome-secondary-color); /* Gold */
+    box-shadow: 0 0 3px var(--rome-secondary-color);
+  }
+  50% {
+    border-left-color: var(--rome-accent-color); /* Imperial Red */
+    box-shadow: 0 0 8px var(--rome-accent-color);
+  }
+  100% {
+    border-left-color: var(--rome-secondary-color); /* Gold */
+    box-shadow: 0 0 3px var(--rome-secondary-color);
+  }
 }
 
-@keyframes pulseWarning {
-  0%, 100% { border-color: var(--rome-accent-color); box-shadow: 0 0 3px var(--rome-accent-color); }
-  50% { border-color: var(--rome-accent-color-dark); box-shadow: 0 0 8px var(--rome-accent-color); }
+@keyframes pulseWarning { /* For warnings, using Roman accent */
+  0%, 100% {
+    border-color: var(--rome-accent-color);
+    box-shadow: 0 0 4px var(--rome-accent-color);
+    color: var(--rome-accent-color);
+  }
+  50% {
+    border-color: var(--rome-accent-color-dark);
+    box-shadow: 0 0 10px var(--rome-accent-color);
+    color: var(--rome-accent-color-dark);
+  }
 }
 
-@keyframes fadeInBg {
+@keyframes fadeInBg { /* For modal overlay background */
   from { opacity: 0; }
-  to { opacity: 1; }
+  to { opacity: 1; } /* The actual opacity is set on .modal-overlay */
 }
 
-@keyframes zoomInModal {
-  from { opacity: 0; transform: scale(0.85); }
-  to { opacity: 1; transform: scale(1); }
+@keyframes zoomInModal { /* For modal content entry */
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
-/* Vending machine specific animations - might be moved to a future _vending_machine.css */
+/* Vending machine specific animations - can be removed if vending machine is fully deprecated */
+/* Or kept if you plan to reuse/re-theme it later */
 @keyframes flickerBrand {
-  0%, 100% { opacity: 1; text-shadow: 1px 1px 0 var(--theme-primary-dark, #000), 0 0 5px var(--theme-secondary-accent, #E9C46A); }
-  50% { opacity: 0.8; text-shadow: 1px 1px 0 var(--theme-primary-dark, #000), 0 0 8px var(--theme-secondary-accent, #E9C46A); }
+  0%, 100% { opacity: 1; text-shadow: 1px 1px 0 var(--theme-primary-dark), 0 0 5px var(--theme-secondary-accent); }
+  50% { opacity: 0.8; text-shadow: 1px 1px 0 var(--theme-primary-dark), 0 0 8px var(--theme-secondary-accent); }
 }
 @keyframes coinShine {
-  0%, 100% { opacity: 0.7; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.1); filter: brightness(1.2); }
+  0%, 100% { opacity: 0.7; transform: scale(1); filter: brightness(1); }
+  50% { opacity: 1; transform: scale(1.1); filter: brightness(1.3); }
 }
-@keyframes scanlinesVending {
+@keyframes scanlinesVending { /* Generic scanline, could be reused */
   0% { background-position: 0 0; }
   100% { background-position: 0 100%; }
 }
 @keyframes trayTextFlicker {
-  0%, 100% { opacity: 0.7; }
+  0%, 100% { opacity: 0.6; }
+  25%, 75% { opacity: 0.8; }
   50% { opacity: 1; }
 }
 
 /* General purpose animations */
-@keyframes spin {
+@keyframes spin { /* For loading spinners */
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
-@keyframes masteredPop {
-  0% { transform: scale(0.5); opacity: 0; }
-  70% { transform: scale(1.1); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
+@keyframes masteredPop { /* For "Mastered" items in IDKY */
+  0% { transform: scale(0.3) rotate(-15deg); opacity: 0; }
+  60% { transform: scale(1.1) rotate(5deg); opacity: 1; }
+  80% { transform: scale(0.95) rotate(-2deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
 }
 
-@keyframes fadeOutAndShrink {
-  from { opacity: 1; transform: scaleY(1); max-height: 100px; /* approx height */ padding: 8px; margin-bottom: 10px;}
-  to { opacity: 0; transform: scaleY(0); max-height: 0; padding: 0; margin-bottom: 0; border-width: 0;}
+@keyframes fadeOutAndShrink { /* For archiving items in IDKY */
+  from {
+    opacity: 1;
+    transform: scaleY(1) translateX(0);
+    max-height: 120px; /* Approximate starting height */
+    padding-top: var(--space-sm);
+    padding-bottom: var(--space-sm);
+    margin-bottom: var(--space-md);
+    border-width: var(--border-width-normal);
+  }
+  to {
+    opacity: 0;
+    transform: scaleY(0.5) translateX(-20px); /* Shrink and slide out */
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-width: 0;
+  }
 }
 
-/* Add other shared keyframes here */
+/* Animation for active theme badge in Emporium */
+@keyframes pulseActiveBadge {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 2px 2px 0px var(--rome-border-color-dark);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 3px 3px 2px var(--rome-accent-color-dark), 0 0 5px var(--rome-accent-color);
+        opacity: 0.9;
+    }
+}
+
+/* Add any other global keyframes here */
