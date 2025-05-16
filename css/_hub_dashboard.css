@@ -1,0 +1,195 @@
+/* css/_hub_dashboard.css - Styles for index.html (Dashboard & Map) */
+
+/* Hub - Dashboard Layout & District Summaries */
+.dashboard-header .app-title-container h1 { /* Specific to dashboard header */
+    font-size: 2.5em; /* VT323 is large, adjust as needed */
+    color: var(--rome-primary-color);
+}
+
+.dashboard-main {
+    margin-top: var(--space-lg);
+}
+
+.district-summaries-container h2 {
+    text-align: center;
+    font-size: 1.8em;
+    color: var(--rome-accent-color);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 2px dashed var(--rome-accent-color);
+    letter-spacing: 1px;
+}
+
+.summaries-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.district-summary-card {
+    background-color: var(--rome-card-background);
+    border: 2px solid var(--rome-border-color-dark);
+    padding: var(--space-md);
+    box-shadow: var(--rome-card-shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: var(--rome-border-radius-md);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.district-summary-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 5px 5px 0px var(--rome-border-color-dark), 0 0 10px rgba(from var(--rome-accent-color) r g b / 0.2);
+}
+
+
+.district-summary-card.locked-summary {
+    opacity: 0.8;
+    background-color: var(--rome-card-background-subtle);
+    border-color: var(--rome-border-color);
+    box-shadow: 2px 2px 0px var(--rome-border-color);
+}
+.district-summary-card.locked-summary:hover {
+    transform: none;
+    box-shadow: 2px 2px 0px var(--rome-border-color);
+}
+
+
+.summary-card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px dashed var(--rome-primary-color); /* Use primary for internal dividers */
+}
+
+.summary-card-header i { /* Icon in summary card */
+    font-size: 1.5em;
+    color: var(--rome-primary-color);
+    margin-right: var(--space-sm);
+    width: 25px; /* Consistent icon width */
+    text-align: center;
+}
+
+.summary-card-header h3 {
+    margin-bottom: 0;
+    font-size: 1.5em;
+    color: var(--rome-text-color);
+}
+
+.district-summary-card p.district-summary-status,
+.district-summary-card p.district-summary-data {
+    font-size: 1em;
+    color: var(--rome-text-color-secondary);
+    margin-bottom: var(--space-sm);
+    flex-grow: 1;
+}
+.district-summary-card p.district-summary-data strong {
+    color: var(--rome-text-color);
+}
+
+.summary-card-actions {
+    margin-top: var(--space-md);
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-sm);
+    flex-shrink: 0;
+}
+
+/* .action-button, .manage-district-button styles are in _components.css */
+/* Specific overrides for these buttons *within summary cards* can go here if needed */
+.summary-card-actions .manage-district-button,
+.summary-card-actions .unlock-district-button { /* Target both button types */
+    padding: var(--space-sm) var(--space-md-sm);
+    font-size: 1em;
+}
+
+
+.hub-footer {
+    text-align: center;
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 2px dashed var(--rome-secondary-color); /* Gold footer line */
+    font-size: var(--font-size-sm);
+    color: var(--rome-text-color-muted);
+}
+
+/* Hub - City Map Visualizer CONTAINER */
+#cityMapPlaceholder {
+    width:100%;
+    /* height: 250px; */ /* Default height, can be overridden by inline style */
+    border: 3px groove var(--rome-border-color-dark);
+    margin-bottom: var(--space-lg);
+    position: relative;
+    overflow: hidden;
+    background-color: var(--rome-card-background-subtle); /* Fallback if image fails */
+    /* background-image, size, position should be set by inline styles or JS for dynamic themes */
+}
+
+/* === MAP ASSET STYLES (Scoped to #cityMapPlaceholder) === */
+/* These are from your original style.css, ensure they use new vars if applicable */
+/* Keeping them largely as-is since they are complex positioning rules */
+#cityMapPlaceholder .map-asset {
+    position: absolute;
+    image-rendering: pixelated; /* Keep for pixel art */
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    -webkit-user-drag: none; user-select: none; -moz-user-select: none; -webkit-user-select: none; -ms-user-select: none;
+    transform-origin: bottom center;
+    transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    max-height: initial; /* Should not be needed if images are sized correctly */
+    opacity: 1;
+    cursor: pointer;
+}
+#cityMapPlaceholder .map-asset.locked {
+    opacity: 0.3; /* More visible than 0, but clearly locked */
+    filter: grayscale(80%) opacity(50%); /* Thematic locked state */
+    pointer-events: none;
+    cursor: default;
+    /* transform rules remain specific to each asset's locked state below */
+}
+#cityMapPlaceholder .map-asset.dropping-in { /* Animation for unlocking */
+    opacity: 1;
+    filter: none;
+    /* transform will be its final unlocked state */
+}
+
+/* Back Row */
+#cityMapPlaceholder #map-temple-forum { left: 50%; transform: translateX(-50%) scale(0.2); bottom: 45%; z-index: 12; }
+#cityMapPlaceholder .map-asset.locked#map-temple-forum { transform: translateX(-50%) translateY(-40px) scale(0.1); }
+#cityMapPlaceholder #map-city-gatehouse { left: 0%; bottom: 20%; z-index: 8; transform: scale(0.2); }
+#cityMapPlaceholder .map-asset.locked#map-city-gatehouse { transform: translateY(-40px) scale(0.1); }
+#cityMapPlaceholder #map-triumphal-arch { left: 88%; bottom: 45%; z-index: 8; transform: scale(0.2); }
+#cityMapPlaceholder .map-asset.locked#map-triumphal-arch { transform: translateY(-40px) scale(0.1); }
+/* Middle Row - District Buildings */
+#cityMapPlaceholder #map-building-knowledge { left: 10%; bottom: 70%; z-index: 10; transform: scale(0.25); }
+#cityMapPlaceholder .map-asset.locked#map-building-knowledge { transform: translateY(-40px) scale(0.15); }
+#cityMapPlaceholder #map-building-health { left: 55%; bottom: 60%; z-index: 12; transform: scale(0.2); }
+#cityMapPlaceholder .map-asset.locked#map-building-health { transform: translateY(-40px) scale(0.1); }
+/* Front Row */
+#cityMapPlaceholder #map-building-emporium { left: 40%; bottom: 15%; z-index: 15; transform: scale(0.2); }
+/* Scenery */
+#cityMapPlaceholder #map-tree-conifer-legacy-1 { left: 5%; bottom: 55%; z-index: 5; transform: scale(0.35); cursor: default; filter: none !important; opacity: 1 !important; /* Ensure scenery is always visible */ }
+
+
+/* Building Name Tag */
+#buildingNameTag {
+    position: absolute;
+    background-color: var(--rome-card-background);
+    color: var(--rome-text-color);
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-size-sm);
+    border: 1px solid var(--rome-border-color-dark);
+    box-shadow: 2px 2px 0px var(--rome-border-color-dark);
+    z-index: 100;
+    opacity: 0;
+    transform: translateY(10px) scale(0.9);
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+    pointer-events: none;
+    white-space: nowrap;
+    border-radius: var(--rome-border-radius-xs);
+}
+#buildingNameTag.visible {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+}
