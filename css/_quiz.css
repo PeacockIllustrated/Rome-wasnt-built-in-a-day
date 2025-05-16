@@ -1,0 +1,212 @@
+/* css/_quiz.css - Styles for the Rome Quiz Section */
+
+/* Main Quiz Section Container */
+#romeQuizSection {
+    background-color: var(--rome-card-background-subtle, #f5f0e1); /* A slightly different bg for the quiz area */
+    padding: var(--space-lg);
+    border: 3px double var(--rome-border-color-dark);
+    border-radius: var(--rome-border-radius-md);
+    box-shadow: var(--rome-card-shadow);
+    max-width: 800px; /* Control max width of quiz area */
+    margin: var(--space-lg) auto; /* Center it on the page */
+}
+
+/* Quiz Header */
+.quiz-header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-md);
+    border-bottom: 2px solid var(--rome-border-color);
+}
+
+.quiz-header #quizTitle {
+    font-size: 2.2em; /* Prominent title */
+    color: var(--rome-primary-color);
+    margin-bottom: var(--space-sm);
+    letter-spacing: 1px;
+}
+
+.quiz-header #quizProgressContainer {
+    font-size: 1.1em;
+    color: var(--rome-text-color-secondary);
+}
+.quiz-header #quizProgressContainer #currentQuestionNumber,
+.quiz-header #quizProgressContainer #totalQuizQuestions {
+    font-weight: bold; /* VT323 doesn't bold, but semantic */
+    color: var(--rome-text-color);
+}
+
+/* Question Area Card */
+#quizQuestionArea.quiz-card {
+    background-color: var(--rome-card-background);
+    padding: var(--space-lg);
+    border: 2px solid var(--rome-border-color);
+    border-radius: var(--rome-border-radius-sm);
+    margin-bottom: var(--space-xl);
+    text-align: center; /* Center question text */
+    box-shadow: var(--rome-card-shadow);
+}
+
+#quizQuestionArea #quizQuestionText {
+    font-size: 1.5em; /* Larger font for the question itself */
+    color: var(--rome-text-color);
+    line-height: 1.5;
+    margin: 0; /* Remove default p margin if inside this div */
+}
+
+/* Options Container & Buttons */
+#quizOptionsContainer.quiz-options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns for options */
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+.quiz-option-button.btn { /* Extends global .btn styles */
+    font-size: 1.1em;
+    padding: var(--space-md); /* Generous padding for clickability */
+    text-align: left; /* Align option text to the left */
+    background-color: var(--rome-card-background);
+    color: var(--rome-text-color-secondary);
+    border: 2px solid var(--rome-border-color);
+    box-shadow: 2px 2px 0px var(--rome-border-color-dark); /* Subtle 3D effect */
+    transition: all 0.15s ease-out;
+    width: 100%; /* Make buttons take full grid cell width */
+    text-transform: none; /* Override .btn uppercase if needed */
+    letter-spacing: 0.5px; /* VT323 spacing */
+}
+
+.quiz-option-button.btn:hover {
+    background-color: var(--rome-border-color-light);
+    border-color: var(--rome-secondary-color);
+    color: var(--rome-secondary-color);
+    transform: translateY(-2px) translateX(-1px);
+    box-shadow: 3px 3px 0px var(--rome-secondary-color);
+}
+
+.quiz-option-button.btn.selected { /* When an option is clicked by user */
+    background-color: var(--rome-secondary-color) !important; /* Highlight selection */
+    color: var(--rome-secondary-text-color) !important;
+    border-color: var(--rome-border-color-dark) !important;
+    box-shadow: inset 2px 2px 3px rgba(0,0,0,0.1), 1px 1px 0px var(--rome-border-color-dark) !important;
+    transform: translateY(1px) translateX(1px) !important; /* Pressed effect */
+}
+
+/* Styling for correct/incorrect AFTER submission (JS will add these classes) */
+.quiz-option-button.btn.correct-answer {
+    background-color: var(--rome-success-bg) !important;
+    color: var(--rome-success-text) !important;
+    border-color: var(--rome-success-border) !important;
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1) !important;
+}
+
+.quiz-option-button.btn.incorrect-answer {
+    background-color: lighten(var(--rome-primary-color), 30%) !important; /* Muted red for incorrect */
+    color: var(--rome-primary-color) !important;
+    border-color: var(--rome-primary-color) !important;
+    text-decoration: line-through;
+    opacity: 0.7;
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1) !important;
+}
+
+.quiz-option-button.btn:disabled { /* When interaction is locked after submission */
+    cursor: default;
+    /* Retain correct/incorrect styling but prevent hover effects */
+}
+.quiz-option-button.btn:disabled:not(.correct-answer):not(.incorrect-answer):hover {
+    /* Prevent hover on non-answered disabled options */
+    background-color: var(--rome-card-background);
+    border-color: var(--rome-border-color);
+    color: var(--rome-text-color-secondary);
+    transform: none;
+    box-shadow: 2px 2px 0px var(--rome-border-color-dark);
+}
+
+
+/* Feedback Area */
+#quizFeedbackArea.quiz-feedback {
+    text-align: center;
+    padding: var(--space-md);
+    margin-bottom: var(--space-lg);
+    border-radius: var(--rome-border-radius-sm);
+    font-size: 1.3em;
+    letter-spacing: 0.5px;
+    border-width: 2px;
+    border-style: solid;
+}
+
+#quizFeedbackArea.feedback-correct {
+    background-color: var(--rome-success-bg);
+    color: var(--rome-success-text);
+    border-color: var(--rome-success-border);
+}
+
+#quizFeedbackArea.feedback-incorrect {
+    background-color: lighten(var(--rome-primary-color), 40%); /* Lighter red for feedback bg */
+    color: var(--rome-primary-color);
+    border-color: var(--rome-primary-color);
+}
+
+#quizFeedbackArea #quizFeedbackText {
+    margin: 0;
+}
+
+
+/* Navigation Buttons */
+#quizNavigation.quiz-nav-buttons {
+    display: flex;
+    justify-content: center; /* Center the buttons */
+    gap: var(--space-lg); /* Space between buttons if both are visible */
+    margin-bottom: var(--space-xl);
+}
+
+#quizNavigation .btn { /* Submit/Next buttons */
+    min-width: 200px; /* Make buttons substantial */
+    font-size: 1.2em;
+    padding: var(--space-md) var(--space-lg);
+    letter-spacing: 1px;
+}
+/* .btn-primary and .btn-secondary styles will be inherited from global components */
+
+
+/* Results Area */
+#quizResultsArea.quiz-card {
+    background-color: var(--rome-card-background);
+    padding: var(--space-xl); /* More padding for results */
+    border: 2px solid var(--rome-border-color-dark);
+    border-radius: var(--rome-border-radius-md);
+    text-align: center;
+    box-shadow: var(--rome-card-shadow);
+}
+
+#quizResultsArea h3 {
+    font-size: 2em;
+    color: var(--rome-primary-color);
+    margin-bottom: var(--space-md);
+}
+
+#quizResultsArea p {
+    font-size: 1.4em;
+    color: var(--rome-text-color);
+    margin-bottom: var(--space-lg);
+}
+
+#quizResultsArea p #quizFinalScore,
+#quizResultsArea p #quizTotalPossibleScore {
+    font-weight: bold; /* Semantic */
+    color: var(--rome-secondary-color); /* Gold for score */
+    font-size: 1.2em; /* Make score numbers slightly larger */
+}
+
+#quizResultsArea #quizReviewOptions {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+}
+
+#quizResultsArea #quizReviewOptions .btn {
+    min-width: 180px;
+    font-size: 1.1em;
+}
+/* .btn-primary, .btn-secondary, .btn-info styles inherited */
