@@ -35,71 +35,65 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderThemeShop() {
-        const themeGrid = document.getElementById('emporiumThemeGrid');
-        const userCurrencyDisplay = document.getElementById('emporiumUserCurrency');
+           const themeGrid = document.getElementById('emporiumThemeGrid');
+           const userCurrencyDisplay = document.getElementById('emporiumUserCurrency');
 
-        if (userCurrencyDisplay) userCurrencyDisplay.textContent = currentUserPoints;
-        else console.error("#emporiumUserCurrency not found!");
-        if (!themeGrid) { console.error("#emporiumThemeGrid not found!"); return; }
-        themeGrid.innerHTML = ''; // Clear existing content
+           if (userCurrencyDisplay) userCurrencyDisplay.textContent = currentUserPoints;
+           else console.error("#emporiumUserCurrency not found!");
+           if (!themeGrid) { console.error("#emporiumThemeGrid not found!"); return; }
+           themeGrid.innerHTML = ''; // Clear existing content
 
-        // Re-fetch active theme ID and owned status before re-rendering
-        if (typeof ThemeManager !== 'undefined') {
-             activeThemeId = ThemeManager.getCurrentThemeId();
-             const ownedThemeIds = ThemeManager.getOwnedThemeIds();
-             allThemesData.forEach(theme => {
-                theme.isOwned = ownedThemeIds.includes(theme.id);
-                theme.isActive = (theme.id === activeThemeId);
-             });
-        }
+           if (typeof ThemeManager !== 'undefined') {
+                activeThemeId = ThemeManager.getCurrentThemeId();
+                const ownedThemeIds = ThemeManager.getOwnedThemeIds();
+                allThemesData.forEach(theme => {
+                   theme.isOwned = ownedThemeIds.includes(theme.id);
+                   theme.isActive = (theme.id === activeThemeId);
+                });
+           }
 
+           allThemesData.forEach(theme => {
+               const canAfford = currentUserPoints >= theme.cost;
+               const scrollElement = document.createElement('div');
+               scrollElement.className = 'emporium-theme-scroll';
+               scrollElement.dataset.themeId = theme.id;
+               scrollElement.tabIndex = 0;
 
-        allThemesData.forEach(theme => {
-            const canAfford = currentUserPoints >= theme.cost;
-            const scrollElement = document.createElement('div');
-            scrollElement.className = 'emporium-theme-scroll';
-            scrollElement.dataset.themeId = theme.id;
-            scrollElement.tabIndex = 0;
+               let unlockButtonHtml = !theme.isOwned ? `<button class="btn btn-primary btn-unlock-theme" data-theme-id="${theme.id}" data-cost="${theme.cost}" ${!canAfford ? 'disabled title="Insufficient Points"' : ''}>Unlock ${theme.cost > 0 ? theme.cost + 'pts' : ''} ${!canAfford && theme.cost > 0 ? '(Low)' : ''}</button>` : '';
+               let applyButtonHtml = (theme.isOwned && !theme.isActive) ? `<button class="btn btn-secondary btn-apply-theme" data-theme-id="${theme.id}">Apply</button>` : '';
+               // previewButtonHtml was removed
 
-            let unlockButtonHtml = !theme.isOwned ? `<button class="btn btn-primary btn-unlock-theme" data-theme-id="${theme.id}" data-cost="${theme.cost}" ${!canAfford ? 'disabled title="Insufficient Points"' : ''}>Unlock ${theme.cost > 0 ? theme.cost + 'pts' : ''} ${!canAfford && theme.cost > 0 ? '(Low)' : ''}</button>` : '';
-            let applyButtonHtml = (theme.isOwned && !theme.isActive) ? `<button class="btn btn-secondary btn-apply-theme" data-theme-id="${theme.id}">Apply</button>` : '';
-            // let previewButtonHtml = `<button class="btn btn-info btn-preview-theme" data-theme-id="${theme.id}">Preview</button>`; // Preview can be implicit on click/unroll
-
-            // Define the path to your pts icon
-            const ptsIconPath = '/assets/images/icons/coin.png'; // Ensure this path is correct
-
-            scrollElement.innerHTML = `
-                <div class="scroll-header">
-                    <h3 class="emporium-theme-name">${theme.name}</h3>
-                    <div class="emporium-theme-preview-swatches">
-                        ${(theme.previewColors || []).map(color => `<span class="swatch" style="background-color: ${color};"></span>`).join('')}
-                    </div>
-                </div>
-                <div class="scroll-content">
-                    <div class="emporium-theme-preview-image-container">
-                        <img src="${theme.previewImage}" alt="Preview of ${theme.name}" class="emporium-theme-preview-image"
-                             onerror="this.style.display='none'; if(!this.parentElement.querySelector('.preview-unavailable')) { this.parentElement.innerHTML += '<p class=\\'preview-unavailable\\'>Preview N/A</p>'; } console.error('Failed to load image: ${theme.previewImage}');">
-                    </div>
-                    <p class="emporium-theme-description">${theme.description}</p>
-                    <div class="emporium-theme-meta">
-                        <div class="emporium-theme-status">
-                            <span class="emporium-theme-cost" style="display: ${theme.isOwned || theme.cost === 0 ? 'none' : 'inline'};">
-                               Cost: ${theme.cost} <span class="currency-icon-small pts-icon" title="Points"></span>
-                            </span>
-                            <span class="emporium-theme-owned-badge" style="display: ${theme.isOwned ? 'inline-block' : 'none'};">Owned</span>
-                            <span class="emporium-theme-active-badge" style="display: ${theme.isActive ? 'inline-block' : 'none'};">Active</span>
-                        </div>
-                        <div class="emporium-theme-actions">
-                            ${unlockButtonHtml}
-                            ${applyButtonHtml}
-                            <!-- ${previewButtonHtml} -->
-                        </div>
-                    </div>
-                </div>
-            `;
-            themeGrid.appendChild(scrollElement);
-        });
-    }
+               scrollElement.innerHTML = `
+                   <div class="scroll-header">
+                       <h3 class="emporium-theme-name">${theme.name}</h3>
+                       <div class="emporium-theme-preview-swatches">
+                           ${(theme.previewColors || []).map(color => `<span class="swatch" style="background-color: ${color};"></span>`).join('')}
+                       </div>
+                   </div>
+                   <div class="scroll-content">
+                       <div class="emporium-theme-preview-image-container">
+                           <img src="${theme.previewImage}" alt="Preview of ${theme.name}" class="emporium-theme-preview-image"
+                                onerror="this.style.display='none'; if(!this.parentElement.querySelector('.preview-unavailable')) { this.parentElement.innerHTML += '<p class=\\'preview-unavailable\\'>Preview N/A</p>'; } console.error('Failed to load image: ${theme.previewImage}');">
+                       </div>
+                       <p class="emporium-theme-description">${theme.description}</p>
+                       <div class="emporium-theme-meta">
+                           <div class="emporium-theme-status">
+                               <span class="emporium-theme-cost" style="display: ${theme.isOwned || theme.cost === 0 ? 'none' : 'inline'};">
+                                   Cost: ${theme.cost} <span class="currency-icon-small pts-icon" title="Points"></span>
+                               </span>
+                               <span class="emporium-theme-owned-badge" style="display: ${theme.isOwned ? 'inline-block' : 'none'};">Owned</span>
+                               <span class="emporium-theme-active-badge" style="display: ${theme.isActive ? 'inline-block' : 'none'};">Active</span>
+                           </div>
+                           <div class="emporium-theme-actions">
+                               ${unlockButtonHtml}
+                               ${applyButtonHtml}
+                           </div>
+                       </div>
+                   </div>
+               `;
+               themeGrid.appendChild(scrollElement);
+           });
+       }
 
     function addEventListeners() {
         const themeGrid = document.getElementById('emporiumThemeGrid');
