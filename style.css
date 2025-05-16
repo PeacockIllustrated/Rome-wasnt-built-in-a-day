@@ -8,13 +8,14 @@
     CORE & SHARED STYLES
     --------------------
     These imports define the foundational look and feel of the application.
+    Paths are relative to this style.css file (which is at the root).
 */
 
 /* 1. Variables: Defines CSS custom properties (variables) for colors, fonts, spacing, etc. */
 @import url('css/_variables.css');
 
-/* 2. Reset: Basic CSS reset to normalize browser default styles. Create this file if you don't have one. */
-/* @import url('css/_reset.css'); */ /* Uncomment if you create/use a _reset.css */
+/* 2. Reset: Basic CSS reset to normalize browser default styles. */
+@import url('css/_reset.css'); /* Ensure you have this file with content */
 
 /* 3. Base: Styles for base HTML elements (body, h1-h6, p, a, lists, etc.). */
 @import url('css/_base.css');
@@ -46,9 +47,6 @@
 
 /* Styles specific to the Quiz feature */
 @import url('css/_quiz.css');
-
-/* Example for future districts: */
-/* @import url('css/_colosseum_games.css'); */
 
 
 /*
