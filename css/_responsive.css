@@ -1,145 +1,202 @@
 /* css/_responsive.css - Media Queries for Responsive Design */
 
-@media (max-width: 768px) { /* More common tablet breakpoint */
+/* Tablet and larger mobile (landscape) */
+@media (max-width: 992px) { /* Common tablet breakpoint */
+    body {
+        font-size: 17px; /* Slightly adjust base font size */
+    }
+    .app-container,
+    .rome-hub-container,
+    #emporiumShopPage,
+    #romeQuizSection {
+        padding-left: var(--space-sm);
+        padding-right: var(--space-sm);
+    }
+
+    .header-section {
+        padding: var(--space-md-sm);
+    }
+    .app-title-container h1 { font-size: calc(var(--font-size-xl) * 0.9); }
+    .app-title-container i.title-icon { font-size: calc(var(--font-size-xxl) * 0.8); }
+
+    /* Emporium specific */
+    #emporiumThemeGrid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: var(--space-lg);
+    }
+    #emporiumShopPage .shop-header h1 { font-size: 2.8em; }
+}
+
+
+/* Smaller tablets and mobile (landscape) */
+@media (max-width: 768px) {
     body {
         padding: var(--space-sm);
-        padding-bottom: 70px; /* For fixed toolbars */
-        font-size: 17px; /* Adjust base font for tablets */
+        padding-bottom: 80px; /* Ensure space for fixed toolbars */
     }
-    .app-container, .rome-hub-container {
-        padding: 0 var(--space-xs); /* Less side padding */
+    .app-container,
+    .rome-hub-container,
+    #emporiumShopPage,
+    #romeQuizSection {
+        padding-left: var(--space-sm); /* Use consistent padding var */
+        padding-right: var(--space-sm);
     }
 
-    .header-section { padding: var(--space-sm); }
-    .app-title-container h1 { font-size: 1.8em; } /* Adjust based on new base h1 */
-    .app-title-container i.title-icon { font-size: 1.5em; }
+    .app-title-container h1 { font-size: var(--font-size-lg); } /* Example: 1.5em */
+    .app-title-container i.title-icon { font-size: var(--font-size-xl); } /* Example: 2.2em */
 
     .header-stats-bar {
-        gap: var(--space-xs) var(--space-sm);
-        justify-content: center; /* Center stats on smaller screens */
+        gap: var(--space-sm);
+        justify-content: center;
     }
-    .points-display { font-size: 0.9em; }
+    .points-display { font-size: 1em; }
 
-
-    /* IDKY specific responsive */
+    /* IDKY Responsive */
     .list-controls-bar {
-        padding: var(--space-xs);
-        flex-direction: column; /* Stack controls */
-        align-items: stretch; /* Make buttons full width */
+        padding: var(--space-sm);
+        flex-direction: column;
+        align-items: stretch;
     }
     .list-controls-bar .select-all-container {
+        width: 100%;
         justify-content: space-between;
         margin-bottom: var(--space-sm);
     }
-    #selectAllButton, #testKnowledgeButton { /* These are .action-button */
+    #selectAllButton, #testKnowledgeButton,
+    .list-controls-bar .action-button { /* Generalizing for any action button in this bar */
         width: 100%;
         margin-bottom: var(--space-xs);
+        padding: var(--space-sm) var(--space-md-sm); /* Ensure decent tap target */
     }
 
-    /* Modal responsive */
+    /* Modal Responsive */
     .modal-content {
         padding: var(--space-md);
-        margin: var(--space-sm); /* Ensure it doesn't touch edges */
-        max-width: 95vw;
+        margin: var(--space-md-sm);
+        max-width: calc(100vw - (var(--space-md-sm) * 2)); /* Full width with margin */
     }
-    .modal-content h2, .modal-content h3 { font-size: 1.3em; }
+    .modal-content h3 { font-size: var(--font-size-lg); }
+    .modal-actions { flex-direction: column; gap: var(--space-sm); }
+    .modal-actions .btn { width: 100%; }
 
-    /* Vending Machine / Old Emporium responsive */
-    .vending-machine-header {
+
+    /* Smoke Tracker Responsive */
+    .smoke-tracker-content > .moment-card { padding: var(--space-md-sm); }
+    .timer-display { font-size: 2.2em; }
+    .status-limit-section > div {
         flex-direction: column;
-        align-items: center;
-    }
-    .brand-logo h1 { font-size: 1.8em; text-align:center; }
-    .vending-machine-display-window {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: var(--space-sm);
-        padding: var(--space-md);
-    }
-    .vending-item-name { font-size: 1.1em; }
-
-    /* Smoke Tracker responsive */
-    .smoke-tracker-content > .moment-card { padding: var(--space-sm); }
-    .timer-display { font-size: 2em; }
-    .status-limit-section > div { flex-direction: column; align-items: stretch; gap: var(--space-sm); }
-    .status-limit-section .limit-setting { width: 100%; justify-content: space-between; }
-    .status-limit-section span { text-align: center; margin-bottom: var(--space-xs); }
-    .daily-progress-chart-container { height: 120px; }
-    .chart-day-column { flex-basis: 13%; max-width: 45px; }
-    .chart-bar-value, .chart-day-label { font-size: calc(var(--font-size-xs) * 0.9); }
-
-    .calendar-grid th, .calendar-day-number { font-size: calc(var(--font-size-xs) * 0.95); }
-    .calendar-grid td { height: 45px; padding: 2px; }
-    .calendar-month-year { font-size: 1.3em; }
-
-    /* New Emporium Specific Responsive */
-    #emporiumShopPage .shop-header {
-        flex-direction: column;
+        align-items: stretch; /* Make items take full width */
         gap: var(--space-sm);
     }
-    #emporiumShopPage .shop-header h1 { font-size: 2.5em; text-align: center;}
-    #emporiumShopPage .shop-filters {
-        white-space: normal; /* Allow filter buttons to wrap */
+    .status-limit-section .limit-setting {
+        width: 100%;
+        justify-content: space-between; /* Space out label, input, button */
     }
+    .status-limit-section span { text-align: center; margin-bottom: var(--space-xs); display: block; }
+    .daily-progress-chart-container { height: 130px; }
+    .chart-bar-wrapper { height: calc(100% - 22px); }
+    .chart-day-column { flex-basis: 13%; max-width: 50px; }
+    .chart-bar-value, .chart-day-label { font-size: var(--font-size-xs); }
+
+    .calendar-grid th, .calendar-day-number { font-size: var(--font-size-xs); }
+    .calendar-grid td { height: 50px; padding: var(--space-xs); }
+    .calendar-month-year { font-size: 1.4em; }
+
+    /* Emporium Responsive */
+    #emporiumShopPage .shop-header { flex-direction: column; gap: var(--space-md); text-align: center; }
+    #emporiumShopPage .shop-header h1 { font-size: 2.5em; }
+    #emporiumShopPage .shop-filters { white-space: normal; } /* Allow filter buttons to wrap */
     #emporiumShopPage .shop-filters .filter-btn {
+        display: inline-block; /* Ensure they wrap correctly if needed */
         margin-bottom: var(--space-sm); /* Space when wrapped */
-        display: inline-block; /* Ensure they wrap correctly */
+        padding: var(--space-sm) var(--space-md-sm);
+        font-size: 1.1em;
     }
     #emporiumThemeGrid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Smaller cards on mobile */
+        grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
         gap: var(--space-md);
     }
-    .scroll-header .emporium-theme-name { font-size: 1.5em; }
-    .scroll-header .emporium-theme-preview-swatches .swatch { width: 18px; height: 18px; }
-    .emporium-theme-description { font-size: 1em; }
+    .scroll-header .emporium-theme-name { font-size: 1.6em; }
+    .scroll-header .emporium-theme-preview-swatches .swatch { width: 20px; height: 20px; }
+    .emporium-theme-description { font-size: 1em; text-indent: 1.5em; }
+    .emporium-theme-description::first-letter { font-size: 1.4em; }
 
-
-    /* Dashboard specific mobile */
+    /* Dashboard Specific Responsive */
     .summaries-grid { grid-template-columns: 1fr; } /* Stack cards */
-    #cityMapPlaceholder { height: 200px; /* Adjust as needed */ }
-    .dashboard-header .app-title-container h1 { font-size: 2em; }
+    #cityMapPlaceholder { height: 220px; } /* Adjust map height */
+    .dashboard-header .app-title-container h1 { font-size: calc(var(--font-size-xl) * 0.8); }
 
-    /* Quiz specific responsive */
-    #romeQuizSection { padding: var(--space-md); }
-    .quiz-header #quizTitle { font-size: 1.8em; }
-    #quizQuestionArea #quizQuestionText { font-size: 1.2em; }
+    /* Quiz Specific Responsive */
+    #romeQuizSection { padding: var(--space-md-sm); }
+    .quiz-header #quizTitle { font-size: 1.6em; }
+    #quizQuestionArea #quizQuestionText { font-size: 1.15em; }
     #quizOptionsContainer.quiz-options-grid { grid-template-columns: 1fr; } /* Stack options */
-    .quiz-option-button.btn { font-size: 1em; padding: var(--space-md-sm); }
-    #quizNavigation .btn { min-width: 150px; font-size: 1.1em; }
-    #quizResultsArea h3 { font-size: 1.6em; }
+    .quiz-option-button.btn { font-size: 1em; }
+    #quizNavigation .btn { min-width: 160px; font-size: 1.05em; }
+    #quizResultsArea h3 { font-size: 1.5em; }
     #quizResultsArea p { font-size: 1.1em; }
 }
 
-@media (max-width: 480px) { /* Stricter mobile styles */
-    body { font-size: 16px; }
-    .header-stats-bar { flex-direction: column; align-items: flex-start; gap: var(--space-xs); }
-    .points-display { width: 100%; justify-content: center; }
+/* Mobile (Portrait) */
+@media (max-width: 480px) {
+    body { font-size: 16px; padding-bottom: 70px; }
+    .app-container, .rome-hub-container, #emporiumShopPage, #romeQuizSection {
+        padding-left: var(--space-xs);
+        padding-right: var(--space-xs);
+    }
 
-    /* IDKY */
+    .header-stats-bar {
+        flex-direction: column;
+        align-items: center; /* Center align stat items */
+        gap: var(--space-sm);
+    }
+    .points-display { width: auto; /* Don't force full width if centered */ justify-content: center; }
+
+    /* IDKY Mobile */
+    .moment-card .moment-header { flex-direction: column; align-items: flex-start; gap: var(--space-xs); }
     .moment-card .moment-main-text { flex-direction: column; align-items: flex-start; }
     .moment-card .moment-timestamp { margin-left: 0; margin-top: var(--space-xs); }
+    .moment-card .moment-actions { margin-top: var(--space-xs); }
 
-    /* Emporium */
-    #emporiumShopPage .shop-header h1 { font-size: 2em; }
-    #emporiumShopPage .currency-display { font-size: 1.2em; }
-    #emporiumShopPage .shop-filters .filter-btn { font-size: 1.1em; padding: var(--space-sm) var(--space-md-sm); }
-    #emporiumThemeGrid { grid-template-columns: 1fr; } /* Single column for very small screens */
-    .scroll-header .emporium-theme-name { font-size: 1.3em; }
-    .emporium-theme-actions .btn { width: 100%; margin-bottom: var(--space-xs); } /* Stack buttons in card */
-    .emporium-theme-actions { flex-direction: column; }
-
-
-    /* Vending Machine / Old Emporium */
-    .vending-machine-display-window { grid-template-columns: 1fr; }
-    .vending-item-preview { height: 40px; }
-
-    /* Smoke Tracker */
-    .timer-display { font-size: 1.8em; }
-    .log-button, .action-button { font-size: 1em; /* General button sizing down */ }
-    .limit-setting input[type="text"], .limit-setting input[type="number"] { width: 45px; font-size:0.9em; }
-    .calendar-grid td { height: 35px; }
+    /* Emporium Mobile */
+    #emporiumShopPage .shop-header h1 { font-size: 2.2em; }
+    #emporiumShopPage .currency-display { font-size: 1.2em; padding: var(--space-sm) var(--space-md-sm); }
+    #emporiumShopPage .currency-icon.pts-icon { width: 26px; height: 26px; }
+    #emporiumShopPage .shop-filters .filter-btn { font-size: 1em; width: calc(50% - var(--space-sm)); /* Two buttons per row */ margin: var(--space-xs); } /* Adjust for 2-up */
+    #emporiumShopPage .shop-filters .filter-btn:nth-child(odd) { margin-left: 0; }
+    #emporiumShopPage .shop-filters .filter-btn:nth-child(even) { margin-right: 0; }
+    #emporiumThemeGrid { grid-template-columns: 1fr; } /* Single column */
+    .scroll-header .emporium-theme-name { font-size: 1.4em; }
+    .scroll-header .emporium-theme-preview-swatches { display: none; } /* Hide swatches on very small screens */
+    .emporium-theme-actions { flex-direction: column; align-items: stretch; }
+    .emporium-theme-actions .btn { width: 100%; margin-bottom: var(--space-xs); }
 
 
-    /* General toolbar links */
-    .shop-toolbar-header-link { font-size: 0.9em; padding: var(--space-xs) var(--space-sm); }
-    .shop-toolbar-header-link .shop-pts-display { font-size: 0.85em; }
+    /* Smoke Tracker Mobile */
+    .timer-display { font-size: 1.9em; }
+    .log-button, .action-button, .btn { font-size: 1em; /* Normalize button sizes */ }
+    .limit-setting input[type="text"], .limit-setting input[type="number"] { width: 50px; font-size: 1em; }
+    .calendar-grid td { height: 40px; }
+    .chart-bar-wrapper { height: calc(100% - 20px); } /* Adjust for smaller labels */
+
+
+    /* General Toolbar Responsive */
+    .shop-toolbar-fixed { padding: 0; }
+    .shop-toolbar-header-link {
+        font-size: 1em; /* Smaller text */
+        padding: var(--space-sm) var(--space-md-sm);
+        flex-direction: column; /* Stack items in toolbar */
+        align-items: center;
+        gap: var(--space-xs);
+    }
+    .shop-toolbar-header-link .shop-pts-display {
+        font-size: 0.9em;
+        margin-left: 0;
+        margin-right: 0; /* Center it */
+    }
+    .shop-toolbar-header-link > i.fas.fa-arrow-right { display: none; /* Hide arrow on smallest screens */ }
+
+    /* Dashboard Mobile */
+    #cityMapPlaceholder { height: 180px; }
+    .dashboard-header .app-title-container h1 { font-size: 1.8em; }
 }
