@@ -4,23 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Theme Emporium - Rome Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../style.css"> <!-- Global Rome Theme FIRST -->
     <link rel="stylesheet" href="shop-specific.css"> <!-- Emporium Specific Overrides/Additions AFTER -->
+    <!-- Ensure VT323 is linked if not done via CSS @import in style.css -->
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="rome-hub-container" id="emporiumShopPage">
         <nav class="hub-navigation">
             <a href="../../index.html" class="nav-link">Back to Rome Hub</a>
+            <!-- Add other hub navigation links here if needed -->
         </nav>
 
         <main class="rome-content-area">
             <header class="shop-header">
                 <h1>Theme Emporium</h1>
                 <div class="currency-display">
-                    <span>Available Funds: </span>
                     <span id="emporiumUserCurrency">0</span>
-                    <img src="/assets/images/icons/coin.png" alt="Coins" class="currency-icon">
+                    <div class="currency-icon pts-icon" title="Points"></div> <!-- Using div for bg image icon -->
                 </div>
             </header>
 
@@ -30,8 +31,9 @@
                 <button class="filter-btn" data-filter="unlockable">Unlockable</button>
             </nav>
 
-            <div id="emporiumThemeGrid" class="summaries-grid">
-                <p>Loading themes...</p>
+            <div id="emporiumThemeGrid"> <!-- Removed .summaries-grid, will style this ID directly -->
+                <!-- Theme scrolls will be dynamically populated here -->
+                <p>Loading scrolls from the Scriptorium...</p>
             </div>
         </main>
     </div>
