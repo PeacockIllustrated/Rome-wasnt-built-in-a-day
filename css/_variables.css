@@ -1,0 +1,119 @@
+/* css/_variables.css */
+:root {
+    /* Rome Theme Variables */
+    --rome-font-family: 'VT323', monospace;
+    --rome-primary-color: #795548; /* Brown */
+    --rome-text-color: #3a2e20;    /* Dark Brown */
+    --rome-text-color-secondary: #5d4037;
+    --rome-text-color-muted: #8c7b70;
+    --rome-background-color: #fdf6e8; /* Light Cream / Parchment Base */
+    --rome-card-background: #fffaf0;  /* Creamy White for cards / Parchment */
+    --rome-card-background-subtle: #f5f0e1; /* Slightly off-white parchment */
+    --rome-border-color: #ddcba7;     /* Tan border */
+    --rome-border-color-light: #e0d6c1;
+    --rome-border-color-dark: #a1887f; /* Darker Tan/Brown border */
+    --rome-accent-color: #B71C1C;     /* Imperial Red */
+    --rome-accent-color-dark: #800000; /* Darker Imperial Red */
+    --rome-accent-text-color: #FFFFFF; /* White text on accent */
+    --rome-secondary-color: #FFAB00;   /* Gold */
+    --rome-secondary-text-color: #3a2e20; /* Dark text on gold */
+
+    /* Button Specific Vars */
+    --rome-button-primary-bg: var(--rome-accent-color);
+    --rome-button-primary-text: var(--rome-accent-text-color);
+    --rome-button-primary-border: var(--rome-accent-color-dark);
+    --rome-button-primary-hover-bg: var(--rome-accent-color-dark);
+    --rome-button-primary-hover-border: var(--rome-text-color);
+
+    --rome-button-secondary-bg: #D2B48C; /* Parchment/Tan */
+    --rome-button-secondary-text: var(--rome-text-color);
+    --rome-button-secondary-border: var(--rome-border-color-dark);
+    --rome-button-secondary-hover-bg: #C1A37D;
+    --rome-button-secondary-hover-border: var(--rome-text-color);
+
+    --rome-button-info-bg: #607D8B; /* Muted Blue/Grey for Info */
+    --rome-button-info-text: #FFFFFF;
+    --rome-button-info-border: #455A64;
+    --rome-button-info-hover-bg: #546E7A;
+    --rome-button-info-hover-border: #37474F;
+
+    --rome-button-disabled-bg: #E0E0E0; /* Lighter gray for disabled */
+    --rome-button-disabled-text: #9E9E9E;
+    --rome-button-disabled-border: #BDBDBD;
+
+    /* Success/Info (from Quiz, good to have globally) */
+    --rome-success-bg: #DFF0D8; /* Light Greenish Parchment */
+    --rome-success-text: #3C763D; /* Dark Green */
+    --rome-success-border: #8DBF8B;
+
+    --rome-info-bg: #e3f2fd; /* Light Blue */
+    --rome-info-text: #1976d2;
+    --rome-info-border: #90caf9;
+
+    /* Layout & Sizing */
+    --rome-border-radius-xs: 3px;
+    --rome-border-radius-sm: 5px;
+    --rome-border-radius-md: 8px;
+
+    --rome-card-shadow: 3px 3px 0px var(--rome-border-color-dark);
+
+    /* Spacing variables */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md-sm: 12px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+
+    /* Font sizes */
+    --font-size-xs: 0.8em;
+    --font-size-sm: 0.95em;
+    --font-size-md: 1em;
+    --font-size-lg: 1.3em;
+    --font-size-xl: 2em;
+
+    /* Icon sizes */
+    --icon-size-sm: 14px;
+    --icon-size-md: 22px;
+
+    /* Icon Path - CRITICAL: ADJUST THIS PATH TO BE CORRECT FROM THE ROOT OF YOUR SITE */
+    /* If shop.html is at districts/emporium/shop.html, then to get to assets/images/icons/coin.png */
+    /* the path from shop.html would be ../../assets/images/icons/coin.png */
+    /* For CSS, it's relative to the CSS file location OR use root-relative /assets/... */
+    /* Assuming style.css is at the root: */
+    /* --pts-icon-url: url('/assets/images/icons/coin.png'); */
+    /* If your GitHub pages site is at username.github.io/repository-name/ */
+    /* then you might need: url('/repository-name/assets/images/icons/coin.png'); */
+    /* For now, using the relative path from where _emporium.css would be if it needs it */
+    /* Better: keep it general for JS to use, and CSS uses relative from CSS file. */
+    /* --pts-icon-url: url('../../assets/images/icons/coin.png'); */ /* If css/_emporium.css references it */
+     --pts-icon-url: url('../../assets/images/icons/coin.png'); /* Path relative FROM the CSS file that uses it */
+
+
+    /* Default Theme Values (Fallback for old ThemeManager structure, less relevant now) */
+    --retro-dark-default: #264653;
+    --retro-teal-default: #2A9D8F;
+    --retro-yellow-default: #E9C46A;
+    --retro-orange-default: #F4A261;
+    --retro-coral-default: #E76F51;
+    --retro-light-bg-default: #EAEAEA;
+    --retro-card-bg-default: #FFFFFF;
+    --retro-text-on-dark-default: #EAEAEA;
+    --retro-page-bg-default: rgb(174, 217, 211);
+
+    /* Generic Theme Variables - JS updates these based on the active --rome- theme */
+    --theme-primary-dark: var(--rome-primary-color); /* Example mapping */
+    --theme-primary-accent: var(--rome-accent-color);
+    --theme-secondary-accent: var(--rome-secondary-color);
+    --theme-tertiary-accent: var(--rome-border-color); /* Example */
+    --theme-highlight-accent: var(--rome-accent-color-dark);
+    --theme-light-bg: var(--rome-card-background-subtle);
+    --theme-card-bg: var(--rome-card-background);
+    --theme-text-main: var(--rome-text-color);
+    --theme-border-main: var(--rome-border-color-dark);
+    --theme-text-on-dark: var(--rome-accent-text-color);
+    --theme-page-bg: var(--rome-background-color);
+
+    /* Common Sizing & Styling Variables (old, may be redundant) */
+    --pixel-border-width: 2px;
+}
