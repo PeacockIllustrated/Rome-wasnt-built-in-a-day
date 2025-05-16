@@ -1,0 +1,69 @@
+/* css/_animations.css - Keyframe Animations */
+
+@keyframes pointsFlash {
+  0%, 100% { transform: scale(1); color: var(--rome-secondary-color); }
+  50% { transform: scale(1.15); color: var(--rome-accent-color); }
+}
+
+@keyframes retroFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes retroPulseBorder {
+  0% { border-left-color: var(--rome-secondary-color); } /* Assuming gold for new */
+  50% { border-left-color: var(--rome-accent-color); } /* Pulse to red */
+  100% { border-left-color: var(--rome-secondary-color); }
+}
+
+@keyframes pulseWarning {
+  0%, 100% { border-color: var(--rome-accent-color); box-shadow: 0 0 3px var(--rome-accent-color); }
+  50% { border-color: var(--rome-accent-color-dark); box-shadow: 0 0 8px var(--rome-accent-color); }
+}
+
+@keyframes fadeInBg {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoomInModal {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Vending machine specific animations - might be moved to a future _vending_machine.css */
+@keyframes flickerBrand {
+  0%, 100% { opacity: 1; text-shadow: 1px 1px 0 var(--theme-primary-dark, #000), 0 0 5px var(--theme-secondary-accent, #E9C46A); }
+  50% { opacity: 0.8; text-shadow: 1px 1px 0 var(--theme-primary-dark, #000), 0 0 8px var(--theme-secondary-accent, #E9C46A); }
+}
+@keyframes coinShine {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); filter: brightness(1.2); }
+}
+@keyframes scanlinesVending {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100%; }
+}
+@keyframes trayTextFlicker {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* General purpose animations */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes masteredPop {
+  0% { transform: scale(0.5); opacity: 0; }
+  70% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeOutAndShrink {
+  from { opacity: 1; transform: scaleY(1); max-height: 100px; /* approx height */ padding: 8px; margin-bottom: 10px;}
+  to { opacity: 0; transform: scaleY(0); max-height: 0; padding: 0; margin-bottom: 0; border-width: 0;}
+}
+
+/* Add other shared keyframes here */
