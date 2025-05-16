@@ -1,0 +1,342 @@
+/* css/_emporium.css - Styles for the Theme Emporium */
+
+#emporiumShopPage {
+    /* Uses --rome-background-color from _base.css or body styles */
+    padding-bottom: var(--space-lg); /* Space for any fixed footers if added later */
+}
+
+/* Navigation Link "Back to Rome Hub" */
+#emporiumShopPage .hub-navigation {
+    margin-bottom: var(--space-lg);
+    text-align: left;
+}
+
+#emporiumShopPage .hub-navigation .nav-link {
+    color: var(--rome-primary-color);
+    font-size: var(--font-size-md);
+    padding: var(--space-xs) var(--space-sm);
+    border: 1px dashed var(--rome-border-color);
+    border-radius: var(--rome-border-radius-xs);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+#emporiumShopPage .hub-navigation .nav-link:hover {
+    background-color: var(--rome-card-background);
+    border-style: solid;
+    color: var(--rome-accent-color);
+}
+
+
+/* Shop Header */
+#emporiumShopPage .shop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: var(--space-md);
+    border-bottom: 3px double var(--rome-border-color-dark);
+    margin-bottom: var(--space-xl);
+    color: var(--rome-text-color);
+}
+
+#emporiumShopPage .shop-header h1 {
+    font-size: 2.8em;
+    color: var(--rome-primary-color);
+    margin: 0;
+    text-shadow: 1px 1px 0px var(--rome-border-color);
+    letter-spacing: 1px;
+}
+
+#emporiumShopPage .currency-display {
+    display: flex;
+    align-items: center;
+    font-size: 1.3em;
+    background-color: var(--rome-card-background);
+    padding: var(--space-sm) var(--space-md-sm); /* slightly more padding */
+    border-radius: var(--rome-border-radius-md);
+    border: 2px solid var(--rome-border-color-dark); /* darker border for currency */
+    box-shadow: 2px 2px 0px var(--rome-border-color-dark); /* 3d effect */
+}
+
+#emporiumShopPage .currency-display span#emporiumUserCurrency {
+    font-weight: normal; /* VT323 doesn't really bold, use normal */
+    margin-right: var(--space-xs);
+    color: var(--rome-accent-color); /* Use accent for currency number */
+    font-size: 1.2em; /* Make number stand out */
+}
+
+#emporiumShopPage .currency-icon.pts-icon {
+    width: 28px; /* Slightly larger icon in header */
+    height: 28px;
+    background-image: var(--pts-icon-url); /* Defined in _variables.css */
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-left: var(--space-sm);
+    font-size: 0;
+    color: transparent;
+    filter: drop-shadow(1px 1px 0px var(--rome-text-color-muted)); /* Subtle shadow for icon */
+}
+
+/* Shop Filters */
+#emporiumShopPage .shop-filters {
+    margin-bottom: var(--space-xl);
+    text-align: center;
+}
+
+#emporiumShopPage .shop-filters .filter-btn {
+    font-family: var(--rome-font-family);
+    font-size: 1.1em;
+    padding: var(--space-sm) var(--space-md);
+    margin: 0 var(--space-xs) var(--space-sm) var(--space-xs); /* Add bottom margin for wrapping */
+    background-color: transparent;
+    color: var(--rome-text-color-secondary);
+    border: 2px solid var(--rome-border-color);
+    border-radius: var(--rome-border-radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 2px 2px 0px var(--rome-border-color-light);
+}
+
+#emporiumShopPage .shop-filters .filter-btn:hover {
+    background-color: var(--rome-card-background-subtle);
+    color: var(--rome-primary-color);
+    border-color: var(--rome-primary-color);
+    transform: translateY(-1px);
+    box-shadow: 3px 3px 0px var(--rome-border-color);
+}
+
+#emporiumShopPage .shop-filters .filter-btn.active {
+    background-color: var(--rome-primary-color);
+    color: var(--rome-background-color); /* Text color on primary button bg */
+    border-color: var(--rome-primary-color);
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2), 1px 1px 0px var(--rome-border-color-dark);
+    transform: translateY(1px);
+}
+
+/* Theme Scroll Grid */
+#emporiumThemeGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Slightly smaller min width */
+    gap: var(--space-xl);
+}
+
+/* Individual Theme Scroll Styling */
+.emporium-theme-scroll {
+    background-color: var(--rome-card-background);
+    border: 2px solid var(--rome-border-color);
+    border-radius: var(--rome-border-radius-md); /* Could be less for a "scroll" feel */
+    padding: var(--space-md);
+    box-shadow: 3px 3px 0px var(--rome-border-color-dark),
+                inset 0 0 10px rgba(0,0,0,0.05); /* Subtle inner shadow for depth */
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    min-height: 100px; /* Adjust based on rolled up content */
+}
+
+.emporium-theme-scroll:hover {
+    transform: translateY(-4px) rotate(-0.5deg); /* Slight lift and tilt */
+    box-shadow: 6px 6px 0px var(--rome-border-color-dark),
+                inset 0 0 10px rgba(0,0,0,0.03);
+}
+.emporium-theme-scroll:focus {
+    outline: 2px dashed var(--rome-accent-color);
+    outline-offset: 2px;
+}
+
+
+.scroll-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+    /* To make the whole header clickable for unrolling */
+    pointer-events: none; /* Allow clicks to pass through to parent .emporium-theme-scroll */
+}
+.scroll-header > * {
+    pointer-events: auto; /* Re-enable pointer events for children of header if needed */
+}
+
+
+.scroll-header .emporium-theme-name {
+    font-size: 1.6em;
+    color: var(--rome-primary-color);
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.scroll-header .emporium-theme-preview-swatches {
+    display: flex;
+}
+.scroll-header .emporium-theme-preview-swatches .swatch {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--rome-border-color-dark);
+    margin-left: var(--space-xs);
+    border-radius: var(--rome-border-radius-xs); /* Sharper corners */
+    box-shadow: 1px 1px 0px var(--rome-border-color-light);
+}
+
+/* Content that unrolls */
+.scroll-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s ease-in-out 0.1s, /* Delay opacity for smoother feel */
+                padding-top 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                margin-top 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-top: 0;
+    margin-top: 0;
+    border-top: 2px dashed var(--rome-border-color); /* Separator for unrolled content */
+}
+
+.emporium-theme-scroll.open .scroll-content {
+    max-height: 700px; /* Generous max height */
+    opacity: 1;
+    padding-top: var(--space-md);
+    margin-top: var(--space-md);
+}
+
+.emporium-theme-preview-image-container {
+    width: 100%;
+    height: 150px; /* Adjust as needed */
+    background-color: var(--rome-background-color);
+    margin-bottom: var(--space-md);
+    border-radius: var(--rome-border-radius-sm);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--rome-border-color-light);
+    box-shadow: inset 1px 1px 3px rgba(0,0,0,0.1);
+}
+.emporium-theme-preview-image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* Or 'contain' depending on preview image aspect ratios */
+    image-rendering: pixelated; /* Keep if previews are pixel art */
+}
+.emporium-theme-preview-image-container .preview-unavailable {
+    font-style: italic;
+    color: var(--rome-text-color-secondary);
+    font-size: var(--font-size-sm);
+}
+
+
+.emporium-theme-description {
+    font-size: 1.05em; /* VT323 is large, so 1.05em is good */
+    color: var(--rome-text-color-secondary);
+    margin-bottom: var(--space-md);
+    line-height: 1.6; /* Improved readability for VT323 */
+}
+
+.emporium-theme-meta {
+    margin-top: var(--space-sm);
+    padding-top: var(--space-sm);
+    /* border-top: 1px dashed var(--rome-border-color); Removed, .scroll-content has top border */
+}
+
+.emporium-theme-status {
+    margin-bottom: var(--space-md);
+    font-size: 1em;
+    display: flex; /* Align items nicely */
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping */
+    gap: var(--space-sm);
+}
+.emporium-theme-status > span:not(:empty) { /* Add spacing only if span has content */
+   /* margin-right: var(--space-md); /* Replaced by gap */
+}
+
+/* Specific class for the pts icon in card using background image */
+.currency-icon-small.pts-icon {
+    width: 18px; /* Adjusted size for in-card use */
+    height: 18px;
+    background-image: var(--pts-icon-url); /* Defined in _variables.css */
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: var(--space-xs);
+    font-size: 0; /* Hide alt text if it were an img */
+    color: transparent; /* Hide any accidental text character */
+}
+
+
+.emporium-theme-owned-badge,
+.emporium-theme-active-badge {
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--rome-border-radius-sm);
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-width: 2px;
+    border-style: solid;
+    box-shadow: 1px 1px 0px var(--rome-border-color-dark);
+}
+
+.emporium-theme-owned-badge {
+    background-color: var(--rome-accent-color-dark); /* Using a defined Rome var */
+    color: var(--rome-background-color);
+    border-color: var(--rome-text-color);
+}
+
+.emporium-theme-active-badge {
+    background-color: var(--rome-accent-color); /* Using a defined Rome var */
+    color: var(--rome-accent-text-color);
+    border-color: var(--rome-text-color);
+}
+
+.emporium-theme-actions {
+    display: flex;
+    gap: var(--space-md); /* More gap for buttons */
+    justify-content: flex-end;
+    margin-top: var(--space-md); /* More margin above actions */
+}
+
+/* Buttons within emporium cards - inherit from global .btn but can have minor tweaks */
+.emporium-theme-actions .btn {
+    padding: var(--space-sm) var(--space-md-sm); /* Slightly adjusted padding */
+    font-size: 1em; /* Ensure consistent font size */
+    min-width: 100px; /* Ensure buttons have a decent width */
+}
+
+/*
+  Global button styles (.btn, .btn-primary, .btn-secondary, .btn-info, .btn:disabled)
+  should be defined in _components.css using --rome- variables.
+  The JavaScript assigns .btn-primary to unlock, .btn-secondary to apply.
+*/
+
+/* Fallback if global buttons are not fully themed for Rome yet */
+.emporium-theme-actions .btn-primary {
+    background-color: var(--rome-accent-color);
+    color: var(--rome-accent-text-color);
+    border-color: var(--rome-accent-color-dark);
+}
+.emporium-theme-actions .btn-primary:hover {
+    background-color: var(--rome-accent-color-dark);
+    border-color: var(--rome-text-color);
+}
+
+.emporium-theme-actions .btn-secondary {
+    background-color: var(--rome-button-secondary-bg);
+    color: var(--rome-button-secondary-text);
+    border-color: var(--rome-button-secondary-border);
+}
+.emporium-theme-actions .btn-secondary:hover {
+    background-color: var(--rome-button-secondary-hover-bg);
+    border-color: var(--rome-button-secondary-hover-border);
+}
+
+.emporium-theme-actions .btn:disabled {
+    background-color: var(--rome-button-disabled-bg) !important;
+    color: var(--rome-button-disabled-text) !important;
+    border-color: var(--rome-button-disabled-border) !important;
+    cursor: not-allowed;
+    opacity: 0.7;
+    box-shadow: none;
+    transform: none;
+}
