@@ -1,39 +1,32 @@
 // js/theme-manager.js
 
 const ThemeManager = (() => {
-    // Updated themes object with previewImage and previewColors
-    // IMPORTANT: Ensure these image paths are correct relative to your deployment.
-    // Using root-relative paths like '/assets/...' is often safest if your site root is consistent.
     const themes = {
-        default_rome: { // Changed 'default' to 'default_rome' to match shop-script's initial data
-            id: "default_rome", // Added id for consistency
+        default_rome: {
+            id: "default_rome",
             name: "Imperial Standard",
             cost: 0,
             description: "The classic look and feel of Rome, majestic and timeless.",
-            previewImage: "/assets/images/theme-previews/default_rome_preview.png",
-            previewColors: ["#A0522D", "#D2B48C", "#FFFFFF", "#800000"], // Example parchment/gold/red
+            previewImage: "../../assets/images/theme-previews/default_rome_preview.png", // Corrected Path
+            previewColors: ["#A0522D", "#D2B48C", "#FFFFFF", "#800000"],
             cssVariables: {
-                // Define your --rome-prefixed CSS variables for this theme
-                // These are just placeholders, replace with actual VT323/Parchment theme vars
                 '--rome-font-family': "'VT323', monospace",
-                '--rome-primary-color': '#795548', // Brown
-                '--rome-text-color': '#3a2e20',    // Dark Brown
-                '--rome-background-color': '#fdf6e8', // Light Cream
-                '--rome-card-background': '#fffaf0',  // Creamy White
-                '--rome-border-color': '#ddcba7',     // Tan border
-                '--rome-accent-color': '#B71C1C',     // Imperial Red
+                '--rome-primary-color': '#795548',
+                '--rome-text-color': '#3a2e20',
+                '--rome-background-color': '#fdf6e8',
+                '--rome-card-background': '#fffaf0',
+                '--rome-border-color': '#ddcba7',
+                '--rome-accent-color': '#B71C1C',
                 '--rome-accent-text-color': '#FFFFFF',
-                // ... other relevant variables for this theme
-                // These generic theme variables will be updated by these
-                '--theme-primary-dark': '#5D4037', // Darker Brown for a "dark" element
-                '--theme-primary-accent': '#B71C1C', // Imperial Red
-                '--theme-secondary-accent': '#FFAB00', // Gold
-                '--theme-tertiary-accent': '#D2B48C', // Parchment accent
-                '--theme-highlight-accent': '#800000', // Deeper Red
-                '--theme-light-bg': '#F5EFE6', // Light Parchment
-                '--theme-card-bg': '#FFF8E1', // Parchment Card
+                '--theme-primary-dark': '#5D4037',
+                '--theme-primary-accent': '#B71C1C',
+                '--theme-secondary-accent': '#FFAB00',
+                '--theme-tertiary-accent': '#D2B48C',
+                '--theme-highlight-accent': '#800000',
+                '--theme-light-bg': '#F5EFE6',
+                '--theme-card-bg': '#FFF8E1',
                 '--theme-text-on-dark': '#FFF8E1',
-                '--theme-page-bg': '#FDF6E3', // Main Parchment page background
+                '--theme-page-bg': '#FDF6E3',
             }
         },
         colosseum_sand: {
@@ -41,7 +34,7 @@ const ThemeManager = (() => {
             name: "Colosseum Sand",
             cost: 100,
             description: "Earthy tones inspired by the sands of the grand arena.",
-            previewImage: "/assets/images/theme-previews/colosseum_sand_preview.png",
+            previewImage: "../../assets/images/theme-previews/colosseum_sand_preview.png", // Corrected Path
             previewColors: ["#DEB887", "#F0E68C", "#3E2723", "#BF360C"],
             cssVariables: {
                 '--rome-font-family': "'VT323', monospace",
@@ -52,10 +45,9 @@ const ThemeManager = (() => {
                 '--rome-border-color': '#A1887F',
                 '--rome-accent-color': '#BF360C',
                 '--rome-accent-text-color': '#FFFFFF',
-
                 '--theme-primary-dark': '#3E2723',
                 '--theme-primary-accent': '#BF360C',
-                '--theme-secondary-accent': '#FFAB00', // Gold accent
+                '--theme-secondary-accent': '#FFAB00',
                 '--theme-tertiary-accent': '#DEB887',
                 '--theme-highlight-accent': '#D84315',
                 '--theme-light-bg': '#F5F5F5',
@@ -69,23 +61,22 @@ const ThemeManager = (() => {
             name: "Senate Marble",
             cost: 150,
             description: "Cool, elegant whites and greys, fit for senatorial decrees.",
-            previewImage: "/assets/images/theme-previews/senate_marble_preview.png",
+            previewImage: "../../assets/images/theme-previews/senate_marble_preview.png", // Corrected Path
             previewColors: ["#E0E0E0", "#BDBDBD", "#212121", "#4A148C"],
             cssVariables: {
                 '--rome-font-family': "'VT323', monospace",
-                '--rome-primary-color': '#607D8B', // Blue Grey
-                '--rome-text-color': '#263238',    // Dark Blue Grey
-                '--rome-background-color': '#ECEFF1', // Light Blue Grey
-                '--rome-card-background': '#FFFFFF',  // White
-                '--rome-border-color': '#B0BEC5',     // Medium Blue Grey
-                '--rome-accent-color': '#4A148C',     // Deep Purple
+                '--rome-primary-color': '#607D8B',
+                '--rome-text-color': '#263238',
+                '--rome-background-color': '#ECEFF1',
+                '--rome-card-background': '#FFFFFF',
+                '--rome-border-color': '#B0BEC5',
+                '--rome-accent-color': '#4A148C',
                 '--rome-accent-text-color': '#FFFFFF',
-
                 '--theme-primary-dark': '#263238',
-                '--theme-primary-accent': '#4A148C', // Purple
-                '--theme-secondary-accent': '#CFD8DC', // Light Grey
-                '--theme-tertiary-accent': '#78909C', // Grey
-                '--theme-highlight-accent': '#5E35B1', // Lighter Purple
+                '--theme-primary-accent': '#4A148C',
+                '--theme-secondary-accent': '#CFD8DC',
+                '--theme-tertiary-accent': '#78909C',
+                '--theme-highlight-accent': '#5E35B1',
                 '--theme-light-bg': '#FAFAFA',
                 '--theme-card-bg': '#FFFFFF',
                 '--theme-text-on-dark': '#FFFFFF',
@@ -97,45 +88,41 @@ const ThemeManager = (() => {
             name: "Night Watch",
             cost: 200,
             description: "Darker hues for a city under the stars.",
-            previewImage: "/assets/images/theme-previews/night_watch_preview.png",
+            previewImage: "../../assets/images/theme-previews/night_watch_preview.png", // Corrected Path
             previewColors: ["#263238", "#455A64", "#CFD8DC", "#FF6F00"],
             cssVariables: {
                 '--rome-font-family': "'VT323', monospace",
-                '--rome-primary-color': '#37474F', // Dark Grey
-                '--rome-text-color': '#CFD8DC',    // Light Grey Text
-                '--rome-background-color': '#263238', // Very Dark Grey BG
-                '--rome-card-background': '#37474F',  // Dark Grey Card
-                '--rome-border-color': '#546E7A',     // Medium Grey Border
-                '--rome-accent-color': '#FF6F00',     // Orange Accent
+                '--rome-primary-color': '#37474F',
+                '--rome-text-color': '#CFD8DC',
+                '--rome-background-color': '#263238',
+                '--rome-card-background': '#37474F',
+                '--rome-border-color': '#546E7A',
+                '--rome-accent-color': '#FF6F00',
                 '--rome-accent-text-color': '#263238',
-
                 '--theme-primary-dark': '#102027',
-                '--theme-primary-accent': '#FF6F00', // Orange
-                '--theme-secondary-accent': '#FFAB40', // Lighter Orange
-                '--theme-tertiary-accent': '#78909C', // Muted Blue Grey
-                '--theme-highlight-accent': '#DD2C00', // Deep Orange/Red
-                '--theme-light-bg': '#455A64', // Mid-dark grey for contrast
+                '--theme-primary-accent': '#FF6F00',
+                '--theme-secondary-accent': '#FFAB40',
+                '--theme-tertiary-accent': '#78909C',
+                '--theme-highlight-accent': '#DD2C00',
+                '--theme-light-bg': '#455A64',
                 '--theme-card-bg': '#37474F',
-                '--theme-text-on-dark': '#CFD8DC', // Text on dark elements
-                '--theme-page-bg': '#263238' // Main page background
+                '--theme-text-on-dark': '#CFD8DC',
+                '--theme-page-bg': '#263238'
             }
         }
-        // Add other themes from your old ThemeManager here, converting their variables
     };
 
     function applyTheme(themeId) {
-        const themeToApply = themes[themeId] || themes.default_rome; // Fallback to default_rome
+        const themeToApply = themes[themeId] || themes.default_rome;
         if (themeToApply && themeToApply.cssVariables) {
             const themeVars = themeToApply.cssVariables;
             for (const [key, value] of Object.entries(themeVars)) {
                 document.documentElement.style.setProperty(key, value);
             }
-            // These derived variables might still be useful if your _base.css or components rely on them
-            // If your new --rome- variables cover all cases, these might become redundant
             document.documentElement.style.setProperty('--theme-text-main', themeVars['--theme-primary-dark'] || themeVars['--rome-text-color']);
             document.documentElement.style.setProperty('--theme-border-main', themeVars['--theme-primary-dark'] || themeVars['--rome-border-color']);
-            console.log(`Applied theme: ${themeToApply.name}`);
-            return true; // Indicate success
+            // console.log(`Applied theme: ${themeToApply.name}`); // Keep for debugging if needed
+            return true;
         } else {
             console.warn(`Theme ID "${themeId}" not found. Applying default_rome theme.`);
             if (themes.default_rome && themes.default_rome.cssVariables) {
@@ -144,18 +131,18 @@ const ThemeManager = (() => {
                  document.documentElement.style.setProperty('--theme-text-main', defaultVars['--theme-primary-dark'] || defaultVars['--rome-text-color']);
                  document.documentElement.style.setProperty('--theme-border-main', defaultVars['--theme-primary-dark'] || defaultVars['--rome-border-color']);
             }
-            return false; // Indicate failure or fallback
+            return false;
         }
     }
 
     function getCurrentThemeId() {
-        return DataManager.loadData('current_theme_rome', 'default_rome'); // Use a unique key
+        return DataManager.loadData('current_theme_rome', 'default_rome');
     }
 
     function setCurrentThemeId(themeId) {
         if (themes[themeId]) {
             DataManager.saveData('current_theme_rome', themeId);
-            applyTheme(themeId); // Apply it visually
+            applyTheme(themeId);
             return true;
         } else {
             SharedUtils.showToast(`Attempted to set invalid theme: ${themeId}`, 3000, 'error');
@@ -164,7 +151,6 @@ const ThemeManager = (() => {
     }
 
     function getOwnedThemeIds() {
-        // Ensure 'default_rome' is always owned
         const owned = DataManager.loadData('owned_themes_rome', ['default_rome']);
         if (!owned.includes('default_rome')) {
             owned.push('default_rome');
@@ -178,20 +164,19 @@ const ThemeManager = (() => {
             if (!owned.includes(themeId)) {
                 owned.push(themeId);
                 DataManager.saveData('owned_themes_rome', owned);
-                SharedUtils.showToast(`Theme "${themes[themeId].name}" acquired!`, 2500, 'success');
+                // SharedUtils.showToast(`Theme "${themes[themeId].name}" acquired!`, 2500, 'success'); // Toast is now in shop-script
                 return true;
             }
-            SharedUtils.showToast(`Theme "${themes[themeId].name}" already owned.`, 2000, 'info');
-            return false; // Already owned
+            // SharedUtils.showToast(`Theme "${themes[themeId].name}" already owned.`, 2000, 'info'); // Toast handled in shop-script
+            return false;
         }
-        SharedUtils.showToast(`Cannot acquire unknown theme: ${themeId}`, 3000, 'error');
-        return false; // Theme does not exist
+        // SharedUtils.showToast(`Cannot acquire unknown theme: ${themeId}`, 3000, 'error'); // Toast handled in shop-script
+        return false;
     }
 
     function getAllThemes() {
-        // Return a structured array of theme objects, ensuring each has an 'id'
         return Object.entries(themes).map(([id, themeData]) => ({
-            id: id, // Ensure the id is part of the object
+            id: id,
             ...themeData
         }));
     }
@@ -207,6 +192,6 @@ const ThemeManager = (() => {
         getOwnedThemeIds,
         addOwnedThemeId,
         getAllThemes,
-        getThemeById // Expose this if needed by shop-script for direct lookups
+        getThemeById
     };
 })();
