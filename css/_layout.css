@@ -1,19 +1,69 @@
-/* css/_layout.css - Main layout containers */
+/* css/_layout.css - Main layout structures and containers */
 
-.app-container { /* General container for sub-pages/districts */
-    max-width: 700px; /* Slightly wider default */
-    margin: 0 auto;
-    padding: 0 var(--space-sm); /* Add some side padding for content */
+/* General App Container for most district pages */
+.app-container {
+    max-width: 750px; /* Default max-width, can be overridden */
+    margin: 0 auto var(--space-xl) auto; /* Added bottom margin for spacing */
+    padding: 0 var(--space-md); /* Consistent side padding */
 }
 
-.rome-hub-container { /* For index.html and potentially wider pages like Emporium */
-    max-width: 850px; /* Increased width for dashboard/emporium */
-    margin: 0 auto;
-    padding: 0 var(--space-sm);
+/* Wider container, e.g., for the Hub Dashboard or full-width Emporium */
+.rome-hub-container, /* For index.html */
+#emporiumShopPage,   /* Applying similar width to Emporium */
+#romeQuizSection {   /* And Quiz section */
+    max-width: 900px; /* Increased width for these larger sections */
+    margin: 0 auto var(--space-xl) auto;
+    padding: 0 var(--space-md);
+}
+@media (max-width: 960px) { /* Adjust max-width for slightly smaller screens */
+    .rome-hub-container,
+    #emporiumShopPage,
+    #romeQuizSection {
+        max-width: 95%;
+    }
 }
 
-/* Add any other general layout structures here, e.g., grids, flex containers */
-.main-content-area {
+
+/* Optional: A generic wrapper for main content areas within pages */
+.main-content-wrapper {
     padding-top: var(--space-lg);
     padding-bottom: var(--space-lg);
+}
+
+/* Optional: Basic grid structure helpers if you use them frequently */
+/* Example:
+.grid-container {
+    display: grid;
+    gap: var(--space-md);
+}
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+*/
+
+/*
+  Consider adding structural styles for common page sections like:
+  <header class="page-header-structure">...</header>
+  <main class="main-content-area">...</main>
+  <footer class="page-footer-structure">...</footer
+
+  However, the *styling* of these (colors, borders) might be better in _components.css
+  if they are reused components, or in district-specific CSS if unique.
+  _layout.css is more about the BOXES and their arrangement.
+*/
+
+/* Example for a common page section layout */
+.page-section {
+    margin-bottom: var(--space-xl);
+    padding: var(--space-lg);
+    background-color: var(--rome-card-background); /* Default section background */
+    border: var(--border-width-normal) solid var(--rome-border-color);
+    border-radius: var(--rome-border-radius-md);
+    box-shadow: var(--rome-card-shadow);
+}
+.page-section-title { /* If sections have titles */
+    font-size: var(--font-size-lg);
+    color: var(--rome-primary-color);
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: var(--border-width-thin) dashed var(--rome-border-color);
 }
