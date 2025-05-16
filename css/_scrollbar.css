@@ -1,28 +1,41 @@
-/* css/_scrollbar.css - Custom Scrollbar Styles */
+/* css/_scrollbar.css - Custom Scrollbar Styles for a Roman Theme */
 
+/* For Webkit-based browsers (Chrome, Safari, Edge Chromium) */
 ::-webkit-scrollbar {
-    width: 12px; /* Slightly wider */
-    height: 12px;
+    width: 14px; /* Slightly wider for a more substantial feel */
+    height: 14px;
 }
+
 ::-webkit-scrollbar-track {
-    background: var(--rome-card-background-subtle); /* Parchment track */
-    border-left: 1px solid var(--rome-border-color);
-    border-top: 1px solid var(--rome-border-color); /* For horizontal scrollbars */
+    background: var(--rome-card-background-subtle); /* Light parchment track */
+    border-radius: 0; /* Keep it square for a chiseled look */
+    border-left: var(--border-width-thin) solid var(--rome-border-color);
+    border-top: var(--border-width-thin) solid var(--rome-border-color); /* For horizontal scrollbars */
 }
+
 ::-webkit-scrollbar-thumb {
-    background: var(--rome-border-color-dark); /* Darker tan thumb */
-    border-radius: var(--rome-border-radius-sm);
-    border: 2px solid var(--rome-card-background-subtle); /* Border around thumb */
+    background: var(--rome-border-color-dark); /* Darker tan/brown thumb */
+    border-radius: var(--rome-border-radius-xs); /* Slightly rounded edges */
+    border: 2px solid var(--rome-card-background-subtle); /* "Inset" look */
+    background-clip: padding-box; /* Ensures border doesn't overlap thumb color */
 }
+
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--rome-primary-color); /* Brown on hover */
+    background: var(--rome-primary-color); /* Rich brown on hover */
+    border-color: var(--rome-card-background);
 }
+
+::-webkit-scrollbar-thumb:active {
+    background: var(--rome-text-color); /* Darkest brown when active */
+}
+
 ::-webkit-scrollbar-corner {
-    background: var(--rome-card-background-subtle);
+    background: var(--rome-card-background-subtle); /* Match track */
 }
 
 /* For Firefox */
+/* Note: Firefox scrollbar styling is less customizable than Webkit */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: var(--rome-border-color-dark) var(--rome-card-background-subtle);
+  scrollbar-width: auto; /* 'auto' or 'thin'. 'auto' respects OS, 'thin' is slimmer */
+  scrollbar-color: var(--rome-border-color-dark) var(--rome-card-background-subtle); /* thumb color, track color */
 }
