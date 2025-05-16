@@ -1,0 +1,68 @@
+/* css/_components.css */
+
+/* General Button Styling */
+.btn {
+    font-family: var(--rome-font-family);
+    font-size: var(--font-size-md); /* Use font size variables */
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--rome-border-radius-sm);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.15s ease-out;
+    border-style: solid;
+    border-width: 2px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    box-shadow: 2px 2px 0px var(--rome-border-color-dark); /* Default 3D effect */
+    line-height: 1.2; /* Ensure text aligns well, esp. for VT323 */
+}
+.btn:hover:not(:disabled) {
+    transform: translateY(-1px) translateX(-1px);
+    box-shadow: 3px 3px 0px var(--rome-text-color); /* Darker shadow on hover */
+}
+.btn:active:not(:disabled) {
+    transform: translateY(1px) translateX(1px);
+    box-shadow: 1px 1px 0px var(--rome-border-color-dark);
+}
+
+.btn-primary {
+    background-color: var(--rome-button-primary-bg);
+    color: var(--rome-button-primary-text);
+    border-color: var(--rome-button-primary-border);
+}
+.btn-primary:hover:not(:disabled) {
+    background-color: var(--rome-button-primary-hover-bg);
+    border-color: var(--rome-button-primary-hover-border);
+}
+
+.btn-secondary {
+    background-color: var(--rome-button-secondary-bg);
+    color: var(--rome-button-secondary-text);
+    border-color: var(--rome-button-secondary-border);
+}
+.btn-secondary:hover:not(:disabled) {
+    background-color: var(--rome-button-secondary-hover-bg);
+    border-color: var(--rome-button-secondary-hover-border);
+}
+
+.btn-info {
+    background-color: var(--rome-button-info-bg);
+    color: var(--rome-button-info-text);
+    border-color: var(--rome-button-info-border);
+}
+.btn-info:hover:not(:disabled) {
+     background-color: var(--rome-button-info-hover-bg);
+    border-color: var(--rome-button-info-hover-border);
+}
+
+.btn:disabled {
+    background-color: var(--rome-button-disabled-bg) !important;
+    color: var(--rome-button-disabled-text) !important;
+    border-color: var(--rome-button-disabled-border) !important;
+    cursor: not-allowed;
+    opacity: 0.6;
+    box-shadow: none !important;
+    transform: none !important;
+}
