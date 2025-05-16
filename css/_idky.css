@@ -1,0 +1,297 @@
+/* css/_idky.css - Styles for Knowledge Forum (IDKY District) */
+
+/*
+    Generic .moment-card styles are in _components.css.
+    These are IDKY-specific additions or overrides for .moment-card.
+*/
+
+.moments-list > .moment-card, /* Styles for moment cards directly in momentsList */
+.archived-items-list-container .moment-card,
+.deepened-items-list-container .moment-card {
+    padding: 0; /* IDKY moment cards often have internal padding in header/content */
+    /* The base .moment-card background, border, shadow from _components.css will apply */
+}
+
+.moment-card .moment-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+    cursor: pointer;
+    border-bottom: 1px dashed var(--rome-border-color-light); /* Separator if content unrolls */
+}
+.moment-card .moment-header:hover {
+    background-color: var(--rome-card-background-subtle);
+}
+
+.moment-card .moment-checkbox-container input[type="checkbox"] {
+    width: 20px; /* Slightly larger checkbox */
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--rome-accent-color); /* Use Rome accent for checkbox */
+    flex-shrink: 0;
+    margin-right: var(--space-xs);
+}
+
+.moment-card .moment-text-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 0; /* Prevent overflow issues */
+    color: var(--rome-text-color);
+}
+
+.moment-card .moment-main-text {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline; /* Align text and timestamp nicely */
+    flex-wrap: wrap;
+    gap: var(--space-xs) var(--space-sm);
+}
+
+.moment-card .moment-text {
+    word-break: break-word;
+    flex-basis: 70%; /* Allow text to take more space before wrapping timestamp */
+}
+
+.moment-card .moment-timestamp {
+    font-size: var(--font-size-xs);
+    color: var(--rome-text-color-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.moment-card .status-indicator {
+    display: inline-block;
+    padding: 2px 5px;
+    font-size: calc(var(--font-size-xs) * 0.9);
+    margin-left: var(--space-xs);
+    border: 1px solid;
+    border-radius: var(--rome-border-radius-xs);
+    font-weight: normal; /* VT323 doesn't bold well */
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+/* Using Rome color variables for status indicators */
+.status-indicator.status-question { background-color: var(--rome-info-bg); color: var(--rome-info-text); border-color: var(--rome-info-border); }
+.status-indicator.status-correct { background-color: var(--rome-success-bg); color: var(--rome-success-text); border-color: var(--rome-success-border); }
+.status-indicator.status-incorrect { background-color: var(--rome-button-primary-bg); color: var(--rome-button-primary-text); border-color: var(--rome-button-primary-border); } /* Using primary button as error/incorrect */
+.status-indicator.status-unclear { background-color: var(--rome-button-secondary-bg); color: var(--rome-button-secondary-text); border-color: var(--rome-button-secondary-border); }
+
+
+.moment-card .expand-icon {
+    transition: transform 0.25s ease-out;
+    padding-left: var(--space-sm);
+    flex-shrink: 0;
+    color: var(--rome-text-color-muted);
+    font-size: 1.2em;
+}
+.moment-card .expand-icon.expanded {
+    transform: rotate(180deg);
+}
+
+.moment-card .moment-actions {
+    display: flex;
+    gap: var(--space-xs);
+    flex-shrink: 0;
+}
+.moment-card .moment-actions .action-button, /* Generic action button style is in _components.css */
+.moment-card .moment-actions .review-button {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    padding: var(--space-xs); /* Small padding for icon buttons */
+    color: var(--rome-text-color-secondary);
+    font-size: 1.2em; /* Icon size */
+}
+.moment-card .moment-actions .action-button:hover,
+.moment-card .moment-actions .review-button:hover {
+    color: var(--rome-accent-color);
+    transform: scale(1.1);
+}
+.moment-card .moment-actions .review-button.reviewed-true {
+    color: var(--rome-success-text); /* Green for reviewed */
+}
+
+
+.moment-card .moment-answer-wrapper {
+    padding: var(--space-sm) var(--space-md);
+    border-top: 1px dashed var(--rome-border-color);
+    margin-top: var(--space-sm);
+    display: none; /* JS handles expansion */
+    background-color: var(--rome-card-background-subtle); /* Slightly different bg for answer */
+}
+.moment-card .moment-answer-wrapper.expanded {
+    display: block;
+}
+.moment-answer-content {
+    margin-bottom: var(--space-sm);
+    line-height: 1.5;
+    font-size: var(--font-size-sm);
+    color: var(--rome-text-color);
+    word-wrap: break-word;
+}
+.moment-answer-content .spinner-char { /* Animation defined in _animations.css */
+    display: inline-block;
+    animation: spin 1s linear infinite;
+    margin-right: var(--space-xs);
+}
+.regenerate-answer-button-container {
+    text-align: right;
+    margin-top: var(--space-sm);
+}
+/* .regenerate-answer-button uses .action-button style from _components.css */
+
+
+/* Specific card border indicators based on type/verdict */
+.moment-card.newly-added {
+    /* Animation defined in _animations.css */
+    border-left: 4px solid var(--rome-secondary-color); /* Gold for new */
+    animation: retroFadeIn 0.3s ease-out forwards, retroPulseBorder 1.5s 0.3s ease-in-out;
+}
+.moment-card.type-statement.verdict-correct { border-left: 4px solid var(--rome-success-border); }
+.moment-card.type-statement.verdict-incorrect { border-left: 4px solid var(--rome-button-primary-border); } /* Using primary button border for error */
+.moment-card.type-statement.verdict-unclear { border-left: 4px solid var(--rome-button-secondary-border); }
+.moment-card.type-question { border-left: 4px solid var(--rome-info-border); }
+.moment-card.user-reviewed {
+    background-color: color-mix(in srgb, var(--rome-card-background) 95%, var(--rome-success-bg) 25%);
+}
+
+
+/* Archived and Deepened Moment Cards */
+.archived-moment-card .moment-timestamp,
+.deepened-moment-card .moment-timestamp {
+    font-style: italic;
+}
+.archived-moment-card.archive-revised {
+    border-right: 4px solid var(--rome-secondary-color); /* Gold for revised archive */
+}
+.deepened-moment-card { /* Mastered items */
+    border: 2px solid var(--rome-secondary-color); /* Gold border */
+    box-shadow: 3px 3px 0 var(--rome-secondary-color), /* Gold shadow */
+                inset 0 0 10px color-mix(in srgb, var(--rome-secondary-color) 20%, transparent);
+}
+.deepened-moment-card.mastered-celebrate-pop { /* Animation in _animations.css */
+    animation: masteredPop 0.5s ease-out;
+}
+.moment-card.archiving { /* Animation in _animations.css */
+    animation: fadeOutAndShrink 0.5s forwards;
+}
+
+/* API Key Area & Input Area (IDKY Specific) */
+.api-key-area {
+    display: flex;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+    align-items: center;
+    padding: var(--space-sm);
+    background-color: var(--rome-card-background-subtle);
+    border: 1px dashed var(--rome-border-color);
+    border-radius: var(--rome-border-radius-sm);
+}
+/* #userApiKeyInput uses global input styles from _components.css or _base.css */
+/* #saveApiKeyButton uses .action-button style from _components.css */
+
+.input-area { /* Container for textarea and log button */
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg); /* Space after input area */
+}
+/* #idkInput uses global textarea styles from _components.css or _base.css */
+/* #logButton uses .log-button style from _components.css */
+
+
+/* List Controls Bar (IDKY Specific) */
+.list-controls-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-sm) var(--space-md);
+    background-color: var(--rome-card-background-subtle);
+    border: 1px solid var(--rome-border-color);
+    border-radius: var(--rome-border-radius-sm);
+    margin-bottom: var(--space-md);
+    box-shadow: var(--rome-card-shadow);
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+.select-all-container {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-grow: 1;
+    min-width: 200px; /* Ensure it doesn't get too squished */
+}
+#selectedCount, #reviewedCountDisplay {
+    font-size: var(--font-size-sm);
+    color: var(--rome-text-color-secondary);
+    background-color: var(--rome-card-background);
+    padding: var(--space-xs) var(--space-sm);
+    border: 1px dashed var(--rome-border-color-light);
+    border-radius: var(--rome-border-radius-xs);
+    white-space: nowrap;
+}
+/* #selectAllButton, #testKnowledgeButton use .action-button styles from _components.css */
+#testKnowledgeButton { /* Specific coloring if needed */
+    background-color: var(--rome-secondary-color); /* Gold */
+    color: var(--rome-secondary-text-color);
+    border-color: var(--rome-text-color); /* Dark border for gold button */
+}
+#testKnowledgeButton:hover:not(:disabled) {
+    background-color: color-mix(in srgb, var(--rome-secondary-color) 90%, black);
+}
+
+
+.batch-process-button-container {
+    text-align: center;
+    margin: var(--space-lg) 0;
+}
+/* #processSelectedButton uses .log-button style, but might need overrides */
+#processSelectedButton {
+    width: auto; /* Don't take full width */
+    padding: var(--space-sm) var(--space-lg); /* Larger padding */
+    background-color: var(--rome-secondary-color);
+    color: var(--rome-secondary-text-color);
+    border-color: var(--rome-text-color);
+}
+#processSelectedButton:hover:not(:disabled) {
+    background-color: color-mix(in srgb, var(--rome-secondary-color) 90%, black);
+}
+
+
+.overall-loading-indicator {
+    text-align: center;
+    padding: var(--space-md);
+    font-size: 1.1em;
+    color: var(--rome-accent-color);
+    background-color: var(--rome-card-background);
+    border: 1px dashed var(--rome-accent-color);
+    border-radius: var(--rome-border-radius-sm);
+    margin: var(--space-md) 0;
+    display: none; /* JS controls visibility */
+}
+
+/* Quiz Modal Styles (IDKY Specific context if different from global quiz) */
+/* Assuming general .quiz-modal styles are in _components.css or _quiz.css */
+/* These would be overrides if IDKY's quiz modal is significantly different */
+
+/* .quiz-modal-overlay .modal-content { max-width: 550px; } */ /* Example override */
+/* .quiz-modal h2 { ... } */
+/* ...etc. for other quiz elements if IDKY's version is unique */
+/* For now, assume _quiz.css handles the primary quiz styling */
+
+/* No Moments Placeholder for IDKY */
+#noMomentsPlaceholder { /* Style from _components.css is generic */
+    /* IDKY specific message style if needed */
+    padding: var(--space-xl);
+    border-width: 2px; /* More prominent dashed border */
+}
+#noMomentsPlaceholder i {
+    font-size: 2em;
+    display: block;
+    margin-bottom: var(--space-sm);
+    color: var(--rome-text-color-muted);
+}
