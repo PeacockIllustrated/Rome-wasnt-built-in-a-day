@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="emporium-theme-meta">
                         <div class="emporium-theme-status">
                             <span class="emporium-theme-cost" style="display: ${theme.isOwned || theme.cost === 0 ? 'none' : 'inline'};">
-                                Cost: ${theme.cost} <img src="${ptsIconPath}" alt="pts" class="currency-icon-small pts-icon" title="Points">
+                               Cost: ${theme.cost} <span class="currency-icon-small pts-icon" title="Points"></span>
                             </span>
                             <span class="emporium-theme-owned-badge" style="display: ${theme.isOwned ? 'inline-block' : 'none'};">Owned</span>
                             <span class="emporium-theme-active-badge" style="display: ${theme.isActive ? 'inline-block' : 'none'};">Active</span>
