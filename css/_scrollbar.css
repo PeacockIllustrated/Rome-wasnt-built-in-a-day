@@ -1,0 +1,28 @@
+/* css/_scrollbar.css - Custom Scrollbar Styles */
+
+::-webkit-scrollbar {
+    width: 12px; /* Slightly wider */
+    height: 12px;
+}
+::-webkit-scrollbar-track {
+    background: var(--rome-card-background-subtle); /* Parchment track */
+    border-left: 1px solid var(--rome-border-color);
+    border-top: 1px solid var(--rome-border-color); /* For horizontal scrollbars */
+}
+::-webkit-scrollbar-thumb {
+    background: var(--rome-border-color-dark); /* Darker tan thumb */
+    border-radius: var(--rome-border-radius-sm);
+    border: 2px solid var(--rome-card-background-subtle); /* Border around thumb */
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--rome-primary-color); /* Brown on hover */
+}
+::-webkit-scrollbar-corner {
+    background: var(--rome-card-background-subtle);
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--rome-border-color-dark) var(--rome-card-background-subtle);
+}
