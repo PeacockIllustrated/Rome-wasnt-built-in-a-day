@@ -1,0 +1,19 @@
+/* css/_layout.css - Main layout containers */
+
+.app-container { /* General container for sub-pages/districts */
+    max-width: 700px; /* Slightly wider default */
+    margin: 0 auto;
+    padding: 0 var(--space-sm); /* Add some side padding for content */
+}
+
+.rome-hub-container { /* For index.html and potentially wider pages like Emporium */
+    max-width: 850px; /* Increased width for dashboard/emporium */
+    margin: 0 auto;
+    padding: 0 var(--space-sm);
+}
+
+/* Add any other general layout structures here, e.g., grids, flex containers */
+.main-content-area {
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-lg);
+}
