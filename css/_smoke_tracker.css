@@ -1,0 +1,392 @@
+/* css/_smoke_tracker.css - Styles for Smoke Tracker (Health District) */
+
+/*
+    Generic .moment-card and button styles are in _components.css.
+    These are Smoke Tracker-specific additions or overrides.
+*/
+
+/*
+   Main section cards in Smoke Tracker (log actions, vape timer, status/limits)
+   These are direct children of .smoke-tracker-content.
+*/
+.smoke-tracker-content > .moment-card {
+    padding: var(--space-md);
+    opacity: 1;    /* Ensure visible without global fade-in */
+    animation: none;
+    margin-bottom: var(--space-lg); /* Consistent spacing between main sections */
+    border-radius: var(--rome-border-radius-md);
+}
+
+/* Timer & Status */
+.timer-display { /* Vape timer display */
+    font-family: var(--rome-font-family); /* Ensure correct font */
+    font-size: 2.5em; /* Large timer text */
+    background-color: var(--rome-text-color); /* Dark background for contrast */
+    color: var(--rome-background-color); /* Light text on dark */
+    padding: var(--space-xs) var(--space-md-sm);
+    border: 2px solid var(--rome-border-color-dark);
+    border-radius: var(--rome-border-radius-sm);
+    margin: var(--space-sm) auto var(--space-md) auto;
+    text-align: center;
+    width: fit-content;
+    min-width: 120px; /* Ensure enough space for MM:SS */
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.4), 2px 2px 0 var(--rome-border-color-dark);
+    letter-spacing: 2px;
+}
+.timer-display.counting-down {
+    border-color: var(--rome-secondary-color); /* Gold when counting down */
+    color: var(--rome-secondary-color);
+}
+.timer-display.warning { /* Animation defined in _animations.css */
+    animation: pulseWarning 1s infinite;
+    border-color: var(--rome-accent-color); /* Red for warning */
+    color: var(--rome-accent-color);
+}
+
+.vape-timer-section .limit-setting, /* Limit setting within vape timer */
+.status-limit-section .limit-setting { /* Limit setting in status section */
+    margin-top: var(--space-md);
+    padding-top: var(--space-sm);
+    border-top: 1px dotted var(--rome-border-color);
+    justify-content: flex-end; /* Align limit settings to the right typically */
+}
+.status-limit-section .limit-setting {
+    flex-basis: 50%; /* Allow status text and limit input to share space */
+}
+
+
+.status-limit-section h2 { /* "DAILY STATUS & LIMITS" title */
+    text-align: center;
+    color: var(--rome-primary-color);
+    font-size: 1.5em;
+    margin-bottom: var(--space-md);
+    border-bottom: 2px dashed var(--rome-primary-color);
+    padding-bottom: var(--space-sm);
+}
+.status-limit-section > div { /* Rows for Cigarettes and Vape Time status */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+    padding: var(--space-sm) 0;
+}
+.status-limit-section > div:not(:last-child) {
+    border-bottom: 1px dotted var(--rome-border-color-light);
+}
+.status-limit-section span { /* Text like "CIGARETTES: 0 / ?" */
+    font-size: 1.1em; /* Larger status text */
+    color: var(--rome-text-color-secondary);
+}
+.status-limit-section span strong { /* The count itself */
+    color: var(--rome-text-color);
+    font-size: 1.2em; /* Emphasize count */
+}
+.status-limit-section span.over-limit strong,
+.status-limit-section span.over-limit { /* If the whole span has .over-limit */
+    color: var(--rome-accent-color) !important; /* Red for over limit */
+}
+
+
+/* Log List Items (Smoke Tracker) */
+#smokeLogList {
+    margin-top: var(--space-sm);
+}
+#smokeLogList .moment-card { /* Individual log entries */
+    padding: var(--space-sm) var(--space-md-sm) !important; /* Specific padding for log items */
+    margin-bottom: var(--space-sm);
+    opacity: 1;
+    animation: none;
+    border-radius: var(--rome-border-radius-sm);
+    background-color: var(--rome-card-background-subtle); /* Slightly different for log items */
+}
+#smokeLogList .moment-card:hover {
+    background-color: var(--rome-card-background); /* Lighten on hover */
+}
+
+
+.log-item-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+.log-item-details {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    color: var(--rome-text-color);
+}
+.log-item-details i { /* Cigarette/Vape icon */
+    font-size: 1.3em;
+    margin-right: var(--space-sm);
+    /* Colors are set inline in JS based on log type using --rome variables */
+}
+.log-item-reason-icon-container {
+    text-align: right;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+.log-item-time {
+    font-size: var(--font-size-xs);
+    color: var(--rome-text-color-muted);
+    white-space: nowrap;
+}
+.add-reason-icon {
+    cursor: pointer;
+    color: var(--rome-text-color-secondary);
+    font-size: 1.1em;
+    transition: color 0.2s, transform 0.2s;
+}
+.add-reason-icon:hover {
+    color: var(--rome-accent-color);
+    transform: scale(1.15);
+}
+.add-reason-icon.has-reason {
+    color: var(--rome-primary-color); /* Or success color */
+}
+
+/* Progress Chart (Smoke Tracker) */
+.log-history-section h2, /* "RECENT LOG" */
+.progress-section h2 { /* "WEEKLY CIGARETTE COUNT" */
+    text-align: center;
+    font-size: 1.5em;
+    color: var(--rome-primary-color);
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 2px dashed var(--rome-primary-color);
+}
+
+.daily-progress-chart-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 150px; /* Increased height */
+    border: 2px solid var(--rome-border-color);
+    padding: var(--space-md) var(--space-sm) 0 var(--space-sm);
+    background-color: var(--rome-card-background-subtle);
+    box-shadow: inset 1px 1px 3px rgba(0,0,0,0.1);
+    overflow-x: auto;
+    margin-bottom: var(--space-md);
+    border-radius: var(--rome-border-radius-sm);
+}
+.chart-day-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+    flex-basis: 13.5%; /* Ensure 7 columns fit well */
+    max-width: 60px;
+    height: 100%;
+    position: relative;
+}
+.chart-bar-wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    width: 100%;
+    height: calc(100% - 25px); /* Space for label */
+    position: relative;
+}
+.chart-bar {
+    width: 70%; /* Wider bars */
+    min-height: 3px; /* Visible for 0 */
+    background-color: var(--rome-text-color-muted); /* Default bar color (greyish) */
+    border: 1px solid var(--rome-text-color);
+    box-shadow: 1px 1px 0px var(--rome-text-color);
+    transition: height 0.3s ease-out, background-color 0.3s ease-out;
+    border-radius: 2px 2px 0 0; /* Rounded top of bar */
+}
+.chart-bar.cigarette-bar {
+    background-color: var(--rome-accent-color); /* Red for cigarettes */
+    border-color: var(--rome-accent-color-dark);
+    box-shadow: 1px 1px 0px var(--rome-accent-color-dark);
+}
+.chart-bar:hover {
+    filter: brightness(1.15);
+}
+.chart-bar-value {
+    font-size: var(--font-size-xs);
+    color: var(--rome-text-color);
+    margin-bottom: 2px;
+    font-weight: normal; /* VT323 */
+    height: 16px;
+    line-height: 16px;
+}
+.chart-day-label {
+    font-size: var(--font-size-xs);
+    margin-top: var(--space-xs);
+    color: var(--rome-text-color-secondary);
+    height: 20px;
+    line-height: 20px;
+    text-transform: uppercase;
+}
+
+.progress-section .streak-info-box {
+    margin-top: var(--space-md);
+    padding: var(--space-sm) var(--space-md-sm);
+    border: 2px dashed var(--rome-secondary-color); /* Gold dashed border for streak */
+    border-radius: var(--rome-border-radius-sm);
+    background-color: var(--rome-card-background);
+}
+.progress-section .streak-info-box span {
+    font-size: 1.2em;
+    color: var(--rome-text-color);
+}
+.progress-section .streak-info-box strong {
+    color: var(--rome-secondary-color); /* Gold streak number */
+    font-size: 1.1em;
+}
+.progress-section .streak-info-box i.fa-fire {
+    color: var(--rome-accent-color); /* Red fire icon */
+    margin-left: var(--space-xs);
+    font-size: 1.1em;
+}
+
+/* Calendar (Smoke Tracker) */
+.calendar-section .log-button#toggleCalendarButton {
+     width: auto;
+     padding: var(--space-sm) var(--space-lg);
+     background-color: var(--rome-secondary-color);
+     color: var(--rome-secondary-text-color);
+     border-color: var(--rome-text-color);
+     /* Inherits .log-button styles, then these override */
+}
+.calendar-section .log-button#toggleCalendarButton:hover {
+    background-color: color-mix(in srgb, var(--rome-secondary-color) 90%, black);
+}
+
+
+.calendar-log-container {
+    display: none; /* JS toggles */
+    margin-top: var(--space-md);
+    border: 2px solid var(--rome-border-color-dark);
+    padding: var(--space-md);
+    background-color: var(--rome-card-background);
+    box-shadow: var(--rome-card-shadow);
+    border-radius: var(--rome-border-radius-md);
+}
+.calendar-log-container.show { /* Animation in _animations.css */
+    display: block;
+    animation: retroFadeIn 0.4s ease-out;
+}
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+    padding: var(--space-sm);
+    background-color: var(--rome-card-background-subtle);
+    border-bottom: 2px dashed var(--rome-border-color);
+    border-radius: var(--rome-border-radius-sm) var(--rome-border-radius-sm) 0 0;
+}
+/* .calendar-nav-button uses .action-button styles */
+.calendar-nav-button {
+    background-color: var(--rome-primary-color) !important; /* Ensure consistent button color */
+    color: var(--rome-accent-text-color) !important;
+    padding: var(--space-xs) var(--space-sm) !important;
+    font-size: 1.1em !important;
+}
+.calendar-nav-button:hover:not(:disabled){
+    background-color: color-mix(in srgb, var(--rome-primary-color) 90%, black) !important;
+}
+.calendar-month-year {
+    font-size: 1.5em;
+    color: var(--rome-primary-color);
+    text-shadow: 1px 1px 0 var(--rome-border-color-light);
+}
+.calendar-grid {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: transparent;
+    table-layout: fixed;
+}
+.calendar-grid th,
+.calendar-grid td {
+    border: 1px solid var(--rome-border-color); /* Lighter borders for grid */
+    text-align: center;
+    padding: var(--space-xs);
+    height: 60px; /* Taller cells */
+    position: relative;
+    overflow: hidden;
+    font-size: var(--font-size-sm);
+}
+.calendar-grid th {
+    background-color: var(--rome-card-background-subtle);
+    font-size: 0.9em;
+    color: var(--rome-text-color-secondary);
+    padding: var(--space-sm) var(--space-xs);
+    height: auto;
+    text-transform: uppercase;
+}
+.calendar-day {
+    vertical-align: top;
+    cursor: default;
+    transition: background-color 0.2s ease, outline 0.2s ease;
+    background-color: var(--rome-card-background); /* Day cell background */
+}
+.calendar-day:hover:not(.other-month) {
+    outline: 2px dashed var(--rome-secondary-color);
+    outline-offset: -2px;
+    background-color: var(--rome-card-background-subtle);
+}
+.calendar-day-number {
+    display: block;
+    font-weight: normal; /* VT323 */
+    font-size: 0.95em;
+    margin-bottom: var(--space-xs);
+    text-align: left;
+    padding: 2px 0 0 4px;
+    color: var(--rome-text-color);
+}
+.calendar-day.other-month .calendar-day-number { color: var(--rome-text-color-muted); }
+.calendar-day.other-month {
+    background-color: color-mix(in srgb, var(--rome-card-background-subtle) 60%, transparent);
+    pointer-events: none;
+}
+.calendar-day.today {
+    border: 2px solid var(--rome-secondary-color) !important; /* Gold border for today */
+    box-shadow: inset 0 0 0 1px var(--rome-secondary-color);
+    background-color: color-mix(in srgb, var(--rome-secondary-color) 15%, var(--rome-card-background));
+}
+.calendar-day.today .calendar-day-number {
+    color: var(--rome-secondary-color); /* Gold number for today */
+}
+.calendar-day.calendar-day-success {
+    background-color: color-mix(in srgb, var(--rome-success-bg) 60%, var(--rome-card-background));
+    border-left: 3px solid var(--rome-success-border);
+}
+.calendar-day.calendar-day-overlimit {
+    background-color: color-mix(in srgb, var(--rome-accent-color) 20%, var(--rome-card-background));
+    border-left: 3px solid var(--rome-accent-color);
+}
+.calendar-day.calendar-day-overlimit .calendar-day-number {
+    color: var(--rome-accent-color-dark);
+}
+
+/* Testing Tools Section (Smoke Tracker) */
+.testing-tools-section h2 {
+    font-size: 1.5em;
+    color: var(--rome-text-color-secondary);
+    margin-bottom: var(--space-md);
+    border-bottom: 2px dashed var(--rome-text-color-secondary);
+    padding-bottom: var(--space-sm);
+}
+/* #endOfDayTestButton uses .action-button, specific colors can be applied */
+.testing-tools-section .action-button#endOfDayTestButton {
+    background-color: var(--rome-button-info-bg); /* Muted info color */
+    color: var(--rome-button-info-text);
+    border-color: var(--rome-button-info-border);
+}
+.testing-tools-section .action-button#endOfDayTestButton:hover:not(:disabled) {
+    background-color: var(--rome-button-info-hover-bg);
+}
+
+/* No Logs Placeholder for Smoke Log */
+#noLogsPlaceholder { /* Style from _components.css is generic */
+    padding: var(--space-lg);
+    border-width: 2px;
+}
