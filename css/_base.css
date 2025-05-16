@@ -1,63 +1,149 @@
-/* css/_base.css - Base element styling */
+/* css/_base.css - Base HTML element styling for the Roman theme */
 
 body {
     font-family: var(--rome-font-family);
-    background-color: var(--theme-page-bg); /* Updated by ThemeManager */
-    color: var(--theme-text-main);         /* Updated by ThemeManager */
-    line-height: 1.6; /* Slightly more for VT323 readability */
+    background-color: var(--theme-page-bg); /* Controlled by ThemeManager via --rome-background-color */
+    color: var(--theme-text-main);         /* Controlled by ThemeManager via --rome-text-color */
+    line-height: 1.65; /* Good for VT323 readability */
     padding: var(--space-md);
-    font-size: 18px; /* Base font size */
+    font-size: 18px; /* Base font size for desktop, can be adjusted in responsive */
     overflow-x: hidden;
     min-height: 100vh;
-    /* Background pattern from old style, if still desired and not theme-specific */
-    /* If pattern should change with theme, it should be part of theme's cssVariables */
-    /* background-image:
-        radial-gradient(rgba(38, 70, 83, 0.3) 1px, transparent 1px),
-        radial-gradient(rgba(244, 162, 97, 0.4) 1px, transparent 1px);
-    background-size: 50px 50px, 100px 100px;
-    background-position: 0 0, 25px 25px; */
-    padding-bottom: 80px; /* For fixed toolbars, adjust if needed */
+    padding-bottom: 90px; /* Increased space for fixed toolbars */
+
+    /* Optional: Subtle parchment texture for the entire page background.
+       Create a very light, seamless parchment texture image if you want this.
+       Ensure it's very subtle not to interfere with text.
+    */
+    /* background-image: var(--repo-name-prefix, "") + "/assets/images/background/parchment_tile_light.png"; */
+    /* background-repeat: repeat; */
 }
 
 h1, h2, h3, h4, h5, h6 {
-    color: var(--theme-text-main); /* Or var(--rome-primary-color) if headings are always a specific color */
-    margin-bottom: 0.6em; /* Adjusted margin */
-    line-height: 1.3;
-    letter-spacing: 0.5px; /* Good for VT323 */
+    color: var(--rome-primary-color); /* Headings often use a primary theme color */
+    margin-bottom: 0.7em;
+    line-height: 1.25;
+    letter-spacing: 0.5px;
+    font-weight: normal; /* VT323 is often best at normal weight */
+    text-shadow: 1px 1px 0px var(--rome-border-color-light); /* Subtle text shadow for depth */
 }
 
-h1 { font-size: var(--font-size-xl); }
-h2 { font-size: calc(var(--font-size-xl) * 0.8); }
-h3 { font-size: var(--font-size-lg); }
-/* etc. for h4, h5, h6 */
+h1 { font-size: var(--font-size-xl); letter-spacing: 1px;}
+h2 { font-size: calc(var(--font-size-xl) * 0.8); } /* Approx 1.76em */
+h3 { font-size: var(--font-size-lg); } /* Approx 1.5em */
+h4 { font-size: calc(var(--font-size-lg) * 0.9); } /* Approx 1.35em */
+h5 { font-size: var(--font-size-md); } /* Approx 1.15em, good for sub-subheads */
+h6 { font-size: var(--font-size-sm); color: var(--rome-text-color-secondary); } /* Base size, secondary color */
+
 
 p {
-    margin-bottom: 1em;
+    margin-bottom: 1.1em; /* Slightly more spacing for paragraphs */
+    line-height: 1.7; /* More line height for paragraph readability with VT323 */
+    color: var(--theme-text-main); /* Ensure p text uses the main theme text color */
 }
 
 a {
-    color: var(--theme-primary-accent); /* Updated by ThemeManager */
-    text-decoration: none;
-    transition: color 0.2s ease;
+    color: var(--rome-accent-color); /* Links use the Imperial Red */
+    text-decoration: none; /* Consider a subtle underline on hover only */
+    transition: color 0.2s ease, text-shadow 0.2s ease;
 }
-a:hover {
+a:hover,
+a:focus { /* Added focus state */
+    color: var(--rome-accent-color-dark); /* Darker red on hover/focus */
     text-decoration: underline;
-    color: var(--theme-highlight-accent); /* Updated by ThemeManager */
+    text-decoration-style: dotted;
+    text-decoration-color: var(--rome-accent-color);
+    outline: none; /* Remove default focus outline if custom is provided elsewhere or not desired */
+    text-shadow: 0 0 3px color-mix(in srgb, var(--rome-accent-color) 30%, transparent);
 }
 
-ul, ol { /* Basic list styling if not reset */
-    list-style: none; /* Assuming reset handles this, or keep it */
-    padding-left: 0;  /* Assuming reset handles this */
+ul, ol {
+    list-style: none; /* From reset, but ensure */
+    padding-left: 0;  /* From reset */
     margin-bottom: 1em;
 }
+
 li {
     margin-bottom: 0.5em;
+    padding-left: 1.5em; /* Indent list items */
+    position: relative;
+}
+/* Thematic list bullets */
+ul li::before {
+    content: "•"; /* Roman dot or other thematic character like '❦' or '※' */
+    color: var(--rome-primary-color);
+    font-weight: normal; /* VT323 doesn't bold well */
+    display: inline-block;
+    position: absolute;
+    left: 0.2em;
+    top: -0.05em; /* Adjust vertical alignment */
+    font-size: 1.2em;
+}
+ol {
+    list-style-type: upper-roman; /* I, II, III... */
+    padding-left: 2.5em; /* More space for Roman numerals */
+}
+ol li::before {
+    content: ""; /* Remove default bullet for ol if using list-style-type */
 }
 
 
-/* Font Awesome Icons - general styling */
-i.fas, i.far, i.fab, i.fa { /* Added .fa for general Font Awesome use */
-    vertical-align: middle;
+hr { /* Thematic horizontal rule */
+    border: 0;
+    height: 2px;
+    background-image: linear-gradient(to right, transparent, var(--rome-border-color-dark), transparent);
+    margin: var(--space-lg) 0;
+}
+
+blockquote {
+    border-left: 3px solid var(--rome-accent-color);
+    padding-left: var(--space-md);
+    margin: var(--space-md) 0 var(--space-md) var(--space-sm);
+    font-style: italic;
+    color: var(--rome-text-color-secondary);
+}
+
+/* Font Awesome Icons - general styling if not overridden by components */
+i.fas, i.far, i.fab, i.fa {
+    vertical-align: -0.125em; /* Better alignment for Font Awesome */
     margin-right: var(--space-xs);
-    line-height: 1; /* Helps with alignment */
+    line-height: 1;
+    /* Default icon color can be set, but often components will color them */
+    /* color: var(--rome-text-color-muted); */
+}
+
+/* To ensure images within figure tags are handled well */
+figure {
+  margin: 0 0 1em 0;
+}
+figcaption {
+  font-size: var(--font-size-sm);
+  color: var(--rome-text-color-muted);
+  text-align: center;
+  margin-top: var(--space-xs);
+}
+
+/* Basic Table Styling (if used) */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--space-md);
+    font-size: var(--font-size-sm);
+}
+th, td {
+    border: 1px solid var(--rome-border-color);
+    padding: var(--space-sm);
+    text-align: left;
+}
+th {
+    background-color: var(--rome-card-background-subtle);
+    color: var(--rome-primary-color);
+    font-weight: normal; /* VT323 */
+}
+caption {
+    caption-side: bottom;
+    padding: var(--space-sm);
+    font-size: var(--font-size-xs);
+    color: var(--rome-text-color-muted);
+    text-align: center;
 }
