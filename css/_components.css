@@ -1,68 +1,578 @@
-/* css/_components.css */
+/* css/_components.css - Shared UI Components */
 
-/* General Button Styling */
-.btn {
+/* --- 4.1 Headers & Titles (Generic versions) --- */
+.header-section { /* Generic styling for a header block on any page */
+    background-color: var(--rome-card-background-subtle); /* Subtle background for headers */
+    padding: var(--space-md);
+    border-bottom: var(--border-width-thick) groove var(--rome-border-color-dark);
+    margin-bottom: var(--space-lg);
+    /* box-shadow: 0 2px 4px rgba(0,0,0,0.05); Removed, border is primary visual */
+}
+
+.app-title-bar { /* The bar containing the main page title */
+    display: flex;
+    justify-content: center; /* Default center, can be overridden */
+    align-items: center;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: var(--border-width-normal) dashed var(--rome-accent-color);
+    position: relative; /* For absolutely positioned elements like back links */
+}
+
+.app-title-container { /* Wrapper for icon + h1 title */
+    display: flex;
+    align-items: center;
+}
+
+.app-title-container i.title-icon {
+    font-size: var(--font-size-xxl); /* Large title icon */
+    color: var(--rome-accent-color);
+    margin-right: var(--space-sm);
+    text-shadow: 1px 1px 0px var(--rome-primary-color); /* Thematic shadow */
+    transition: transform 0.2s ease-out;
+}
+.app-title-container:hover i.title-icon {
+    transform: rotate(-8deg) scale(1.05);
+}
+
+.app-title-container h1 { /* The main H1 page title */
+    font-size: var(--font-size-xl); /* Uses base H1 size */
+    color: var(--rome-primary-color); /* Uses base H1 color */
+    text-transform: uppercase;
+    margin-bottom: 0;
+    letter-spacing: 1.5px;
+}
+
+/* Link to navigate back to hub from a district page */
+.rome-hub-link-from-district {
+    position: absolute;
+    top: 50%;
+    right: var(--space-sm); /* Positioned within .app-title-bar */
+    transform: translateY(-50%);
+    font-size: 1.3em; /* Larger icon/link */
+    color: var(--rome-text-color-secondary);
+    padding: var(--space-xs) var(--space-sm);
+    border: 1px solid transparent;
+    border-radius: var(--rome-border-radius-sm);
+    transition: all 0.2s ease;
+}
+.rome-hub-link-from-district:hover {
+    color: var(--rome-accent-color);
+    background-color: var(--rome-card-background-subtle);
+    border-color: var(--rome-border-color);
+    text-decoration: none;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+.rome-hub-link-from-district i {
+    margin-right: 0; /* Icon only, no text */
+    font-size: 1.2em;
+}
+
+
+.header-stats-bar { /* Bar for points, streak, etc. */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: var(--space-xs) 0; /* Less vertical padding */
+    margin-top: var(--space-sm); /* Space after title bar */
+    flex-wrap: wrap;
+    gap: var(--space-md); /* More gap between stat items */
+}
+
+.points-display { /* Individual stat item like "100 PTS" */
+    font-size: 1.1em; /* Slightly larger stats */
+    color: var(--rome-text-color-secondary);
+    transition: transform 0.15s ease-out, color 0.15s ease-out;
+    line-height: 1.3;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--rome-border-radius-xs);
+}
+.points-display:hover {
+    transform: scale(1.03);
+    /* color: var(--rome-primary-color); */ /* Optional: darken text on hover */
+}
+.points-display.points-earned-flash { /* Animation in _animations.css */
+    animation: pointsFlash 0.6s ease-in-out;
+}
+.points-display i.points-icon { /* General class for icons in stats */
+    margin-right: var(--space-sm); /* More space for icon */
+    font-size: 1.3em; /* Larger icons */
+    text-shadow: 1px 1px 0px var(--rome-border-color-dark);
+    transition: transform 0.2s ease-in-out;
+    color: var(--rome-primary-color); /* Default icon color in stats */
+}
+.points-display:hover i.points-icon {
+    transform: translateY(-1px) rotate(4deg);
+}
+/* Specific icon colors within points-display */
+.points-display i.fa-coins,
+.points-display i.fa-star { /* Covers .gold-star-icon implicitly */
+    color: var(--rome-secondary-color); /* Gold for coins and stars */
+}
+.points-display i.fa-poo { color: var(--rome-accent-color); } /* Red for "silly" points */
+.points-display i.fa-calendar-check { color: var(--rome-primary-color); }
+.points-display i.fa-city { color: var(--rome-primary-color); }
+.points-display i.fa-landmark { color: var(--rome-accent-color); } /* Landmark icon red */
+
+
+/* --- 4.2 Cards & Lists (Generic .moment-card) --- */
+.moment-card { /* Base style for all cards, can be extended by district CSS */
+    background-color: var(--rome-card-background);
+    color: var(--rome-text-color);
+    margin-bottom: var(--space-md); /* Default card spacing */
+    border: var(--border-width-normal) solid var(--rome-border-color-dark);
+    border-radius: var(--rome-border-radius-md);
+    box-shadow: var(--rome-card-shadow);
+    /* animation: retroFadeIn 0.3s ease-out forwards; */ /* Animation can be added by JS or specific card types */
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    padding: var(--space-md); /* Default internal padding for a simple card */
+}
+.moment-card:hover {
+    transform: translateY(-2px) /*translateX(-1px)*/; /* Simpler hover */
+    box-shadow: 5px 5px 0px var(--rome-border-color-dark), /* Larger shadow on hover */
+                0 0 10px color-mix(in srgb, var(--rome-accent-color) 15%, transparent);
+}
+
+.moments-list { /* Generic list container */
+    /* No specific global styling, usually layout is handled by parent */
+}
+
+/* --- 4.3 Forms & Inputs (General Styling) --- */
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="email"],
+input[type="search"],
+textarea,
+select {
     font-family: var(--rome-font-family);
-    font-size: var(--font-size-md); /* Use font size variables */
+    border: var(--border-width-normal) solid var(--rome-border-color);
+    background-color: var(--rome-card-background-subtle); /* Light parchment input bg */
+    color: var(--rome-text-color);
+    padding: var(--space-sm) var(--space-md-sm);
+    font-size: 1em; /* Base input font size */
+    border-radius: var(--rome-border-radius-sm);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+    width: 100%; /* Default to full width */
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.05);
+}
+textarea {
+    resize: vertical;
+    min-height: 80px; /* Decent default height */
+    line-height: 1.6;
+}
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="email"],
+input[type="search"],
+select {
+    height: 40px; /* Consistent height for single-line inputs */
+}
+select {
+    appearance: none; /* For custom select arrow if desired */
+    /* background-image: url('path-to-arrow.svg'); */ /* Custom arrow */
+    background-position: right var(--space-sm) center;
+    background-repeat: no-repeat;
+    padding-right: var(--space-xl); /* Space for arrow */
+}
+
+input[type="text"]:hover,
+input[type="number"]:hover,
+input[type="password"]:hover,
+input[type="email"]:hover,
+input[type="search"]:hover,
+textarea:hover,
+select:hover {
+    border-color: var(--rome-border-color-dark);
+    background-color: var(--rome-card-background);
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--rome-accent-color); /* Red border on focus */
+    background-color: var(--rome-card-background);
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1), 0 0 0 2px color-mix(in srgb, var(--rome-accent-color) 30%, transparent); /* Focus ring */
+}
+
+/* Checkbox and Radio specific styling */
+input[type="checkbox"],
+input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--rome-accent-color);
+    margin-right: var(--space-xs);
+    vertical-align: middle;
+    cursor: pointer;
+}
+label { /* General label styling */
+    display: inline-block;
+    margin-bottom: var(--space-xs);
+    color: var(--rome-text-color-secondary);
+    font-size: var(--font-size-sm);
+}
+
+
+/* Limit Setting component (used in Smoke Tracker, but generic enough for here) */
+.limit-setting {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: center;
+    /* justify-content: center; */ /* Let parent decide alignment */
+    flex-wrap: wrap;
+}
+.limit-setting label {
+    font-size: var(--font-size-sm);
+    margin-right: 0;
+    color: var(--rome-text-color-secondary);
+}
+.limit-setting input[type="text"], /* Specific for small inputs in limit-setting */
+.limit-setting input[type="number"] {
+    width: 70px; /* Slightly wider for numbers */
+    font-size: 1em; /* Match surrounding text */
+    text-align: center;
+    padding: var(--space-xs) var(--space-sm);
+    height: 36px; /* Adjust height */
+}
+
+
+/* --- 4.4 Buttons (Generic .btn class, specific types like .btn-primary use Roman vars) --- */
+/* Base button style moved to _components.css in previous step, here's a refined version */
+.btn { /* Generic button class */
+    font-family: var(--rome-font-family);
+    font-size: 1em; /* Base button font size */
     padding: var(--space-sm) var(--space-md);
     border-radius: var(--rome-border-radius-sm);
     cursor: pointer;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.2px; /* More spacing for Roman feel */
     transition: all 0.15s ease-out;
     border-style: solid;
-    border-width: 2px;
+    border-width: var(--border-width-normal);
     text-decoration: none;
     display: inline-block;
     text-align: center;
-    box-shadow: 2px 2px 0px var(--rome-border-color-dark); /* Default 3D effect */
-    line-height: 1.2; /* Ensure text aligns well, esp. for VT323 */
+    line-height: 1.3; /* Ensure text aligns well */
+    white-space: nowrap;
+
+    /* Default to tertiary button style */
+    background-color: var(--rome-button-tertiary-bg);
+    color: var(--rome-button-tertiary-text);
+    border-color: var(--rome-button-tertiary-border);
+    box-shadow: var(--rome-button-tertiary-shadow);
 }
 .btn:hover:not(:disabled) {
-    transform: translateY(-1px) translateX(-1px);
-    box-shadow: 3px 3px 0px var(--rome-text-color); /* Darker shadow on hover */
+    background-color: var(--rome-button-tertiary-hover-bg);
+    border-color: var(--rome-button-tertiary-hover-border);
+    box-shadow: var(--rome-button-tertiary-hover-shadow);
+    transform: translateY(-1px);
 }
 .btn:active:not(:disabled) {
-    transform: translateY(1px) translateX(1px);
-    box-shadow: 1px 1px 0px var(--rome-border-color-dark);
+    transform: translateY(1px);
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.15);
 }
 
-.btn-primary {
+.btn-primary { /* Main action button */
     background-color: var(--rome-button-primary-bg);
     color: var(--rome-button-primary-text);
     border-color: var(--rome-button-primary-border);
+    box-shadow: var(--rome-button-primary-shadow);
 }
 .btn-primary:hover:not(:disabled) {
     background-color: var(--rome-button-primary-hover-bg);
     border-color: var(--rome-button-primary-hover-border);
+    box-shadow: var(--rome-button-primary-hover-shadow);
 }
 
-.btn-secondary {
+.btn-secondary { /* Secondary action, e.g., "Apply Theme" */
     background-color: var(--rome-button-secondary-bg);
     color: var(--rome-button-secondary-text);
     border-color: var(--rome-button-secondary-border);
+    box-shadow: var(--rome-button-secondary-shadow);
 }
 .btn-secondary:hover:not(:disabled) {
     background-color: var(--rome-button-secondary-hover-bg);
     border-color: var(--rome-button-secondary-hover-border);
+    box-shadow: var(--rome-button-secondary-hover-shadow);
 }
 
-.btn-info {
-    background-color: var(--rome-button-info-bg);
-    color: var(--rome-button-info-text);
-    border-color: var(--rome-button-info-border);
-}
-.btn-info:hover:not(:disabled) {
-     background-color: var(--rome-button-info-hover-bg);
-    border-color: var(--rome-button-info-hover-border);
-}
+/* .btn-info, etc. can be added if needed, using their --rome-button-info vars */
 
 .btn:disabled {
     background-color: var(--rome-button-disabled-bg) !important;
     color: var(--rome-button-disabled-text) !important;
     border-color: var(--rome-button-disabled-border) !important;
     cursor: not-allowed;
-    opacity: 0.6;
+    opacity: 0.7;
     box-shadow: none !important;
     transform: none !important;
+}
+
+/* Old specific button classes - map them to new system or phase out */
+.log-button { /* For main "Log X" actions */
+    composes: btn btn-primary; /* Conceptual, apply both classes in HTML */
+    width: 100%; /* If log buttons are typically full-width */
+    padding: var(--space-md-sm) var(--space-lg); /* Larger padding for main action */
+    font-size: 1.1em;
+}
+.action-button { /* For smaller, inline actions */
+    composes: btn; /* Default tertiary, or add .btn-primary/secondary in HTML */
+    font-size: 0.9em;
+    padding: var(--space-xs) var(--space-sm);
+    letter-spacing: 0.5px;
+    /* Remove specific background/color here, let .btn or .btn-primary etc. handle it */
+}
+
+
+/* --- 4.5 Modals --- */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(40, 30, 20, 0.75); /* Darker, earthy overlay */
+    display: none; /* JS toggles */
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    animation: fadeInBg 0.3s ease forwards; /* Animation in _animations.css */
+    padding: var(--space-md);
+}
+.modal-overlay.show { display: flex; }
+
+.modal-content {
+    background-color: var(--rome-card-background); /* Parchment modal */
+    padding: var(--space-lg);
+    border: var(--border-width-thick) solid var(--rome-border-color-dark);
+    border-radius: var(--rome-border-radius-md);
+    box-shadow: 5px 5px 0 var(--rome-border-color-dark), 0 0 20px rgba(0,0,0,0.2); /* More prominent */
+    width: 100%;
+    max-width: 500px; /* Default modal width */
+    color: var(--rome-text-color);
+    animation: zoomInModal 0.3s ease-out forwards; /* Animation in _animations.css */
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative; /* For close button if added */
+}
+.modal-content h3 { /* Modal title */
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-md);
+    color: var(--rome-primary-color);
+    text-align: center;
+    border-bottom: var(--border-width-normal) dashed var(--rome-primary-color);
+    padding-bottom: var(--space-sm);
+    letter-spacing: 1px;
+}
+.modal-content textarea { /* Textarea within modal */
+    margin-bottom: var(--space-md);
+    min-height: 100px;
+}
+.modal-actions { /* Container for modal action buttons */
+    display: flex;
+    justify-content: flex-end; /* Align buttons to right by default */
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--rome-border-color-light);
+}
+.modal-actions .btn { /* Buttons in modal actions */
+    min-width: 120px; /* Ensure buttons are a good size */
+}
+/* Example specific button styling in modal (could also be done by adding .btn-primary etc. in HTML) */
+/* button#saveReasonButton { background-color: var(--rome-accent-color); color: var(--rome-accent-text-color); border-color: var(--rome-accent-color-dark); } */
+/* button#cancelReasonButton { background-color: var(--rome-button-tertiary-bg); color: var(--rome-button-tertiary-text); border-color: var(--rome-button-tertiary-border); } */
+
+
+/* --- 4.6 Accordions --- */
+.accordion-section {
+    margin-bottom: var(--space-md);
+    border: var(--border-width-normal) solid var(--rome-border-color);
+    border-radius: var(--rome-border-radius-sm);
+    background-color: var(--rome-card-background-subtle);
+    box-shadow: 2px 2px 0px var(--rome-border-color-light);
+}
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-md-sm) var(--space-md);
+    background-color: var(--rome-primary-color); /* Header bar uses primary color */
+    color: var(--rome-primary-text-color);
+    border-bottom: var(--border-width-normal) solid var(--rome-border-color-dark); /* If content is below */
+    cursor: pointer;
+    border-radius: var(--rome-border-radius-sm) var(--rome-border-radius-sm) 0 0; /* Top corners rounded */
+    transition: background-color 0.2s ease;
+}
+.accordion-header:hover {
+    background-color: color-mix(in srgb, var(--rome-primary-color) 85%, var(--rome-secondary-color));
+}
+.accordion-header span { /* Text part of header */
+    display: flex;
+    align-items: center;
+    font-size: 1.1em;
+    letter-spacing: 0.5px;
+}
+.accordion-header i { /* Icon in accordion header */
+    margin-right: var(--space-sm);
+    font-size: 1.1em; /* Match text */
+}
+.accordion-toggle-icon { /* The chevron icon */
+    transition: transform 0.3s ease-out;
+    margin-left: auto; /* Pushes to the right */
+    margin-right: 0;
+    font-size: 1.2em;
+}
+.accordion-toggle-icon.expanded {
+    transform: rotate(180deg);
+}
+
+.accordion-content-container {
+    max-height: 0;
+    overflow-y: auto; /* Changed to auto for scrollbar when needed */
+    transition: max-height 0.35s ease-out, padding 0.35s ease-out, border-color 0.35s ease-out;
+    background-color: var(--rome-card-background); /* Content area background */
+    border-top: none; /* Header has bottom border */
+    padding: 0 var(--space-md); /* Horizontal padding when closed */
+    border-radius: 0 0 var(--rome-border-radius-sm) var(--rome-border-radius-sm);
+}
+.accordion-content-container.expanded {
+    max-height: 500px; /* Adjust as needed */
+    padding: var(--space-md); /* Padding when open */
+    /* border-color: var(--rome-border-color); */ /* Not needed if section has border */
+}
+
+
+/* --- 4.7 Placeholders (for empty lists) --- */
+.no-moments-placeholder,
+.no-items-placeholder,
+.no-logs-placeholder { /* Generic placeholder style */
+    text-align: center;
+    padding: var(--space-lg);
+    color: var(--rome-text-color-muted);
+    font-style: italic;
+    background-color: var(--rome-card-background-subtle);
+    border: var(--border-width-normal) dashed var(--rome-border-color);
+    border-radius: var(--rome-border-radius-md);
+    margin: var(--space-md);
+    font-size: 1.1em;
+}
+
+/* --- 4.8 Toast Notifications --- */
+.toast-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px); /* Start off-screen */
+    background-color: var(--rome-text-color); /* Dark background for toast */
+    color: var(--rome-background-color);    /* Light text */
+    padding: var(--space-md-sm) var(--space-lg);
+    border: var(--border-width-normal) solid var(--rome-secondary-color); /* Gold border */
+    font-family: var(--rome-font-family);
+    font-size: 1.1em;
+    z-index: 4000;
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.35s ease-out;
+    box-shadow: 3px 3px 0px var(--rome-secondary-color), 0 0 15px rgba(0,0,0,0.2);
+    min-width: 250px;
+    text-align: center;
+    border-radius: var(--rome-border-radius-sm);
+    letter-spacing: 0.5px;
+}
+.toast-notification.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+.toast-notification.error { /* Error toast */
+    background-color: var(--rome-accent-color-dark); /* Dark Red */
+    color: var(--rome-accent-text-color);
+    border-color: var(--rome-accent-color);
+    box-shadow: 3px 3px 0px var(--rome-accent-color);
+}
+.toast-notification.success { /* Success toast */
+    background-color: var(--rome-primary-color); /* Brown, could be a success green */
+    color: var(--rome-primary-text-color);
+    border-color: var(--rome-secondary-color); /* Gold border */
+    box-shadow: 3px 3px 0px var(--rome-secondary-color);
+}
+.toast-notification.info { /* Info toast - using secondary colors */
+    background-color: var(--rome-secondary-color);
+    color: var(--rome-secondary-text-color);
+    border-color: var(--rome-text-color);
+    box-shadow: 3px 3px 0px var(--rome-text-color);
+}
+
+
+/* --- 4.9 Particle Canvas (Basic positioning) --- */
+#particleCanvas, /* Generic, if used */
+#particleCanvasShop,
+#particleCanvasRome,
+#particleCanvasSmokeTracker,
+#particleCanvasKnowledge {
+    position: fixed !important; /* !important to ensure override */
+    top: 0 !important; left: 0 !important;
+    width: 100vw !important; height: 100vh !important;
+    pointer-events: none !important;
+    z-index: -1 !important; /* Behind all content */
+}
+
+/* --- 4.10 Toolbars (Fixed bottom toolbar for shop link) --- */
+.shop-toolbar-fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--rome-primary-color); /* Primary color for toolbar */
+    color: var(--rome-primary-text-color);
+    border-top: var(--border-width-thick) groove var(--rome-border-color-dark);
+    box-shadow: 0 -3px 6px rgba(0,0,0,0.15);
+    z-index: 1000;
+    padding: var(--space-xs) 0; /* Minimal vertical padding */
+}
+.shop-toolbar-header-link { /* The link itself inside the toolbar */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-sm) var(--space-md);
+    font-size: 1.2em; /* Larger text in toolbar */
+    color: var(--rome-primary-text-color);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    letter-spacing: 1px;
+}
+.shop-toolbar-header-link:hover {
+    background-color: color-mix(in srgb, var(--rome-primary-color) 85%, var(--rome-secondary-color)); /* Subtle hover */
+    text-decoration: none;
+}
+.shop-toolbar-header-link span:first-child { /* "THEME SHOP" text */
+    display: flex;
+    align-items: center;
+}
+.shop-toolbar-header-link .shop-pts-display { /* Points display in toolbar */
+    font-size: 0.9em; /* Slightly smaller than main link text */
+    margin-left: auto; /* Pushes it right before arrow */
+    margin-right: var(--space-lg);
+    display: flex;
+    align-items: center;
+    background-color: var(--rome-card-background);
+    color: var(--rome-text-color);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--rome-border-radius-sm);
+    border: 1px solid var(--rome-border-color-dark);
+}
+.shop-toolbar-header-link .shop-pts-display i.points-icon {
+    color: var(--rome-secondary-color); /* Gold icon */
+    margin-right: var(--space-xs);
+}
+.shop-toolbar-header-link > i.fas.fa-arrow-right { /* Arrow icon */
+    color: var(--rome-secondary-color); /* Gold arrow */
+    margin-left: var(--space-sm);
+    margin-right: 0;
+    font-size: 1.1em;
 }
