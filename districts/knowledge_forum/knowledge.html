@@ -131,7 +131,57 @@
             </div>
         </div>
     </div>
+    <!-- 
+    This can be a <section> directly within your index.html's <main> content area,
+    or the content within a modal (like #quizModal from previous examples).
+    Let's assume for now it's a dedicated section that you show/hide.
+-->
+<section id="romeQuizSection" class="rome-content-area" style="display: none;"> <!-- Initially hidden -->
 
+    <header class="quiz-header">
+        <h2 id="quizTitle">Roman Trivia Challenge!</h2>
+        <div id="quizProgressContainer">
+            <span>Question: </span>
+            <span id="currentQuestionNumber">1</span> / <span id="totalQuizQuestions">10</span>
+        </div>
+    </header>
+
+    <div id="quizQuestionArea" class="quiz-card">
+        <p id="quizQuestionText">What was the name of the legendary founder of Rome, said to have been raised by a she-wolf?</p>
+    </div>
+
+    <div id="quizOptionsContainer" class="quiz-options-grid">
+        <!-- Options will be populated by JavaScript, example structure: -->
+        <button class="quiz-option-button btn" data-option-index="0">A. Julius Caesar</button>
+        <button class="quiz-option-button btn" data-option-index="1">B. Augustus</button>
+        <button class="quiz-option-button btn" data-option-index="2">C. Romulus</button>
+        <button class="quiz-option-button btn" data-option-index="3">D. Nero</button>
+    </div>
+
+    <div id="quizFeedbackArea" class="quiz-feedback" style="display: none;">
+        <!-- Feedback (Correct/Incorrect) will be shown here by JavaScript -->
+        <p id="quizFeedbackText">Your answer was Correct!</p>
+    </div>
+
+    <div id="quizNavigation" class="quiz-nav-buttons">
+        <button id="submitAnswerButton" class="btn btn-primary">Submit Answer</button>
+        <button id="nextQuestionButton" class="btn btn-secondary" style="display: none;">Next Question</button>
+    </div>
+
+    <!-- This section shows up after the quiz is completed -->
+    <div id="quizResultsArea" class="quiz-card" style="display: none;">
+        <h3>Quiz Completed!</h3>
+        <p>Your Score: <span id="quizFinalScore">0</span> / <span id="quizTotalPossibleScore">0</span></p>
+        <div id="quizReviewOptions">
+            <!-- Optional: Buttons to review answers, restart quiz, or return to hub -->
+            <!-- <button id="reviewAnswersButton" class="btn btn-info">Review Answers</button> -->
+            <button id="restartQuizButton" class="btn btn-secondary">Restart Challenge</button>
+            <button id="returnToHubButton" class="btn btn-primary">Return to Rome Hub</button>
+        </div>
+    </div>
+
+</section>
+    
     <!-- Toast Notification (will be handled by SharedUtils) -->
     <!-- <div class="toast-notification" id="idkyToastNotification">Toast message</div> -->
 
