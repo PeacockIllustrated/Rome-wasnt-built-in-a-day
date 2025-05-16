@@ -1697,3 +1697,24 @@ body.shop-active {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--rome-secondary-color);
 }
+
+
+/* style.css - Main Stylesheet */
+
+@import url('css/_variables.css');
+@import url('css/_reset.css');
+@import url('css/_base.css');
+@import url('css/_layout.css');
+@import url('css/_components.css');
+
+/* Page/District Specific Styles */
+@import url('css/_hub_dashboard.css');
+@import url('css/_idky.css');
+@import url('css/_smoke_tracker.css');
+@import url('css/_emporium.css');
+@import url('css/_quiz.css'); /* <-- ADD THIS LINE */
+/* @import url('css/_your_other_district.css'); */
+
+@import url('css/_animations.css');
+@import url('css/_scrollbar.css');
+@import url('css/_responsive.css');
