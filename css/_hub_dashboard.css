@@ -2,96 +2,145 @@
 
 /* --- Hub - City Map Visualizer CONTAINER --- */
 #cityMapPlaceholder {
-    background-image: url('/assets/images/background/background.png'); /* Ensure path is correct relative to root */
+    /* Ensure this path is correct relative to the root of your project.
+       If your style.css imports this file, and style.css is at root, then /assets/... is usually correct. */
+    background-image: url('/assets/images/background/background.png');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    min-height: 350px; /* Adjust as needed */
+    min-height: 350px; /* Adjust as needed for your map's aspect ratio */
     position: relative;
-    border: 3px solid var(--rome-border-color-dark); /* Themed */
+    border: 3px solid var(--rome-border-color-dark); /* Themed border */
     border-radius: var(--rome-border-radius-md);
     margin-bottom: var(--space-lg);
-    overflow: hidden;
+    overflow: hidden; /* Ensures map assets don't spill outside */
 }
 
-/* --- MAP ASSET STYLES (Scoped to #cityMapPlaceholder) --- */
-/* Copy ALL of your existing #cityMapPlaceholder .map-asset, .locked, .dropping-in rules here.
-   Then copy ALL of your ID-specific map asset positioning rules (like #map-temple-forum, #map-tree-conifer-legacy-1).
-   These are usually not themed with colors, but ensure transform values are as desired. */
-
+/* --- MAP ASSET BASE STYLES (Scoped to #cityMapPlaceholder) --- */
+/* These general rules apply to all individual building/scenery sprites on the map. */
 #cityMapPlaceholder .map-asset {
     position: absolute;
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
-    -webkit-user-drag: none;
-    user-select: none;
+    image-rendering: pixelated; /* Ensures crisp pixel art scaling */
+    image-rendering: -moz-crisp-edges; /* Firefox specific */
+    image-rendering: crisp-edges;      /* Modern browsers */
+    -webkit-user-drag: none; /* Prevent dragging the images */
+    user-select: none; /* Prevent text selection behavior */
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
-    transform-origin: bottom center;
-    transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    max-height: initial;
+    transform-origin: bottom center; /* Scale/transform from the base of the asset */
+    transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Animation for drop-in */
+    max-height: initial; /* Ensure images scale from their native size */
     opacity: 1;
-    cursor: pointer;
+    cursor: pointer; /* Indicates interactivity */
 }
 
+/* Styles for locked/unlocked animation states */
 #cityMapPlaceholder .map-asset.locked {
     opacity: 0;
-    pointer-events: none;
+    /* Initial transform for drop-in animation is set by specific ID rules below */
+    pointer-events: none; /* Make locked assets not clickable */
     cursor: default;
 }
 
 #cityMapPlaceholder .map-asset.dropping-in {
     opacity: 1;
-    transform: translateY(0px);
+    transform: translateY(0px); /* Final Y position for animation */
+    /* Final scale is inherited from specific ID rule */
 }
 
-/* --- Specific Map Asset Positioning & Animation States (COPY ALL OF THESE FROM YOUR ORIGINAL style.css Section 8) --- */
-#cityMapPlaceholder #map-temple-forum { left: 50%; transform: translateX(-50%) scale(0.2); bottom: 45%; z-index: 12; }
-#cityMapPlaceholder .map-asset.locked#map-temple-forum { transform: translateX(-50%) translateY(-40px) scale(0.1); }
-#cityMapPlaceholder .map-asset.dropping-in#map-temple-forum { transform: translateX(-50%) translateY(0px) scale(0.2); }
+/* --- Specific Map Asset Positioning & Animation States --- */
+/* YOU MUST COPY ALL OF THESE RULES FROM YOUR ORIGINAL style.css Section 8.
+   These define the exact placement, scale, and z-index for each building/scenery item.
+   The .locked and .dropping-in states here define their initial animation values. */
 
-#cityMapPlaceholder #map-city-gatehouse { left: 0%; bottom: 20%; z-index: 8; transform: scale(0.2); }
+/* Back Row Example (COPY & VERIFY ALL YOUR BUILDINGS/SCENERY HERE) */
+#cityMapPlaceholder #map-temple-forum {
+    left: 50%;
+    transform: translateX(-50%) scale(0.2); /* Final scale and position */
+    bottom: 45%;
+    z-index: 12;
+}
+#cityMapPlaceholder .map-asset.locked#map-temple-forum {
+    transform: translateX(-50%) translateY(-40px) scale(0.1); /* Initial state for drop-in */
+}
+#cityMapPlaceholder .map-asset.dropping-in#map-temple-forum {
+    transform: translateX(-50%) translateY(0px) scale(0.2); /* Target for animation */
+}
+
+#cityMapPlaceholder #map-city-gatehouse {
+    left: 0%;
+    bottom: 20%;
+    z-index: 8;
+    transform: scale(0.2);
+}
 #cityMapPlaceholder .map-asset.locked#map-city-gatehouse { transform: translateY(-40px) scale(0.1); }
 #cityMapPlaceholder .map-asset.dropping-in#map-city-gatehouse { transform: translateY(0px) scale(0.2); }
 
-#cityMapPlaceholder #map-triumphal-arch { left: 88%; bottom: 45%; z-index: 8; transform: scale(0.2); }
+#cityMapPlaceholder #map-triumphal-arch {
+    left: 88%; /* Adjust for right side */
+    bottom: 45%;
+    z-index: 8;
+    transform: scale(0.2);
+}
 #cityMapPlaceholder .map-asset.locked#map-triumphal-arch { transform: translateY(-40px) scale(0.1); }
 #cityMapPlaceholder .map-asset.dropping-in#map-triumphal-arch { transform: translateY(0px) scale(0.2); }
 
-/* Middle Row - District Buildings */
-#cityMapPlaceholder #map-building-knowledge { left: 10%; bottom: 70%; z-index: 10; transform: scale(0.25); }
+/* Middle Row - District Buildings Example (COPY & VERIFY ALL YOUR DISTRICTS HERE) */
+#cityMapPlaceholder #map-building-knowledge {
+    left: 10%;
+    bottom: 70%;
+    z-index: 10;
+    transform: scale(0.25);
+}
 #cityMapPlaceholder .map-asset.locked#map-building-knowledge { transform: translateY(-40px) scale(0.15); }
 #cityMapPlaceholder .map-asset.dropping-in#map-building-knowledge { transform: translateY(0px) scale(0.25); }
 
-#cityMapPlaceholder #map-building-health { left: 55%; bottom: 60%; z-index: 12; transform: scale(0.2); }
+#cityMapPlaceholder #map-building-health {
+    left: 55%;
+    bottom: 60%;
+    z-index: 12;
+    transform: scale(0.2);
+}
 #cityMapPlaceholder .map-asset.locked#map-building-health { transform: translateY(-40px) scale(0.1); }
 #cityMapPlaceholder .map-asset.dropping-in#map-building-health { transform: translateY(0px) scale(0.2); }
 
-/* Front Row */
-#cityMapPlaceholder #map-building-emporium { left: 40%; bottom: 15%; z-index: 15; transform: scale(0.2); }
+/* Front Row Example (COPY & VERIFY ALL YOUR BUILDINGS/SCENERY HERE) */
+#cityMapPlaceholder #map-building-emporium {
+    left: 40%;
+    bottom: 15%;
+    z-index: 15;
+    transform: scale(0.2);
+}
 
-/* Scenery (COPY ALL OF THESE) */
-#cityMapPlaceholder #map-tree-conifer-legacy-1 { left: 5%; bottom: 55%; z-index: 5; transform: scale(0.35); cursor: default; }
+/* Scenery Example (COPY ALL OF THESE, and add more if you have them) */
+#cityMapPlaceholder #map-tree-conifer-legacy-1 {
+    left: 5%;
+    bottom: 55%;
+    z-index: 5; /* Lower z-index for background elements */
+    transform: scale(0.35);
+    cursor: default; /* Not interactive */
+}
+/* ... ADD ANY OTHER SCENERY ELEMENTS HERE ... */
 
 
-/* --- Building Name Tag --- */
+/* --- Building Name Tag (for map interaction) --- */
 #buildingNameTag {
     position: absolute;
-    background-color: rgba(from var(--rome-text-color) r g b / 0.85); /* Themed */
-    color: var(--rome-background-color); /* Themed */
+    /* Themed background and text colors */
+    background-color: rgba(from var(--rome-text-color) r g b / 0.85);
+    color: var(--rome-background-color);
     padding: var(--space-xs) var(--space-sm);
     font-size: 0.9em;
-    border: 1px solid var(--rome-border-color); /* Themed */
+    border: 1px solid var(--rome-border-color); /* Themed border */
     border-radius: var(--rome-border-radius-sm);
-    box-shadow: 1px 1px 2px rgba(from var(--rome-text-color) r g b / 0.3); /* Themed */
-    z-index: 100;
-    opacity: 0;
-    transform: translateY(10px) scale(0.9);
-    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
-    pointer-events: none;
-    white-space: nowrap;
+    box-shadow: 1px 1px 2px rgba(from var(--rome-text-color) r g b / 0.3); /* Subtle shadow */
+    z-index: 100; /* Ensure it's on top */
+    opacity: 0; /* Start hidden */
+    transform: translateY(10px) scale(0.9); /* Initial state for pop-up animation */
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out; /* Pop-up animation */
+    pointer-events: none; /* Make it not clickable itself */
+    white-space: nowrap; /* Prevent text wrapping */
 }
 #buildingNameTag.visible {
     opacity: 1;
@@ -100,28 +149,31 @@
 
 
 /* --- Dashboard Header & Footer (from your original style.css Section 8) --- */
+/* This handles the 'GOVERNOR'S DASHBOARD' title and general content padding */
 .dashboard-header .app-title-container h1 {
-    font-size: 2em; /* Adjusted font size */
+    font-size: 2em; /* Adjusted font size for dashboard title */
 }
 
 .dashboard-main {
-    margin-top: var(--space-md); /* Adjusted margin */
+    margin-top: var(--space-md); /* Spacing below the map/header */
 }
 
+/* --- District Summary Cards Section Title --- */
 .district-summaries-container h2 {
     text-align: center;
-    font-size: 1.5em; /* Adjusted font size */
+    font-size: 1.5em; /* Adjusted font size for 'District Overview' title */
     color: var(--rome-primary-color); /* Themed */
     margin-bottom: var(--space-md);
     padding-bottom: var(--space-sm);
-    border-bottom: var(--pixel-border-width) dashed var(--rome-primary-color); /* Themed */
+    border-bottom: var(--pixel-border-width) dashed var(--rome-primary-color); /* Themed border */
 }
 
+/* --- Hub Footer --- */
 .hub-footer {
     text-align: center;
-    margin-top: var(--space-xl);
+    margin-top: var(--space-xl); /* Generous margin for separation */
     padding-top: var(--space-md);
-    border-top: var(--pixel-border-width) dashed var(--rome-secondary-color); /* Themed */
+    border-top: var(--pixel-border-width) dashed var(--rome-secondary-color); /* Themed border */
     font-size: 0.9em;
     color: var(--rome-text-color-secondary); /* Themed */
 }
