@@ -1,4 +1,4 @@
-/* css/_components.css - Shared UI Components */
+/* css/_components.css - Shared UI Components for R.O.M.E. */
 
 /* --- Buttons (New R.O.M.E. Theme Buttons) --- */
 .btn { /* This is the base for all new buttons */
@@ -15,7 +15,7 @@
     text-decoration: none;
     display: inline-block;
     text-align: center;
-    background-clip: padding-box;
+    background-clip: padding-box; /* Prevents background from extending under border */
     box-shadow: 2px 2px 0px var(--rome-border-color-dark); /* Unified button shadow */
 }
 
@@ -58,7 +58,6 @@
     box-shadow: none !important;
     transform: none !important;
 }
-
 
 /* --- Hub Navigation (General) --- */
 .hub-navigation {
@@ -189,7 +188,6 @@
 }
 
 /* --- Themed icon colors (from your original) --- */
-/* Your original icons used 'fa-coins', 'fa-star', 'fa-poo', 'fa-calendar-check', 'fa-city', 'fa-landmark' */
 /* Make sure these are the correct Font Awesome classes for your icons */
 .points-display i.fa-coins,
 .points-display i.fa-star.gold-star-icon {
@@ -258,21 +256,22 @@
     flex-shrink: 0;
 }
 
-.summary-card-actions .btn,
+.summary-card-actions .btn, /* Ensure these use .btn for primary button styling */
 .summary-card-actions .manage-district-button {
     padding: 6px 10px; /* UI Adjustment: Smaller buttons */
     font-size: 0.8em; /* UI Adjustment: Smaller font */
     width: auto;
 }
 
-.manage-district-button { /* Adapt if it's not using .btn already */
-    display: inline-block;
+/* Specific styling for manage-district-button if it's not simply a .btn-primary */
+.manage-district-button {
     background-color: var(--rome-primary-color); /* Themed */
     color: var(--rome-primary-text-color); /* Themed */
     border: 2px solid var(--rome-button-primary-border); /* Themed */
     box-shadow: 1px 1px 0px var(--rome-button-primary-border); /* Themed */
     text-align: center;
     text-decoration: none;
+    /* Other .btn properties will come from the .btn class if applied */
 }
 .manage-district-button:hover {
     background-color: lighten(var(--rome-primary-color), 5%);
@@ -345,9 +344,11 @@ textarea:focus, input[type="text"]:focus, input[type="number"]:focus, input[type
 .modal-content textarea { margin-bottom: var(--space-md); min-height: 80px; }
 .modal-actions { display: flex; justify-content: space-around; gap: var(--space-sm); margin-top: var(--space-md); }
 .modal-actions button { min-width: 100px; }
-/* Assuming modal buttons use .btn classes now: */
-/* Example: For a "Save" button: <button class="btn btn-primary" id="saveReasonButton">Save</button> */
-/* Example: For a "Cancel" button: <button class="btn btn-secondary" id="cancelReasonButton">Cancel</button> */
+/* IMPORTANT: For modal buttons, ensure they use .btn classes.
+   If your HTML uses specific IDs like #saveReasonButton, #cancelReasonButton,
+   you should now apply .btn-primary, .btn-secondary etc. directly in HTML
+   or create specific rules in your relevant district CSS.
+   Example: <button id="saveReasonButton" class="btn btn-primary">Save</button> */
 
 
 /* --- Accordions (from your original style.css Section 4.6) --- */
