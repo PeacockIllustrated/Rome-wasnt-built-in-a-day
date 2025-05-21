@@ -1,149 +1,64 @@
-/* css/_base.css - Base HTML element styling for the Roman theme */
-
+/* css/_base.css */
 body {
     font-family: var(--rome-font-family);
-    background-color: var(--theme-page-bg); /* Controlled by ThemeManager via --rome-background-color */
-    color: var(--theme-text-main);         /* Controlled by ThemeManager via --rome-text-color */
-    line-height: 1.65; /* Good for VT323 readability */
-    padding: var(--space-md);
-    font-size: 18px; /* Base font size for desktop, can be adjusted in responsive */
-    overflow-x: hidden;
+    background-color: var(--rome-background-color);
+    color: var(--rome-text-color);
+    font-size: var(--rome-base-font-size);
+    line-height: 1.6;
+    padding: var(--space-md); /* Default page padding */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    image-rendering: pixelated; /* Global preference for pixel art */
     min-height: 100vh;
-    padding-bottom: 90px; /* Increased space for fixed toolbars */
+    overflow-x: hidden; /* Prevent horizontal scroll from small overflows */
+    padding-bottom: 80px; /* For fixed toolbars, from your original */
 
-    /* Optional: Subtle parchment texture for the entire page background.
-       Create a very light, seamless parchment texture image if you want this.
-       Ensure it's very subtle not to interfere with text.
-    */
-    /* background-image: var(--repo-name-prefix, "") + "/assets/images/background/parchment_tile_light.png"; */
-    /* background-repeat: repeat; */
-}
-
-h1, h2, h3, h4, h5, h6 {
-    color: var(--rome-primary-color); /* Headings often use a primary theme color */
-    margin-bottom: 0.7em;
-    line-height: 1.25;
-    letter-spacing: 0.5px;
-    font-weight: normal; /* VT323 is often best at normal weight */
-    text-shadow: 1px 1px 0px var(--rome-border-color-light); /* Subtle text shadow for depth */
-}
-
-h1 { font-size: var(--font-size-xl); letter-spacing: 1px;}
-h2 { font-size: calc(var(--font-size-xl) * 0.8); } /* Approx 1.76em */
-h3 { font-size: var(--font-size-lg); } /* Approx 1.5em */
-h4 { font-size: calc(var(--font-size-lg) * 0.9); } /* Approx 1.35em */
-h5 { font-size: var(--font-size-md); } /* Approx 1.15em, good for sub-subheads */
-h6 { font-size: var(--font-size-sm); color: var(--rome-text-color-secondary); } /* Base size, secondary color */
-
-
-p {
-    margin-bottom: 1.1em; /* Slightly more spacing for paragraphs */
-    line-height: 1.7; /* More line height for paragraph readability with VT323 */
-    color: var(--theme-text-main); /* Ensure p text uses the main theme text color */
+    /* --- Your original background-image, adapted to new theme vars --- */
+    background-image:
+        radial-gradient(rgba(from var(--rome-text-color) r g b / 0.1) 1px, transparent 1px),
+        radial-gradient(rgba(from var(--rome-secondary-color) r g b / 0.05) 1px, transparent 1px);
+    background-size: 50px 50px, 100px 100px;
+    background-position: 0 0, 25px 25px;
 }
 
 a {
-    color: var(--rome-accent-color); /* Links use the Imperial Red */
-    text-decoration: none; /* Consider a subtle underline on hover only */
-    transition: color 0.2s ease, text-shadow 0.2s ease;
+    color: var(--rome-primary-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
 }
-a:hover,
-a:focus { /* Added focus state */
-    color: var(--rome-accent-color-dark); /* Darker red on hover/focus */
+a:hover {
+    color: var(--rome-secondary-color);
     text-decoration: underline;
-    text-decoration-style: dotted;
-    text-decoration-color: var(--rome-accent-color);
-    outline: none; /* Remove default focus outline if custom is provided elsewhere or not desired */
-    text-shadow: 0 0 3px color-mix(in srgb, var(--rome-accent-color) 30%, transparent);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--rome-primary-color); /* Updated to new theme color */
+    line-height: 1.3;
+    margin-bottom: var(--space-sm);
+    letter-spacing: 0.5px;
+}
+h1 { font-size: 2.5em; }
+h2 { font-size: 2em; }
+h3 { font-size: 1.6em; }
+
+p {
+    margin-bottom: var(--space-md);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
 ul, ol {
-    list-style: none; /* From reset, but ensure */
-    padding-left: 0;  /* From reset */
-    margin-bottom: 1em;
-}
-
-li {
-    margin-bottom: 0.5em;
-    padding-left: 1.5em; /* Indent list items */
-    position: relative;
-}
-/* Thematic list bullets */
-ul li::before {
-    content: "•"; /* Roman dot or other thematic character like '❦' or '※' */
-    color: var(--rome-primary-color);
-    font-weight: normal; /* VT323 doesn't bold well */
-    display: inline-block;
-    position: absolute;
-    left: 0.2em;
-    top: -0.05em; /* Adjust vertical alignment */
-    font-size: 1.2em;
-}
-ol {
-    list-style-type: upper-roman; /* I, II, III... */
-    padding-left: 2.5em; /* More space for Roman numerals */
-}
-ol li::before {
-    content: ""; /* Remove default bullet for ol if using list-style-type */
-}
-
-
-hr { /* Thematic horizontal rule */
-    border: 0;
-    height: 2px;
-    background-image: linear-gradient(to right, transparent, var(--rome-border-color-dark), transparent);
-    margin: var(--space-lg) 0;
-}
-
-blockquote {
-    border-left: 3px solid var(--rome-accent-color);
+    list-style-position: inside;
     padding-left: var(--space-md);
-    margin: var(--space-md) 0 var(--space-md) var(--space-sm);
-    font-style: italic;
-    color: var(--rome-text-color-secondary);
 }
+ul { list-style-type: disc; }
+ol { list-style-type: decimal; }
 
-/* Font Awesome Icons - general styling if not overridden by components */
-i.fas, i.far, i.fab, i.fa {
-    vertical-align: -0.125em; /* Better alignment for Font Awesome */
+i.fas, i.far, i.fab {
+    vertical-align: middle;
     margin-right: var(--space-xs);
-    line-height: 1;
-    /* Default icon color can be set, but often components will color them */
-    /* color: var(--rome-text-color-muted); */
-}
-
-/* To ensure images within figure tags are handled well */
-figure {
-  margin: 0 0 1em 0;
-}
-figcaption {
-  font-size: var(--font-size-sm);
-  color: var(--rome-text-color-muted);
-  text-align: center;
-  margin-top: var(--space-xs);
-}
-
-/* Basic Table Styling (if used) */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: var(--space-md);
-    font-size: var(--font-size-sm);
-}
-th, td {
-    border: 1px solid var(--rome-border-color);
-    padding: var(--space-sm);
-    text-align: left;
-}
-th {
-    background-color: var(--rome-card-background-subtle);
-    color: var(--rome-primary-color);
-    font-weight: normal; /* VT323 */
-}
-caption {
-    caption-side: bottom;
-    padding: var(--space-sm);
-    font-size: var(--font-size-xs);
-    color: var(--rome-text-color-muted);
-    text-align: center;
 }
