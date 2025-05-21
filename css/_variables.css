@@ -1,131 +1,97 @@
 /* css/_variables.css */
-
 :root {
-    /* !!! IMPORTANT: Adjust REPO_NAME_PREFIX if your GitHub repo has a different name !!! */
-    /* Or set to "" if using a custom domain pointing to the root. */
-    --repo-name-prefix: "/Rome-wasnt-built-in-a-day";
-
-    /* ROME THEME - Core Palette & Typography */
+    /* Font */
     --rome-font-family: 'VT323', monospace;
+    --rome-base-font-size: 18px; /* Good base for VT323 */
 
-    --rome-background-color: #fdf6e3;         /* Main page background - light parchment */
-    --rome-text-color: #3E2723;               /* Main text color - dark, earthy brown */
-    --rome-text-color-secondary: #5D4037;     /* Secondary text - slightly lighter brown */
-    --rome-text-color-muted: #8D6E63;         /* Muted text - for less important info */
+    /* Core Palette - Papyrus/Parchment Inspired */
+    --rome-background-color: #f3ead7;       /* Light parchment / aged paper */
+    --rome-text-color: #4a3b31;           /* Dark sepia/brown for text */
+    --rome-text-color-secondary: #6b5b51;
+    --rome-text-color-muted: #8c7b70;
+    --rome-border-color: #c8b89a;         /* Aged border color */
+    --rome-border-color-light: #e0d6c1;
+    --rome-border-color-dark: #a08c6d;
+    --rome-card-background: #faf3e0;        /* Lighter parchment for cards/scrolls */
+    --rome-card-shadow: 3px 3px 8px rgba(74, 59, 49, 0.15);
+    --rome-image-placeholder-bg: #e9e2d5;
 
-    --rome-primary-color: #6D4C41;            /* Primary UI element color - rich brown */
-    --rome-primary-text-color: #FFF8E1;       /* Text on primary elements - parchment white */
+    /* Accent Palette - Imperial/Official */
+    --rome-primary-color: #8c3838;        /* Muted Imperial Red */
+    --rome-primary-text-color: #f3ead7;   /* Text on primary color */
+    --rome-secondary-color: #c0a062;      /* Dull Gold / Bronze */
+    --rome-secondary-text-color: #4a3b31;
+    --rome-accent-color: var(--rome-primary-color);
+    --rome-accent-text-color: var(--rome-primary-text-color);
 
-    --rome-accent-color: #B71C1C;             /* Main accent - imperial red */
-    --rome-accent-color-dark: #800000;        /* Darker accent for depth/hovers */
-    --rome-accent-text-color: #FFFFFF;        /* Text on accent elements - white */
+    /* UI Elements - Buttons */
+    --rome-button-primary-bg: var(--rome-primary-color);
+    --rome-button-primary-text: var(--rome-primary-text-color);
+    --rome-button-primary-border: #7a2f2f;
 
-    --rome-secondary-color: #FFB300;          /* Secondary accent - gold/amber */
-    --rome-secondary-text-color: #3E2723;     /* Text on secondary accent - dark brown */
-
-    --rome-border-color: #D2B48C;             /* Main border color - tan/light parchment */
-    --rome-border-color-light: #EAE0D5;       /* Lighter border for subtle lines */
-    --rome-border-color-dark: #A1887F;        /* Darker border for emphasis */
-
-    --rome-card-background: #FFF8E1;          /* Card background - parchment paper */
-    --rome-card-background-subtle: #F5EFE6;   /* Subtle variation for card elements */
-    --rome-card-shadow: 3px 3px 0px var(--rome-border-color-dark); /* Default card shadow */
-
-
-    /* BUTTONS - Roman Themed */
-    --rome-button-primary-bg: var(--rome-accent-color);
-    --rome-button-primary-text: var(--rome-accent-text-color);
-    --rome-button-primary-border: var(--rome-accent-color-dark);
-    --rome-button-primary-hover-bg: var(--rome-accent-color-dark);
-    --rome-button-primary-hover-border: var(--rome-text-color);
-    --rome-button-primary-shadow: 2px 2px 0px var(--rome-accent-color-dark);
-    --rome-button-primary-hover-shadow: 3px 3px 0px var(--rome-text-color);
-
-    --rome-button-secondary-bg: var(--rome-secondary-color); /* Gold */
+    --rome-button-secondary-bg: var(--rome-secondary-color);
     --rome-button-secondary-text: var(--rome-secondary-text-color);
-    --rome-button-secondary-border: var(--rome-text-color);
-    --rome-button-secondary-hover-bg: color-mix(in srgb, var(--rome-secondary-color) 85%, var(--rome-text-color));
-    --rome-button-secondary-hover-border: var(--rome-text-color);
-    --rome-button-secondary-shadow: 2px 2px 0px var(--rome-text-color);
-    --rome-button-secondary-hover-shadow: 3px 3px 0px var(--rome-text-color-secondary);
+    --rome-button-secondary-border: #a88c54;
 
-    /* For less prominent actions, like "Cancel" or "Filter" buttons (not active) */
-    --rome-button-tertiary-bg: var(--rome-card-background-subtle);
-    --rome-button-tertiary-text: var(--rome-text-color-secondary);
-    --rome-button-tertiary-border: var(--rome-border-color);
-    --rome-button-tertiary-hover-bg: var(--rome-card-background);
-    --rome-button-tertiary-hover-border: var(--rome-border-color-dark);
-    --rome-button-tertiary-shadow: 2px 2px 0px var(--rome-border-color);
-    --rome-button-tertiary-hover-shadow: 3px 3px 0px var(--rome-border-color-dark);
+    --rome-button-info-bg: #788ca4;
+    --rome-button-info-text: #f3ead7;
+    --rome-button-info-border: #60738a;
 
+    --rome-button-disabled-bg: #b0a690;
+    --rome-button-disabled-text: #7a6c61;
+    --rome-button-disabled-border: #9e9380;
 
-    --rome-button-disabled-bg: #D7CCC8;       /* Muted parchment/stone for disabled */
-    --rome-button-disabled-text: #8D6E63;
-    --rome-button-disabled-border: #BCAAA4;
+    /* Badges / Status Indicators */
+    --rome-success-bg: #d4eacc;
+    --rome-success-text: #3f6834;
+    --rome-success-border: #b5d0b0;
 
-    /* UI States (Success, Info, Warning - Roman Themed) */
-    --rome-success-bg: #E8F5E9; /* Light, slightly desaturated green */
-    --rome-success-text: #388E3C;
-    --rome-success-border: #A5D6A7;
+    --rome-info-bg: #d4e6f3;
+    --rome-info-text: #365975;
+    --rome-info-border: #b0c9db;
 
-    --rome-info-bg: #E3F2FD; /* Light, desaturated blue */
-    --rome-info-text: #1976D2;
-    --rome-info-border: #90CAF9;
+    /* General UI */
+    --rome-border-radius-xs: 2px;
+    --rome-border-radius-sm: 3px;
+    --rome-border-radius-md: 5px;
+    --rome-input-background: #fffdfa;
+    --rome-input-border: var(--rome-border-color);
 
-    --rome-warning-bg: #FFF3E0; /* Light orange/amber */
-    --rome-warning-text: #E65100;
-    --rome-warning-border: #FFB74D;
+    /* Spacing */
+    --space-xs: 5px;
+    --space-sm: 10px;
+    --space-md: 15px;
+    --space-lg: 25px;
+    --space-xl: 40px;
 
-    --rome-error-bg: #FFEBEE; /* Light red */
-    --rome-error-text: #C62828;
-    --rome-error-border: #E57373;
+    /* Icons */
+    --pts-icon-url: url('/assets/images/icons/pts.png'); /* ADJUST PATH if style.css is not at root */
 
+    /* --- YOUR EXISTING RETRO/THEME VARIABLES (copied from your old style.css section 1) --- */
+    /* If these are used by other parts of your app and ThemeManager, they should stay */
+    --retro-dark-default: #264653;
+    --retro-teal-default: #2A9D8F;
+    --retro-yellow-default: #E9C46A;
+    --retro-orange-default: #F4A261;
+    --retro-coral-default: #E76F51;
+    --retro-light-bg-default: #EAEAEA;
+    --retro-card-bg-default: #FFFFFF;
+    --retro-text-on-dark-default: #EAEAEA;
+    --retro-page-bg-default: rgb(174, 217, 211);
 
-    /* SPACING & SIZING */
-    --space-xs: 4px;
-    --space-sm: 8px;
-    --space-md-sm: 12px; /* New intermediate step */
-    --space-md: 16px;
-    --space-lg: 24px;
-    --space-xl: 32px;
+    /* Generic Theme Variables - JS updates these (from your original) */
+    --theme-primary-dark: var(--retro-dark-default);
+    --theme-primary-accent: var(--retro-teal-default);
+    --theme-secondary-accent: var(--retro-yellow-default);
+    --theme-tertiary-accent: var(--retro-orange-default);
+    --theme-highlight-accent: var(--retro-coral-default);
+    --theme-light-bg: var(--retro-light-bg-default);
+    --theme-card-bg: var(--retro-card-bg-default);
+    --theme-text-main: var(--retro-dark-default);
+    --theme-border-main: var(--retro-dark-default);
+    --theme-text-on-dark: var(--retro-text-on-dark-default);
+    --theme-page-bg: var(--retro-page-bg-default);
 
-    --font-size-xs: 0.85em; /* Adjusted for VT323 base */
-    --font-size-sm: 1em;    /* Base for paragraph text */
-    --font-size-md: 1.15em;
-    --font-size-lg: 1.5em;
-    --font-size-xl: 2.2em;  /* For H1 */
-    --font-size-xxl: 3em; /* For very large titles if needed */
-
-    --icon-size-sm: 16px;
-    --icon-size-md: 24px;
-    --icon-size-lg: 30px;
-
-    --border-width-thin: 1px;
-    --border-width-normal: 2px;
-    --border-width-thick: 3px;
-
-    --rome-border-radius-xs: 2px; /* Sharp, almost chiseled */
-    --rome-border-radius-sm: 4px;
-    --rome-border-radius-md: 6px;
-
-    /* ICON PATHS (for CSS `url()`) - relative to css partials */
-    --pts-icon-url: url(../../assets/images/icons/coin.png);
-
-
-    /* GENERIC THEME VARIABLES - To be updated by ThemeManager */
-    /* These initial values should map to the default Roman theme */
-    --theme-page-bg: var(--rome-background-color);
-    --theme-text-main: var(--rome-text-color);
-    --theme-card-bg: var(--rome-card-background);
-    --theme-light-bg: var(--rome-card-background-subtle);
-    --theme-border-main: var(--rome-border-color-dark);
-
-    --theme-primary-dark: var(--rome-primary-color); /* Or a darker variant if needed by components */
-    --theme-primary-accent: var(--rome-accent-color);
-    --theme-secondary-accent: var(--rome-secondary-color);
-    --theme-tertiary-accent: var(--rome-border-color); /* Example for less emphasis */
-    --theme-highlight-accent: var(--rome-accent-color-dark);
-    --theme-text-on-dark: var(--rome-primary-text-color); /* For text on primary-colored backgrounds */
-
-    --pixel-border-width: var(--border-width-normal); /* Map old var to new */
+    /* Common Sizing & Styling Variables (from your original) */
+    --pixel-border-width: 2px;
 }
