@@ -1,67 +1,25 @@
-/* ==========================================================================
-   STYLE.CSS - Main Stylesheet for Rome Wasn't Built in a Day!
-   This file should ONLY contain @import rules for modular CSS.
-   All actual style rules should be in the imported partial files.
-   ========================================================================== */
+/* style.css - Main Stylesheet for R.O.M.E. | Re-forge. Optimise. Master. Elevate. */
 
 /*
-    CORE & SHARED STYLES
-    --------------------
-    These imports define the foundational look and feel of the application.
-    Paths are relative to this style.css file (which is at the root).
+    ORDER OF IMPORTS IS IMPORTANT!
+    Variables first, then reset, then base, then layout, then components,
+    then page-specific, then animations, then responsive.
 */
 
-/* 1. Variables: Defines CSS custom properties (variables) for colors, fonts, spacing, etc. */
 @import url('css/_variables.css');
-
-/* 2. Reset: Basic CSS reset to normalize browser default styles. */
-@import url('css/_reset.css'); /* Ensure you have this file with content */
-
-/* 3. Base: Styles for base HTML elements (body, h1-h6, p, a, lists, etc.). */
+@import url('css/_reset.css');
 @import url('css/_base.css');
-
-/* 4. Layout: Styles for main layout containers (e.g., .app-container, .rome-hub-container, grids). */
 @import url('css/_layout.css');
+@import url('css/_components.css'); /* Shared UI components: buttons, modals, base cards, headers */
 
-/* 5. Components: Styles for reusable UI components (buttons, modals, cards, accordions - generic versions). */
-@import url('css/_components.css');
+/* Page/District Specific Styles */
+@import url('css/_hub_dashboard.css'); /* Dashboard, city map assets */
+@import url('css/_idky.css');          /* Knowledge Forum */
+@import url('css/_smoke_tracker.css'); /* Health District (Smoke Tracker) */
+@import url('css/_emporium.css');      /* Theme Emporium */
+@import url('css/_quiz.css');          /* Main R.O.M.E. Quiz */
 
-
-/*
-    PAGE/DISTRICT SPECIFIC STYLES
-    -----------------------------
-    These imports contain styles that are unique to specific pages or "districts" of the application.
-*/
-
-/* Styles specific to the main Hub/Dashboard (index.html - map visuals, dashboard cards) */
-@import url('css/_hub_dashboard.css');
-
-/* Styles specific to the Knowledge Forum (IDKY) district */
-@import url('css/_idky.css');
-
-/* Styles specific to the Health District (Smoke Tracker) */
-@import url('css/_smoke_tracker.css');
-
-/* Styles specific to the Theme Emporium (Shop) */
-@import url('css/_emporium.css');
-
-/* Styles specific to the Quiz feature */
-@import url('css/_quiz.css');
-
-
-/*
-    UTILITIES & GLOBAL MODIFIERS
-    ----------------------------
-    These imports are for helper styles, animations, and responsive adjustments.
-*/
-
-/* Keyframe animations used across the application. */
+/* Utilities & Overrides */
 @import url('css/_animations.css');
-
-/* Custom scrollbar styling for a consistent theme. */
 @import url('css/_scrollbar.css');
-
-/* Media queries for responsive design, adjusting layouts and styles for different screen sizes. */
 @import url('css/_responsive.css');
-
-/* END OF @import RULES. NO OTHER CSS SHOULD BE IN THIS FILE. */
