@@ -147,7 +147,7 @@
     margin-right: 0;
 }
 
-/* --- UI Adjustment: Dashboard & Smoke Tracker Header Compression --- */
+/* --- UI Adjustment: Dashboard & Smoke Tracker Header Compression (PTS, LVL, etc.) --- */
 .header-stats-bar { /* This is the bar with PTS, LVL, etc. */
     display: flex;
     justify-content: center; /* Centered for compactness */
@@ -189,6 +189,8 @@
 }
 
 /* --- Themed icon colors (from your original) --- */
+/* Your original icons used 'fa-coins', 'fa-star', 'fa-poo', 'fa-calendar-check', 'fa-city', 'fa-landmark' */
+/* Make sure these are the correct Font Awesome classes for your icons */
 .points-display i.fa-coins,
 .points-display i.fa-star.gold-star-icon {
     color: var(--rome-secondary-color); /* Themed to gold */
@@ -343,9 +345,9 @@ textarea:focus, input[type="text"]:focus, input[type="number"]:focus, input[type
 .modal-content textarea { margin-bottom: var(--space-md); min-height: 80px; }
 .modal-actions { display: flex; justify-content: space-around; gap: var(--space-sm); margin-top: var(--space-md); }
 .modal-actions button { min-width: 100px; }
-/* Assuming modal buttons use .btn classes now */
-/* button#saveReasonButton (was background-color: var(--theme-primary-accent);) -> use .btn-primary */
-/* button#cancelReasonButton (was background-color: #aaa;) -> use .btn-secondary or a custom btn-cancel */
+/* Assuming modal buttons use .btn classes now: */
+/* Example: For a "Save" button: <button class="btn btn-primary" id="saveReasonButton">Save</button> */
+/* Example: For a "Cancel" button: <button class="btn btn-secondary" id="cancelReasonButton">Cancel</button> */
 
 
 /* --- Accordions (from your original style.css Section 4.6) --- */
@@ -413,7 +415,7 @@ textarea:focus, input[type="text"]:focus, input[type="number"]:focus, input[type
 
 
 /* --- Toolbars (from your original style.css Section 4.10) --- */
-.shop-toolbar-fixed {
+.shop-toolbar-fixed { /* This seems to be a general fixed toolbar, used in shop maybe */
     position: fixed; bottom: 0; left: 0; width: 100%;
     background-color: var(--rome-text-color); color: var(--rome-background-color); /* Themed */
     border-top: var(--pixel-border-width) solid var(--rome-border-color-dark); /* Themed */
@@ -427,3 +429,54 @@ textarea:focus, input[type="text"]:focus, input[type="number"]:focus, input[type
 .shop-toolbar-header-link:hover { background-color: lighten(var(--rome-text-color), 5%); } /* Themed */
 .shop-toolbar-header-link .shop-pts-display { font-size: 1em; margin-left: auto; margin-right: var(--space-md); }
 .shop-toolbar-header-link > i.fas.fa-arrow-right { color: var(--rome-secondary-color); margin-left: 5px; margin-right: 0; } /* Themed */
+
+/* --- UI Adjustment: Ad Modal (specific to the AdSense modal) --- */
+/* This is a global modal, but specific to the ad implementation */
+#preQuizAdModal .modal-content.ad-modal-content {
+    max-width: 380px; /* Adjust based on common ad sizes like 300x250 or 336x280 + padding */
+    border: 3px solid var(--rome-border-color-dark); /* More prominent border for ad modal */
+    background-color: var(--rome-background-color); /* Match page background, or a slightly different parchment */
+}
+
+#preQuizAdModal .ad-modal-title {
+    font-size: 1.6em;
+    color: var(--rome-primary-color);
+    margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-xs);
+    border-bottom: 1px dashed var(--rome-border-color);
+}
+
+#preQuizAdModal .ad-modal-text {
+    font-size: 1em;
+    color: var(--rome-text-color-secondary);
+    margin-bottom: var(--space-md);
+    line-height: 1.5;
+}
+
+#preQuizAdModal .ad-modal-text-small {
+    font-size: 0.8em;
+    color: var(--rome-text-color-muted);
+    margin-top: var(--space-md);
+}
+
+.ad-unit-wrapper {
+    background-color: var(--rome-card-background-subtle); /* A very light, neutral background */
+    border: 2px solid var(--rome-border-color); /* Themed border around the ad slot */
+    border-radius: var(--rome-border-radius-sm);
+    padding: var(--space-sm);
+    margin: var(--space-md) auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 250px; /* Ensure space for common ad sizes */
+    max-width: 336px;
+}
+.ad-unit-wrapper .adsbygoogle {
+    margin-left: auto;
+    margin-right: auto;
+}
+#preQuizAdModal #continueToQuizButton {
+    font-size: 1.1em;
+    padding: var(--space-sm) var(--space-lg);
+    margin-top: var(--space-lg);
+}
